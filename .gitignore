@@ -1,0 +1,9 @@
+*.pidb
+*.VisualState.xml
+*.suo
+/WPFPipeControl/bin
+/WPFPipeControl/obj
+/GraphCanvas/bin
+/GraphCanvas/obj
+/TutorialsWPF/bin
+/TutorialsWPF/obj

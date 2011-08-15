@@ -1,0 +1,77 @@
+﻿<Window x:Class="TutorialsWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="650" Width="950" xmlns:my="clr-namespace:de.ahzf.Loki;assembly=GraphCanvas">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="23" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" ClipToBounds="True" FlowDirection="RightToLeft" SnapsToDevicePixels="True">
+            <ComboBox Name="EdgeTypeListBox" Height="23" Width="110" ToolTip="Choose an edge type" Margin="4,0,3,0">
+                <ComboBoxItem Name="DefaultEdge" IsSelected="True">default edge</ComboBoxItem>
+                <ComboBoxItem Name="DefaultEdge1">default edge1</ComboBoxItem>
+                <ComboBoxItem Name="DefaultEdge2">default edge2</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Name="VertexTypeListBox" Height="23" Width="110" ToolTip="Choose a vertex type" Margin="3,0,0,0">
+                <ComboBoxItem Name="DefaultVertex" IsSelected="True">default vertex</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="120" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderBrush="DarkGray" Margin="3,3,3,0" SnapsToDevicePixels="True" BorderThickness="1">
+                <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <my:GraphCanvas Grid.Column="0" HorizontalAlignment="Stretch" Name="GraphCanvas" VerticalAlignment="Stretch" ClipToBounds="True" ToolTip="Graph canvas" SnapsToDevicePixels="False">
+                    <my:GraphCanvas.ContextMenu>
+                        <ContextMenu>
+                        </ContextMenu>
+                    </my:GraphCanvas.ContextMenu>
+                </my:GraphCanvas>
+                <Expander Grid.Column="1" Header="info" Name="expander1" Expanded="expander1_Expanded" ExpandDirection="Left">
+                    <Border BorderBrush="DarkGray" Margin="3" BorderThickness="1">
+                        <StackPanel Name="InfoStackPanel" Background="#F8F8F8" Width="250" />
+                    </Border>
+                </Expander>
+            </Grid>
+            </Border>
+            <GridSplitter Grid.Row="1" ResizeDirection="Rows" Background="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ScrollViewer Name="ResultTextBlockScrollBar" Grid.Row="0" ToolTip="Query results" PreviewMouseLeftButtonUp="ResultTextBlock_PreviewMouseLeftButtonDown">
+                    <RichTextBox Name="ResultTextBlock" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="5,0,5,2" ToolTip="Query results" IsReadOnly="True" AllowDrop="False" AutoWordSelection="False" Focusable="False" IsTabStop="False" IsUndoEnabled="False" BorderThickness="0">
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </RichTextBox.Resources>
+                    </RichTextBox>
+                </ScrollViewer>
+                <TextBox Grid.Row="1" Name="CommandTextBox" AcceptsReturn="True" AcceptsTab="True" Text="Your C# command..." Foreground="DarkGray" PreviewKeyDown="CommandTextBox_PreviewKeyDown" GotFocus="CommandTextBox_GotFocus" LostFocus="CommandTextBox_LostFocus" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0" ToolTip="Your C# command..." />
+            </Grid>
+        </Grid>
+        <StatusBar Grid.Row="3" HorizontalAlignment="Stretch" Name="StatusBar" VerticalAlignment="Stretch">
+            <StatusBarItem>
+                <TextBlock Name="NumberOfVertices" FontSize="11"># vertices</TextBlock>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock Name="NumberOfEdges" FontSize="11"># edges</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Name="MousePosition" FontSize="11">0 / 0</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
