@@ -41,7 +41,14 @@ namespace de.ahzf.Loki
 
         #region Data
 
+        /// <summary>
+        /// The property key for storing the vertex shape.
+        /// </summary>
         public const String __VertexShapePropertyKey = "VertexShape";
+
+        /// <summary>
+        /// The property key for storing the edge shape.
+        /// </summary>
         public const String __EdgeShapePropertyKey   = "EdgeShape";
 
         private Random  Random;
@@ -55,21 +62,64 @@ namespace de.ahzf.Loki
 
         #region Delegates
 
+        #region Vertices
+
+        /// <summary>
+        /// A delegate for creating a shape for the given vertex.
+        /// </summary>
+        /// <param name="Vertex">A property vertex.</param>
         public delegate Shape  VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64,         String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Vertex);
 
+        /// <summary>
+        /// A delegate for generating a tooltip for the given vertex.
+        /// </summary>
+        /// <param name="Vertex">A property vertex.</param>
         public delegate String VertexToolTipDelegate     (IPropertyVertex<UInt64, Int64,         String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Vertex);
 
+        /// <summary>
+        /// The current number of vertices.
+        /// </summary>
+        /// <param name="NumberOfVertices">The current number of vertices</param>
+        public delegate void   ChangedNumberOfVertices   (UInt64 NumberOfVertices);
+
+        #endregion
+
+        #region Edges
+
+        /// <summary>
+        /// A delegate for creating a shape for the given edge.
+        /// </summary>
+        /// <param name="Edge">A proeprty edge</param>
         public delegate Shape  EdgeShapeCreatorDelegate  (IPropertyEdge  <UInt64, Int64,         String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Edge);
 
+        /// <summary>
+        /// A delegate for generating a tooltip for the given edge.
+        /// </summary>
+        /// <param name="Edge">A proeprty edge</param>
         public delegate String EdgeToolTipDelegate       (IPropertyEdge  <UInt64, Int64,         String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Edge);
+
+        /// <summary>
+        /// The current number of edges.
+        /// </summary>
+        /// <param name="NumberOfEdges">The current number of edges</param>
+        public delegate void   ChangedNumberOfEdges      (UInt64 NumberOfEdges);
+
+        #endregion
+
+        /// <summary>
+        /// The current mouse position.
+        /// </summary>
+        /// <param name="X">X</param>
+        /// <param name="Y">Y</param>
+        public delegate void ChangedMousePosition(Double X, Double Y);
 
         #endregion
 
@@ -91,6 +141,9 @@ namespace de.ahzf.Loki
 
         private VertexShapeCreatorDelegate _VertexShapeCreator;
 
+        /// <summary>
+        /// A delegate for creating a shape for the given vertex.
+        /// </summary>
         public VertexShapeCreatorDelegate VertexShapeCreator
         {
             
@@ -113,6 +166,9 @@ namespace de.ahzf.Loki
 
         private VertexToolTipDelegate _VertexToolTip;
 
+        /// <summary>
+        /// A delegate for generating a tooltip for the given vertex.
+        /// </summary>
         public VertexToolTipDelegate VertexToolTip
         {
             
@@ -150,10 +206,38 @@ namespace de.ahzf.Loki
         #endregion
 
 
+        #region EdgeShapeCreator
+
+        private EdgeShapeCreatorDelegate _EdgeShapeCreator;
+
+        /// <summary>
+        /// A delegate for creating a shape for the given edge.
+        /// </summary>
+        public EdgeShapeCreatorDelegate EdgeShapeCreator
+        {
+
+            get
+            {
+                return _EdgeShapeCreator;
+            }
+
+            set
+            {
+                if (value != null)
+                    _EdgeShapeCreator = value;
+            }
+
+        }
+
+        #endregion
+
         #region EdgeToolTip
 
         private EdgeToolTipDelegate _EdgeToolTip;
 
+        /// <summary>
+        /// A delegate for generating a tooltip for the given edge.
+        /// </summary>
         public EdgeToolTipDelegate EdgeToolTip
         {
             
@@ -190,39 +274,11 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region EdgeShapeCreator
-
-        private EdgeShapeCreatorDelegate _EdgeShapeCreator;
-
-        public EdgeShapeCreatorDelegate EdgeShapeCreator
-        {
-
-            get
-            {
-                return _EdgeShapeCreator;
-            }
-
-            set
-            {
-                if (value != null)
-                    _EdgeShapeCreator = value;
-            }
-
-        }
-
-        #endregion
-
         #endregion
 
         #region Events
 
         #region NumberOfVertices
-
-        /// <summary>
-        /// The current number of vertices.
-        /// </summary>
-        /// <param name="NumberOfVertices">The current number of vertices</param>
-        public delegate void ChangedNumberOfVertices(UInt64 NumberOfVertices);
 
         /// <summary>
         /// Called whenever the number of vertices changed.
@@ -234,12 +290,6 @@ namespace de.ahzf.Loki
         #region NumberOfEdges
 
         /// <summary>
-        /// The current number of edges.
-        /// </summary>
-        /// <param name="NumberOfEdges">The current number of edges</param>
-        public delegate void ChangedNumberOfEdges(UInt64 NumberOfEdges);
-
-        /// <summary>
         /// Called whenever the number of edges changed.
         /// </summary>
         public event ChangedNumberOfEdges OnChangedNumberOfEdges;
@@ -247,13 +297,6 @@ namespace de.ahzf.Loki
         #endregion
 
         #region MousePosition
-
-        /// <summary>
-        /// The current mouse position.
-        /// </summary>
-        /// <param name="X">X</param>
-        /// <param name="Y">Y</param>
-        public delegate void ChangedMousePosition(Double X, Double Y);
 
         /// <summary>
         /// Called whenever the mouse moved.
@@ -368,11 +411,11 @@ namespace de.ahzf.Loki
 
         // Vertices
 
-        #region (private) AddVertex(IPropertyGraph, Vertex)
+        #region (private) AddVertex(Graph, Vertex)
 
         private void AddVertex(IPropertyGraph <UInt64, Int64,         String, Object,
                                                UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object> IPropertyGraph,
+                                               UInt64, Int64, String, String, Object> Graph,
                                IPropertyVertex<UInt64, Int64,         String, Object,
                                                UInt64, Int64, String, String, Object,
                                                UInt64, Int64, String, String, Object> Vertex)
@@ -403,11 +446,16 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region DefaultVertexShape(Vertex)
+        #region (static)  DefaultVertexShape(Vertex)
 
-        public Shape DefaultVertexShape(IPropertyVertex<UInt64, Int64,         String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> Vertex)
+        /// <summary>
+        /// Returns the default shape for the given vertex,
+        /// which is a constant sized circle.
+        /// </summary>
+        /// <param name="Vertex">A property vertex.</param>
+        public static Shape DefaultVertexShape(IPropertyVertex<UInt64, Int64,         String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object> Vertex)
         {
 
             var VertexShape             = new Ellipse();
@@ -423,11 +471,15 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region DefaultVertexToolTip(Vertex)
+        #region (static)  DefaultVertexToolTip(Vertex)
 
-        public String DefaultVertexToolTip(IPropertyVertex<UInt64, Int64,         String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object> Vertex)
+        /// <summary>
+        /// Returns the default tooltip for the given vertex.
+        /// </summary>
+        /// <param name="Vertex">A property vertex.</param>
+        public static String DefaultVertexToolTip(IPropertyVertex<UInt64, Int64,         String, Object,
+                                                                  UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object> Vertex)
         {
             return "VertexId: " + Vertex.Id + " [" + Vertex.OutDegree() + " OutEdges, " + Vertex.InDegree() + " InEdges]";
         }
@@ -476,11 +528,11 @@ namespace de.ahzf.Loki
 
         // Edges
 
-        #region (private) AddEdge(IPropertyGraph, Edge)
+        #region (private) AddEdge(Graph, Edge)
 
         private void AddEdge(IPropertyGraph<UInt64, Int64,         String, Object,
                                             UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object> IPropertyGraph,
+                                            UInt64, Int64, String, String, Object> Graph,
                              IPropertyEdge <UInt64, Int64,         String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> Edge)
@@ -518,11 +570,15 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region DefaultEdgeToolTip(Edge)
+        #region (static)  DefaultEdgeToolTip(Edge)
 
-        public String DefaultEdgeToolTip(IPropertyEdge<UInt64, Int64,         String, Object,
-                                                       UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object> Edge)
+        /// <summary>
+        /// Returns the default tooltip for the given edge.
+        /// </summary>
+        /// <param name="Edge">A property edge.</param>
+        public static String DefaultEdgeToolTip(IPropertyEdge<UInt64, Int64,         String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object> Edge)
         {
             return "EdgeId: " + Edge.Id + " [OutVertexId: " + Edge.OutVertex.Id.ToString() + ", InVertexId: " + Edge.InVertex.Id.ToString() + "]";
         }
