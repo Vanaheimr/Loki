@@ -26,6 +26,7 @@ using System.Windows.Documents;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using RunCSharp;
+using System.Windows.Shapes;
 
 #endregion
 
@@ -68,13 +69,47 @@ namespace TutorialsWPF
 
             History   = new ObservableCollection<RunBlock>();
 
-            var Alice = GraphCanvas.Graph.AddVertex(1);
-            var Bob   = GraphCanvas.Graph.AddVertex(2);
-            var Carol = GraphCanvas.Graph.AddVertex(3);
+            #region Customize the vertex and edge shapes
+
+            GraphCanvas.VertexShapeCreator = v => {
+                
+                var VertexShape             = new Rectangle();
+
+                VertexShape.Stroke          = new SolidColorBrush(Colors.Black);
+                VertexShape.StrokeThickness = 1;
+                VertexShape.Width           = v.Id * 10;
+                VertexShape.Height          = v.Id * 10;
+                VertexShape.Fill            = new SolidColorBrush(Colors.Red);
+
+                return VertexShape;
+
+            };
+
+            #endregion
+
+            var Alice = GraphCanvas.Graph.AddVertex(1, v => v.SetProperty("Name", "Alice"));
+            var Bob   = GraphCanvas.Graph.AddVertex(2, v => v.SetProperty("Name", "Bob"  ));
+            var Carol = GraphCanvas.Graph.AddVertex(3, v => v.SetProperty("Name", "Carol"));
 
             var e1    = GraphCanvas.Graph.AddEdge(Alice, Bob,   3, "friends");
             var e2    = GraphCanvas.Graph.AddEdge(Bob,   Carol, 4, "friends");
             var e3    = GraphCanvas.Graph.AddEdge(Alice, Carol, 5, "friends");
+
+            #region Customize the vertex and edge tooltips
+
+            // Vertices ToolTip
+            GraphCanvas.VertexToolTip = v => {
+                Object Name;
+                if (v.GetProperty("Name", out Name))
+                    return Name as String;
+                else
+                    return v.Id.ToString();
+            };
+
+            // Edges ToolTip
+            GraphCanvas.EdgeToolTip = e => e.Label;
+
+            #endregion
 
         }
 

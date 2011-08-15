@@ -41,16 +41,41 @@ namespace de.ahzf.Loki
 
         #region Data
 
+        public const String __VertexShapePropertyKey = "VertexShape";
+        public const String __EdgeShapePropertyKey   = "EdgeShape";
+
         private Random  Random;
         private Point   Mousy;
-        private Ellipse SelectedVertexShape;
+        private Shape   SelectedVertexShape;
         private IPropertyVertex<UInt64, Int64,         String, Object,
                                 UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object> Vertex;
 
         #endregion
 
+        #region Delegates
+
+        public delegate Shape  VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64,         String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object> Vertex);
+
+        public delegate String VertexToolTipDelegate     (IPropertyVertex<UInt64, Int64,         String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object> Vertex);
+
+        public delegate Shape  EdgeShapeCreatorDelegate  (IPropertyEdge  <UInt64, Int64,         String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object> Edge);
+
+        public delegate String EdgeToolTipDelegate       (IPropertyEdge  <UInt64, Int64,         String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object> Edge);
+
+        #endregion
+
         #region Properties
+
+        #region Graph
 
         /// <summary>
         /// The associated property graph.
@@ -58,6 +83,134 @@ namespace de.ahzf.Loki
         public IPropertyGraph<UInt64, Int64,         String, Object,
                               UInt64, Int64, String, String, Object,
                               UInt64, Int64, String, String, Object> Graph { get; private set; }
+        
+        #endregion
+
+
+        #region VertexShapeCreator
+
+        private VertexShapeCreatorDelegate _VertexShapeCreator;
+
+        public VertexShapeCreatorDelegate VertexShapeCreator
+        {
+            
+            get
+            {
+                return _VertexShapeCreator;
+            }
+
+            set
+            {
+                if (value != null)
+                    _VertexShapeCreator = value;
+            }
+
+        }
+
+        #endregion
+
+        #region VertexToolTip
+
+        private VertexToolTipDelegate _VertexToolTip;
+
+        public VertexToolTipDelegate VertexToolTip
+        {
+            
+            get
+            {
+                return _VertexToolTip;
+            }
+
+            set
+            {
+                if (value != null)
+                {
+
+                    _VertexToolTip = value;
+
+                    Shape  VertexShape;
+                    Object VertexShapeProperty;
+                    foreach (var Vertex in Graph.Vertices())
+                    {
+                        if (Vertex.GetProperty(__VertexShapePropertyKey, out VertexShapeProperty))
+                        {
+                            
+                            VertexShape = VertexShapeProperty as Shape;
+                            
+                            if (VertexShape != null)
+                                VertexShape.ToolTip = VertexToolTip(Vertex);
+
+                        }
+                    }
+
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region EdgeToolTip
+
+        private EdgeToolTipDelegate _EdgeToolTip;
+
+        public EdgeToolTipDelegate EdgeToolTip
+        {
+            
+            get
+            {
+                return _EdgeToolTip;
+            }
+
+            set
+            {
+                if (value != null)
+                {
+
+                    _EdgeToolTip = value;
+
+                    Shape  EdgeShape;
+                    Object EdgeShapeProperty;
+                    foreach (var Edge in Graph.Edges())
+                    {
+                        if (Edge.GetProperty(__EdgeShapePropertyKey, out EdgeShapeProperty))
+                        {
+                            
+                            EdgeShape = EdgeShapeProperty as Shape;
+                            
+                            if (EdgeShape != null)
+                                EdgeShape.ToolTip = EdgeToolTip(Edge);
+
+                        }
+                    }
+
+                }
+            }
+        }
+
+        #endregion
+
+        #region EdgeShapeCreator
+
+        private EdgeShapeCreatorDelegate _EdgeShapeCreator;
+
+        public EdgeShapeCreatorDelegate EdgeShapeCreator
+        {
+
+            get
+            {
+                return _EdgeShapeCreator;
+            }
+
+            set
+            {
+                if (value != null)
+                    _EdgeShapeCreator = value;
+            }
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -145,6 +298,10 @@ namespace de.ahzf.Loki
             Graph.OnVertexAdded += AddVertex;
             Graph.OnEdgeAdded   += AddEdge;
 
+            _VertexShapeCreator  = DefaultVertexShape;
+            _VertexToolTip       = DefaultVertexToolTip;
+            _EdgeToolTip         = DefaultEdgeToolTip;
+
         }
 
         #endregion
@@ -152,7 +309,7 @@ namespace de.ahzf.Loki
         #endregion
 
 
-        // Canvas
+        // Graph canvas
 
         #region GraphCanvas_MouseMove(Sender, MouseEventArgs)
 
@@ -178,14 +335,14 @@ namespace de.ahzf.Loki
 
                 foreach (var outedge in Vertex.OutEdges())
                 {
-                    var EdgeLine = outedge.GetProperty("EdgeUI") as Line;
+                    var EdgeLine = outedge.GetProperty(__EdgeShapePropertyKey) as Line;
                     EdgeLine.X1 -= diff.X;
                     EdgeLine.Y1 -= diff.Y;
                 }
 
                 foreach (var inedge in Vertex.InEdges())
                 {
-                    var EdgeLine = inedge.GetProperty("EdgeUI") as Line;
+                    var EdgeLine = inedge.GetProperty(__EdgeShapePropertyKey) as Line;
                     EdgeLine.X2 -= diff.X;
                     EdgeLine.Y2 -= diff.Y;
                 }
@@ -224,18 +381,12 @@ namespace de.ahzf.Loki
             if (Vertex != null)
             {
 
-                var VertexShape = new Ellipse();
-            
-                VertexShape.Stroke               = new SolidColorBrush(Colors.Black);
-                VertexShape.StrokeThickness      = 1;
-                VertexShape.Width                = 30;
-                VertexShape.Height               = 30;
-                VertexShape.Fill                 = new SolidColorBrush(Colors.Red);
+                var VertexShape                  = _VertexShapeCreator(Vertex);                    
                 VertexShape.MouseMove           += VertexShape_MouseMove;
                 VertexShape.MouseLeftButtonDown += VertexShape_MouseLeftButtonDown;
                 VertexShape.MouseLeftButtonUp   += VertexShape_MouseLeftButtonUp;
                 VertexShape.DataContext          = Vertex;
-                VertexShape.ToolTip              = GetVertexToolTip(Vertex);
+                VertexShape.ToolTip              = VertexToolTip(Vertex);
 
                 if (OnChangedNumberOfVertices != null)
                     OnChangedNumberOfVertices(Graph.NumberOfVertices());
@@ -244,7 +395,7 @@ namespace de.ahzf.Loki
                 Canvas.SetLeft(VertexShape, Random.Next(20, 400 - 20));
                 Canvas.SetTop (VertexShape, Random.Next(20, 200 - 20));
 
-                Vertex.SetProperty("VertexUI", VertexShape);
+                Vertex.SetProperty(__VertexShapePropertyKey, VertexShape);
 
             }
 
@@ -252,11 +403,31 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region (private) GetVertexToolTip(Vertex)
+        #region DefaultVertexShape(Vertex)
 
-        private String GetVertexToolTip(IPropertyVertex<UInt64, Int64,         String, Object,
+        public Shape DefaultVertexShape(IPropertyVertex<UInt64, Int64,         String, Object,
                                                         UInt64, Int64, String, String, Object,
                                                         UInt64, Int64, String, String, Object> Vertex)
+        {
+
+            var VertexShape             = new Ellipse();
+            VertexShape.Stroke          = new SolidColorBrush(Colors.Black);
+            VertexShape.StrokeThickness = 1;
+            VertexShape.Width           = 30;
+            VertexShape.Height          = 30;
+            VertexShape.Fill            = new SolidColorBrush(Colors.Red);
+
+            return VertexShape;
+
+        }
+
+        #endregion
+
+        #region DefaultVertexToolTip(Vertex)
+
+        public String DefaultVertexToolTip(IPropertyVertex<UInt64, Int64,         String, Object,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object> Vertex)
         {
             return "VertexId: " + Vertex.Id + " [" + Vertex.OutDegree() + " OutEdges, " + Vertex.InDegree() + " InEdges]";
         }
@@ -274,7 +445,7 @@ namespace de.ahzf.Loki
         {
 
             Mousy               = MouseButtonEventArgs.GetPosition(this);
-            SelectedVertexShape = Sender as Ellipse;
+            SelectedVertexShape = Sender as Shape;
             Vertex              = SelectedVertexShape.DataContext as IPropertyVertex<UInt64, Int64,         String, Object,
                                                                                      UInt64, Int64, String, String, Object,
                                                                                      UInt64, Int64, String, String, Object>;
@@ -318,8 +489,8 @@ namespace de.ahzf.Loki
             if (Edge != null)
             {
 
-                var Vertex1               = Edge.OutVertex.GetProperty("VertexUI") as Ellipse;
-                var Vertex2               = Edge. InVertex.GetProperty("VertexUI") as Ellipse;
+                var Vertex1               = Edge.OutVertex.GetProperty(__VertexShapePropertyKey) as Shape;
+                var Vertex2               = Edge. InVertex.GetProperty(__VertexShapePropertyKey) as Shape;
 
                 var EdgeShape             = new Line();
                 EdgeShape.X1              = Canvas.GetLeft(Vertex1) + Vertex1.Width/2;
@@ -329,17 +500,17 @@ namespace de.ahzf.Loki
                 EdgeShape.Stroke          = new SolidColorBrush(Colors.Black);
                 EdgeShape.StrokeThickness = 2;
                 EdgeShape.DataContext     = Edge;
-                EdgeShape.ToolTip         = GetVertexToolTip(Edge);
+                EdgeShape.ToolTip         = EdgeToolTip(Edge);
                 Canvas.SetZIndex(EdgeShape, -99);
                 Children.Add(EdgeShape);
 
+                Edge.SetProperty(__EdgeShapePropertyKey, EdgeShape);
+
+                Vertex1.ToolTip           = DefaultVertexToolTip(Edge.OutVertex);
+                Vertex2.ToolTip           = DefaultVertexToolTip(Edge. InVertex);
+
                 if (OnChangedNumberOfEdges != null)
                     OnChangedNumberOfEdges(Graph.NumberOfEdges());
-
-                Edge.SetProperty("EdgeUI", EdgeShape);
-
-                Vertex1.ToolTip           = GetVertexToolTip(Edge.OutVertex);
-                Vertex2.ToolTip           = GetVertexToolTip(Edge. InVertex);
 
             }
 
@@ -347,11 +518,11 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region (private) GetEdgeToolTip(Edge)
+        #region DefaultEdgeToolTip(Edge)
 
-        private String GetVertexToolTip(IPropertyEdge<UInt64, Int64,         String, Object,
-                                                      UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object> Edge)
+        public String DefaultEdgeToolTip(IPropertyEdge<UInt64, Int64,         String, Object,
+                                                       UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object> Edge)
         {
             return "EdgeId: " + Edge.Id + " [OutVertexId: " + Edge.OutVertex.Id.ToString() + ", InVertexId: " + Edge.InVertex.Id.ToString() + "]";
         }
