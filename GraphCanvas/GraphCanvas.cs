@@ -194,7 +194,11 @@ namespace de.ahzf.Loki
                             VertexShape = VertexShapeProperty as Shape;
                             
                             if (VertexShape != null)
+#if SILVERLIGHT
+                                ToolTipService.SetToolTip(VertexShape, VertexToolTip(Vertex));
+#else
                                 VertexShape.ToolTip = VertexToolTip(Vertex);
+#endif
 
                         }
                     }
@@ -263,7 +267,11 @@ namespace de.ahzf.Loki
                             EdgeShape = EdgeShapeProperty as Shape;
                             
                             if (EdgeShape != null)
+#if SILVERLIGHT
+                                ToolTipService.SetToolTip(EdgeShape, EdgeToolTip(Edge));
+#else
                                 EdgeShape.ToolTip = EdgeToolTip(Edge);
+#endif
 
                         }
                     }
@@ -367,27 +375,28 @@ namespace de.ahzf.Loki
             if (SelectedVertexShape != null)
             {
 
-                Point mousePos = MouseEventArgs.GetPosition(this);
-                Vector diff = Mousy - mousePos;
+                var mousePos = MouseEventArgs.GetPosition(this);
+                var diffX    = Mousy.X - mousePos.X;
+                var diffY    = Mousy.Y - mousePos.Y;
 
                 var canvLeft = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.LeftProperty));
                 var canvTop  = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.TopProperty));
 
-                Canvas.SetLeft(SelectedVertexShape, canvLeft - diff.X);
-                Canvas.SetTop(SelectedVertexShape, canvTop - diff.Y);
+                Canvas.SetLeft(SelectedVertexShape, canvLeft - diffX);
+                Canvas.SetTop(SelectedVertexShape, canvTop - diffY);
 
                 foreach (var outedge in Vertex.OutEdges())
                 {
                     var EdgeLine = outedge.GetProperty(__EdgeShapePropertyKey) as Line;
-                    EdgeLine.X1 -= diff.X;
-                    EdgeLine.Y1 -= diff.Y;
+                    EdgeLine.X1 -= diffX;
+                    EdgeLine.Y1 -= diffY;
                 }
 
                 foreach (var inedge in Vertex.InEdges())
                 {
                     var EdgeLine = inedge.GetProperty(__EdgeShapePropertyKey) as Line;
-                    EdgeLine.X2 -= diff.X;
-                    EdgeLine.Y2 -= diff.Y;
+                    EdgeLine.X2 -= diffX;
+                    EdgeLine.Y2 -= diffY;
                 }
 
                 Mousy = MouseEventArgs.GetPosition(this);
@@ -429,7 +438,12 @@ namespace de.ahzf.Loki
                 VertexShape.MouseLeftButtonDown += VertexShape_MouseLeftButtonDown;
                 VertexShape.MouseLeftButtonUp   += VertexShape_MouseLeftButtonUp;
                 VertexShape.DataContext          = Vertex;
+                
+#if SILVERLIGHT
+                ToolTipService.SetToolTip(VertexShape, VertexToolTip(Vertex));
+#else
                 VertexShape.ToolTip              = VertexToolTip(Vertex);
+#endif
 
                 if (OnChangedNumberOfVertices != null)
                     OnChangedNumberOfVertices(Graph.NumberOfVertices());
@@ -552,14 +566,24 @@ namespace de.ahzf.Loki
                 EdgeShape.Stroke          = new SolidColorBrush(Colors.Black);
                 EdgeShape.StrokeThickness = 2;
                 EdgeShape.DataContext     = Edge;
+#if SILVERLIGHT
+                ToolTipService.SetToolTip(EdgeShape, EdgeToolTip(Edge));
+#else
                 EdgeShape.ToolTip         = EdgeToolTip(Edge);
+#endif
+
                 Canvas.SetZIndex(EdgeShape, -99);
                 Children.Add(EdgeShape);
 
                 Edge.SetProperty(__EdgeShapePropertyKey, EdgeShape);
 
-                Vertex1.ToolTip           = DefaultVertexToolTip(Edge.OutVertex);
+#if SILVERLIGHT
+                ToolTipService.SetToolTip(Vertex1, DefaultVertexToolTip(Edge.OutVertex));
+                ToolTipService.SetToolTip(Vertex2, DefaultVertexToolTip(Edge.InVertex));
+#else
+                Vertex1.ToolTip = DefaultVertexToolTip(Edge.OutVertex);
                 Vertex2.ToolTip           = DefaultVertexToolTip(Edge. InVertex);
+#endif
 
                 if (OnChangedNumberOfEdges != null)
                     OnChangedNumberOfEdges(Graph.NumberOfEdges());

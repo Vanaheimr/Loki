@@ -2,9 +2,14 @@
 *.VisualState.xml
 *.suo
 *.csproj.user
+*.xap
 /WPFPipeControl/bin
 /WPFPipeControl/obj
 /GraphCanvas/bin
 /GraphCanvas/obj
 /TutorialsWPF/bin
 /TutorialsWPF/obj
+/TestGraph01.Web/obj
+/TestGraph01.Web/bin
+/TestGraph01/Bin
+/TestGraph01/obj
