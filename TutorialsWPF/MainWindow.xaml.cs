@@ -87,13 +87,15 @@ namespace TutorialsWPF
 
             #endregion
 
-            var Alice = GraphCanvas.Graph.AddVertex(1, v => v.SetProperty("Name", "Alice"));
-            var Bob   = GraphCanvas.Graph.AddVertex(2, v => v.SetProperty("Name", "Bob"  ));
-            var Carol = GraphCanvas.Graph.AddVertex(3, v => v.SetProperty("Name", "Carol"));
+            var Graph = GraphCanvas.Graph;
 
-            var e1    = GraphCanvas.Graph.AddEdge(Alice, Bob,   3, "friends");
-            var e2    = GraphCanvas.Graph.AddEdge(Bob,   Carol, 4, "friends");
-            var e3    = GraphCanvas.Graph.AddEdge(Alice, Carol, 5, "friends");
+            var Alice = Graph.AddVertex(1, v => v.SetProperty("Name", "Alice"));
+            var Bob   = Graph.AddVertex(2, v => v.SetProperty("Name", "Bob"  ));
+            var Carol = Graph.AddVertex(3, v => v.SetProperty("Name", "Carol"));
+
+            var e1    = Graph.AddEdge(Alice, Bob,   3, "friends");
+            var e2    = Graph.AddEdge(Bob,   Carol, 4, "friends");
+            var e3    = Graph.AddEdge(Alice, Carol, 5, "friends");
 
             #region Customize the vertex and edge tooltips
 

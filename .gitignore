@@ -1,6 +1,7 @@
 *.pidb
 *.VisualState.xml
 *.suo
+*.cccsproj.user
 /WPFPipeControl/bin
 /WPFPipeControl/obj
 /GraphCanvas/bin
