@@ -54,7 +54,8 @@ namespace de.ahzf.Loki
         private Random  Random;
         private Point   Mousy;
         private Shape   SelectedVertexShape;
-        private IPropertyVertex<UInt64, Int64,         String, Object,
+        private IPropertyVertex<UInt64, Int64, String, String, Object,
+                                UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object> Vertex;
 
@@ -68,7 +69,8 @@ namespace de.ahzf.Loki
         /// A delegate for creating a shape for the given vertex.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public delegate Shape  VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64,         String, Object,
+        public delegate Shape  VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Vertex);
 
@@ -76,7 +78,8 @@ namespace de.ahzf.Loki
         /// A delegate for generating a tooltip for the given vertex.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public delegate String VertexToolTipDelegate     (IPropertyVertex<UInt64, Int64,         String, Object,
+        public delegate String VertexToolTipDelegate     (IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Vertex);
 
@@ -94,7 +97,8 @@ namespace de.ahzf.Loki
         /// A delegate for creating a shape for the given edge.
         /// </summary>
         /// <param name="Edge">A proeprty edge</param>
-        public delegate Shape  EdgeShapeCreatorDelegate  (IPropertyEdge  <UInt64, Int64,         String, Object,
+        public delegate Shape  EdgeShapeCreatorDelegate  (IPropertyEdge  <UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Edge);
 
@@ -102,7 +106,8 @@ namespace de.ahzf.Loki
         /// A delegate for generating a tooltip for the given edge.
         /// </summary>
         /// <param name="Edge">A proeprty edge</param>
-        public delegate String EdgeToolTipDelegate       (IPropertyEdge  <UInt64, Int64,         String, Object,
+        public delegate String EdgeToolTipDelegate       (IPropertyEdge  <UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> Edge);
 
@@ -130,7 +135,8 @@ namespace de.ahzf.Loki
         /// <summary>
         /// The associated property graph.
         /// </summary>
-        public IPropertyGraph<UInt64, Int64,         String, Object,
+        public IPropertyGraph<UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object,
                               UInt64, Int64, String, String, Object,
                               UInt64, Int64, String, String, Object> Graph { get; private set; }
         
@@ -333,7 +339,8 @@ namespace de.ahzf.Loki
         /// <summary>
         /// Creates a new canvas for visualizing the given property graph.
         /// </summary>
-        public GraphCanvas(IPropertyGraph<UInt64, Int64,         String, Object,
+        public GraphCanvas(IPropertyGraph<UInt64, Int64, String,  String, Object,
+                                          UInt64, Int64, String, String, Object,
                                           UInt64, Int64, String, String, Object,
                                           UInt64, Int64, String, String, Object> IPropertyGraph)
         {
@@ -422,10 +429,12 @@ namespace de.ahzf.Loki
 
         #region (private) AddVertex(Graph, Vertex)
 
-        private void AddVertex(IPropertyGraph <UInt64, Int64,         String, Object,
+        private void AddVertex(IPropertyGraph <UInt64, Int64, String, String, Object,
+                                               UInt64, Int64, String, String, Object,
                                                UInt64, Int64, String, String, Object,
                                                UInt64, Int64, String, String, Object> Graph,
-                               IPropertyVertex<UInt64, Int64,         String, Object,
+                               IPropertyVertex<UInt64, Int64, String, String, Object,
+                                               UInt64, Int64, String, String, Object,
                                                UInt64, Int64, String, String, Object,
                                                UInt64, Int64, String, String, Object> Vertex)
         {
@@ -467,7 +476,8 @@ namespace de.ahzf.Loki
         /// which is a constant sized circle.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public static Shape DefaultVertexShape(IPropertyVertex<UInt64, Int64,         String, Object,
+        public static Shape DefaultVertexShape(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
                                                                UInt64, Int64, String, String, Object,
                                                                UInt64, Int64, String, String, Object> Vertex)
         {
@@ -491,7 +501,8 @@ namespace de.ahzf.Loki
         /// Returns the default tooltip for the given vertex.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public static String DefaultVertexToolTip(IPropertyVertex<UInt64, Int64,         String, Object,
+        public static String DefaultVertexToolTip(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object,
                                                                   UInt64, Int64, String, String, Object,
                                                                   UInt64, Int64, String, String, Object> Vertex)
         {
@@ -512,7 +523,8 @@ namespace de.ahzf.Loki
 
             Mousy               = MouseButtonEventArgs.GetPosition(this);
             SelectedVertexShape = Sender as Shape;
-            Vertex              = SelectedVertexShape.DataContext as IPropertyVertex<UInt64, Int64,         String, Object,
+            Vertex              = SelectedVertexShape.DataContext as IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                     UInt64, Int64, String, String, Object,
                                                                                      UInt64, Int64, String, String, Object,
                                                                                      UInt64, Int64, String, String, Object>;
 
@@ -544,10 +556,12 @@ namespace de.ahzf.Loki
 
         #region (private) AddEdge(Graph, Edge)
 
-        private void AddEdge(IPropertyGraph<UInt64, Int64,         String, Object,
+        private void AddEdge(IPropertyGraph<UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> Graph,
-                             IPropertyEdge <UInt64, Int64,         String, Object,
+                             IPropertyEdge <UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> Edge)
         {
@@ -600,7 +614,8 @@ namespace de.ahzf.Loki
         /// Returns the default tooltip for the given edge.
         /// </summary>
         /// <param name="Edge">A property edge.</param>
-        public static String DefaultEdgeToolTip(IPropertyEdge<UInt64, Int64,         String, Object,
+        public static String DefaultEdgeToolTip(IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
                                                               UInt64, Int64, String, String, Object,
                                                               UInt64, Int64, String, String, Object> Edge)
         {
