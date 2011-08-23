@@ -14,115 +14,6 @@ using de.ahzf.Blueprints.PropertyGraph;
 namespace TestGraph01
 {
 
-    public static class Ext
-    {
-
-        public static Object GetProperty<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    
-                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      
-                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-            
-                             (this IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    
-                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      
-                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex,
-                              TKeyVertex                 Key,
-                              Func<TValueVertex, Object> PropertyExists,
-                              Func<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    
-                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      
-                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, Object> FalseFunc = null)
-
-            where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
-            where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
-            where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
-
-            where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
-            where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
-            where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
-
-            where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
-            where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
-
-            where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
-            where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
-            where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
-        {
-
-            #region Initial checks
-
-            if (Vertex == null)
-                throw new ArgumentNullException("The given vertex must not be null!");
-
-            if (PropertyExists == null)
-                throw new ArgumentNullException("The given delegate must not be null!");
-
-            #endregion
-
-            TValueVertex Value;
-            if (Vertex.GetProperty(Key, out Value))    // v.GetProperty("Name", out Name, typeof(String))
-                return PropertyExists(Value);
-
-            if (FalseFunc != null)
-                return FalseFunc(Vertex);
-            else
-                return null;
-
-        }
-
-        public static Object GetProperty<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    
-                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      
-                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-            
-                             (this IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    
-                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      
-                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex,
-                              TKeyVertex                 Key,
-                              Type                       myType,
-                              Func<TValueVertex, Object> PropertyExistsAndIsValid,
-                              Func<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    
-                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      
-                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, Object> FalseFunc = null)
-
-            where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
-            where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
-            where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
-
-            where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
-            where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
-            where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
-
-            where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
-            where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
-
-            where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
-            where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
-            where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
-
-        {
-
-            #region Initial checks
-
-            if (Vertex == null)
-                throw new ArgumentNullException("The given vertex must not be null!");
-
-            if (PropertyExistsAndIsValid == null)
-                throw new ArgumentNullException("The given delegate must not be null!");
-
-            #endregion
-
-            TValueVertex Value;
-            if (Vertex.GetProperty(Key, out Value))
-                if (Value.GetType().Equals(myType))
-                    return PropertyExistsAndIsValid(Value);
-
-            if (FalseFunc != null)
-                return FalseFunc(Vertex);
-            else
-                return null;
-
-        }
-
-    }
-
-
     public partial class MainPage : UserControl
     {
 
@@ -175,7 +66,7 @@ namespace TestGraph01
             {
                 return v.GetProperty("Name", typeof(String),
                                      FoundProperty => { return FoundProperty; },
-                                     ElseVertex    => { return ElseVertex.Id; }).ToString();
+                                     VertexOnError => { return VertexOnError.Id; }).ToString();
             };
 
 
