@@ -51,11 +51,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arrows\AArrowShape.cs" />
+    <Compile Include="Arrows\Arrow.cs" />
+    <Compile Include="Arrows\BezierArrow.cs" />
+    <Compile Include="Interfaces\VertexBounding.cs" />
+    <Compile Include="Interfaces\IVertexControl.cs" />
+    <Compile Include="Interfaces\IShape.cs" />
+    <Compile Include="EdgeControl.cs" />
+    <Compile Include="Arrows\SolidArrow.cs" />
     <Compile Include="GraphCanvas.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IEdgeControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -33,6 +33,92 @@ using de.ahzf.Blueprints.PropertyGraph.InMemory;
 namespace de.ahzf.Loki
 {
 
+    #region Vertices
+
+    /// <summary>
+    /// A delegate for creating a shape for the given vertex.
+    /// </summary>
+    /// <param name="Vertex">A property vertex.</param>
+    public delegate Shape  VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object> Vertex);
+
+    /// <summary>
+    /// A delegate for generating a caption for the given vertex.
+    /// </summary>
+    /// <param name="Vertex">A property vertex.</param>
+    public delegate String VertexCaptionDelegate     (IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object> Vertex);
+
+    /// <summary>
+    /// A delegate for generating a tooltip for the given vertex.
+    /// </summary>
+    /// <param name="Vertex">A property vertex.</param>
+    public delegate String VertexToolTipDelegate     (IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object> Vertex);
+
+    /// <summary>
+    /// The current number of vertices.
+    /// </summary>
+    /// <param name="NumberOfVertices">The current number of vertices</param>
+    public delegate void   ChangedNumberOfVertices   (UInt64 NumberOfVertices);
+
+    #endregion
+
+    #region Edges
+
+    /// <summary>
+    /// A delegate for creating a shape for the given edge.
+    /// </summary>
+    /// <param name="Edge">A proeprty edge</param>
+    public delegate Shape EdgeShapeCreatorDelegate(IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object> Edge);
+
+    /// <summary>
+    /// A delegate for generating a caption for the given edge.
+    /// </summary>
+    /// <param name="Edge">A proeprty edge</param>
+    public delegate String EdgeCaptionDelegate    (IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object> Edge);
+
+    /// <summary>
+    /// A delegate for generating a tooltip for the given edge.
+    /// </summary>
+    /// <param name="Edge">A proeprty edge</param>
+    public delegate String EdgeToolTipDelegate    (IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object,
+                                                                 UInt64, Int64, String, String, Object> Edge);
+
+    /// <summary>
+    /// The current number of edges.
+    /// </summary>
+    /// <param name="NumberOfEdges">The current number of edges</param>
+    public delegate void ChangedNumberOfEdges     (UInt64 NumberOfEdges);
+
+    #endregion
+
+    #region ChangedMousePosition(X, Y)
+
+    /// <summary>
+    /// The current mouse position.
+    /// </summary>
+    /// <param name="X">X</param>
+    /// <param name="Y">Y</param>
+    public delegate void ChangedMousePosition(Double X, Double Y);
+
+    #endregion
+
+
     /// <summary>
     /// Creates a new canvas for visualizing a property graph.
     /// </summary>
@@ -58,73 +144,6 @@ namespace de.ahzf.Loki
                                 UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object> Vertex;
-
-        #endregion
-
-        #region Delegates
-
-        #region Vertices
-
-        /// <summary>
-        /// A delegate for creating a shape for the given vertex.
-        /// </summary>
-        /// <param name="Vertex">A property vertex.</param>
-        public delegate Shape  VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Vertex);
-
-        /// <summary>
-        /// A delegate for generating a tooltip for the given vertex.
-        /// </summary>
-        /// <param name="Vertex">A property vertex.</param>
-        public delegate String VertexToolTipDelegate     (IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Vertex);
-
-        /// <summary>
-        /// The current number of vertices.
-        /// </summary>
-        /// <param name="NumberOfVertices">The current number of vertices</param>
-        public delegate void   ChangedNumberOfVertices   (UInt64 NumberOfVertices);
-
-        #endregion
-
-        #region Edges
-
-        /// <summary>
-        /// A delegate for creating a shape for the given edge.
-        /// </summary>
-        /// <param name="Edge">A proeprty edge</param>
-        public delegate Shape  EdgeShapeCreatorDelegate  (IPropertyEdge  <UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Edge);
-
-        /// <summary>
-        /// A delegate for generating a tooltip for the given edge.
-        /// </summary>
-        /// <param name="Edge">A proeprty edge</param>
-        public delegate String EdgeToolTipDelegate       (IPropertyEdge  <UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Edge);
-
-        /// <summary>
-        /// The current number of edges.
-        /// </summary>
-        /// <param name="NumberOfEdges">The current number of edges</param>
-        public delegate void   ChangedNumberOfEdges      (UInt64 NumberOfEdges);
-
-        #endregion
-
-        /// <summary>
-        /// The current mouse position.
-        /// </summary>
-        /// <param name="X">X</param>
-        /// <param name="Y">Y</param>
-        public delegate void ChangedMousePosition(Double X, Double Y);
 
         #endregion
 
@@ -164,6 +183,32 @@ namespace de.ahzf.Loki
                     _VertexShapeCreator = value;
             }
 
+        }
+
+        #endregion
+
+        #region VertexCaption
+
+        private VertexCaptionDelegate _VertexCaption;
+
+        /// <summary>
+        /// A delegate for generating caption for the given vertex.
+        /// </summary>
+        public VertexCaptionDelegate VertexCaption
+        {
+            
+            get
+            {
+                return _VertexCaption;
+            }
+
+            set
+            {
+                if (value != null)
+                {
+                    _VertexCaption = value;
+                }
+            }
         }
 
         #endregion
@@ -237,6 +282,32 @@ namespace de.ahzf.Loki
                     _EdgeShapeCreator = value;
             }
 
+        }
+
+        #endregion
+
+        #region EdgeCaption
+
+        private EdgeCaptionDelegate _EdgeCaption;
+
+        /// <summary>
+        /// A delegate for generating caption for the given edge.
+        /// </summary>
+        public EdgeCaptionDelegate EdgeCaption
+        {
+
+            get
+            {
+                return _EdgeCaption;
+            }
+
+            set
+            {
+                if (value != null)
+                {
+                    _EdgeCaption = value;
+                }
+            }
         }
 
         #endregion
@@ -357,7 +428,10 @@ namespace de.ahzf.Loki
             Graph.OnEdgeAdded   += AddEdge;
 
             _VertexShapeCreator  = DefaultVertexShape;
+            _VertexCaption       = DefaultVertexCaption;
             _VertexToolTip       = DefaultVertexToolTip;
+
+            _EdgeCaption         = DefaultEdgeCaption;
             _EdgeToolTip         = DefaultEdgeToolTip;
 
         }
@@ -390,18 +464,18 @@ namespace de.ahzf.Loki
                 var canvTop  = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.TopProperty));
 
                 Canvas.SetLeft(SelectedVertexShape, canvLeft - diffX);
-                Canvas.SetTop(SelectedVertexShape, canvTop - diffY);
+                Canvas.SetTop (SelectedVertexShape, canvTop  - diffY);
 
                 foreach (var outedge in Vertex.OutEdges())
                 {
-                    var EdgeLine = outedge.GetProperty(__EdgeShapePropertyKey) as Line;
+                    var EdgeLine = outedge.GetProperty(__EdgeShapePropertyKey) as EdgeControl;
                     EdgeLine.X1 -= diffX;
                     EdgeLine.Y1 -= diffY;
                 }
 
                 foreach (var inedge in Vertex.InEdges())
                 {
-                    var EdgeLine = inedge.GetProperty(__EdgeShapePropertyKey) as Line;
+                    var EdgeLine = inedge.GetProperty(__EdgeShapePropertyKey) as EdgeControl;
                     EdgeLine.X2 -= diffX;
                     EdgeLine.Y2 -= diffY;
                 }
@@ -485,12 +559,28 @@ namespace de.ahzf.Loki
             var VertexShape             = new Ellipse();
             VertexShape.Stroke          = new SolidColorBrush(Colors.Black);
             VertexShape.StrokeThickness = 1;
-            VertexShape.Width           = 30;
-            VertexShape.Height          = 30;
-            VertexShape.Fill            = new SolidColorBrush(Colors.Red);
+            VertexShape.Width           = Vertex.Id * 10;
+            VertexShape.Height          = Vertex.Id * 10;
+            VertexShape.Fill            = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
 
             return VertexShape;
 
+        }
+
+        #endregion
+
+        #region (static)  DefaultVertexCaption(Vertex)
+
+        /// <summary>
+        /// Returns the default caption for the given vertex.
+        /// </summary>
+        /// <param name="Vertex">A property vertex.</param>
+        public static String DefaultVertexCaption(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object> Vertex)
+        {
+            return Vertex.Id.ToString();
         }
 
         #endregion
@@ -572,14 +662,18 @@ namespace de.ahzf.Loki
                 var Vertex1               = Edge.OutVertex.GetProperty(__VertexShapePropertyKey) as Shape;
                 var Vertex2               = Edge. InVertex.GetProperty(__VertexShapePropertyKey) as Shape;
 
-                var EdgeShape             = new Line();
+                var EdgeShape             = new EdgeControl(Edge);
                 EdgeShape.X1              = Canvas.GetLeft(Vertex1) + Vertex1.Width/2;
                 EdgeShape.Y1              = Canvas.GetTop (Vertex1) + Vertex1.Height/2;
                 EdgeShape.X2              = Canvas.GetLeft(Vertex2) + Vertex2.Width/2;
                 EdgeShape.Y2              = Canvas.GetTop (Vertex2) + Vertex2.Height/2;
-                EdgeShape.Stroke          = new SolidColorBrush(Colors.Black);
-                EdgeShape.StrokeThickness = 2;
-                EdgeShape.DataContext     = Edge;
+                EdgeShape.HeadWidth       = 12;
+                EdgeShape.HeadHeight      = 8;
+                //EdgeShape.Stroke          = new SolidColorBrush(Colors.Black);
+                //EdgeShape.StrokeThickness = 2;
+                EdgeShape.ShowCaption     = true;
+                EdgeShape.Caption         = _EdgeCaption;
+
 #if SILVERLIGHT
                 ToolTipService.SetToolTip(EdgeShape, EdgeToolTip(Edge));
 #else
@@ -595,7 +689,7 @@ namespace de.ahzf.Loki
                 ToolTipService.SetToolTip(Vertex1, DefaultVertexToolTip(Edge.OutVertex));
                 ToolTipService.SetToolTip(Vertex2, DefaultVertexToolTip(Edge.InVertex));
 #else
-                Vertex1.ToolTip = DefaultVertexToolTip(Edge.OutVertex);
+                Vertex1.ToolTip           = DefaultVertexToolTip(Edge.OutVertex);
                 Vertex2.ToolTip           = DefaultVertexToolTip(Edge. InVertex);
 #endif
 
@@ -604,6 +698,22 @@ namespace de.ahzf.Loki
 
             }
 
+        }
+
+        #endregion
+
+        #region (static)  DefaultEdgeCaption(Edge)
+
+        /// <summary>
+        /// Returns the default caption for the given edge.
+        /// </summary>
+        /// <param name="Edge">A property edge.</param>
+        public static String DefaultEdgeCaption(IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object> Edge)
+        {
+            return Edge.Label.ToString();
         }
 
         #endregion
@@ -623,7 +733,6 @@ namespace de.ahzf.Loki
         }
 
         #endregion
-
 
     }
 

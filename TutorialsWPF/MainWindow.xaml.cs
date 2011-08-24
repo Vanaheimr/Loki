@@ -71,19 +71,19 @@ namespace TutorialsWPF
 
             #region Customize the vertex and edge shapes
 
-            GraphCanvas.VertexShapeCreator = v => {
+            //GraphCanvas.VertexShapeCreator = v => {
                 
-                var VertexShape             = new Rectangle();
+            //    var VertexShape             = new Rectangle();
 
-                VertexShape.Stroke          = new SolidColorBrush(Colors.Black);
-                VertexShape.StrokeThickness = 1;
-                VertexShape.Width           = v.Id * 10;
-                VertexShape.Height          = v.Id * 10;
-                VertexShape.Fill            = new SolidColorBrush(Colors.Red);
+            //    VertexShape.Stroke          = new SolidColorBrush(Colors.Black);
+            //    VertexShape.StrokeThickness = 1;
+            //    VertexShape.Width           = v.Id * 10;
+            //    VertexShape.Height          = v.Id * 10;
+            //    VertexShape.Fill            = new SolidColorBrush(Colors.Red);
 
-                return VertexShape;
+            //    return VertexShape;
 
-            };
+            //};
 
             #endregion
 
