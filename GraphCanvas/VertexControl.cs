@@ -37,104 +37,51 @@ using de.ahzf.Blueprints.PropertyGraph;
 namespace de.ahzf.Loki
 {
 
-    public class EdgeControl : UserControl, IEdgeControl
+    public class VertexControl : UserControl, IVertexControl
     {
-
-        #region Data
-
-        private VertexControl OutVertexControl;
-        private VertexControl  InVertexControl;
-
-        #endregion
 
         #region Properties
 
-        #region X1
+        #region X
 
         /// <summary>
         /// The x-coordinate of the arrow origin.
         /// </summary>
         [TypeConverter(typeof(LengthConverter))]
-        public Double X1
+        public Double X
         {
 
             get
             {
-                return (Double)base.GetValue(X1Property);
+                return (Double)base.GetValue(XProperty);
             }
 
             set
             {
-                base.SetValue(X1Property, value);
+                base.SetValue(XProperty, value);
             }
 
         }
 
         #endregion
 
-        #region Y1
+        #region Y
 
         /// <summary>
         /// The y-coordinate of the arrow origin.
         /// </summary>
         [TypeConverter(typeof(LengthConverter))]
-        public Double Y1
+        public Double Y
         {
 
             get
             {
-                return (Double)base.GetValue(Y1Property);
+                return (Double)base.GetValue(YProperty);
             }
 
             set
             {
-                base.SetValue(Y1Property, value);
-            }
-
-        }
-
-        #endregion
-
-        #region X2
-
-        /// <summary>
-        /// The x-coordinate of the arrow target.
-        /// </summary>
-        [TypeConverter(typeof(LengthConverter))]
-        public Double X2
-        {
-
-            get
-            {
-                return (Double)base.GetValue(X2Property);
-            }
-
-            set
-            {
-                base.SetValue(X2Property, value);
-            }
-
-        }
-
-        #endregion
-
-        #region Y2
-
-        /// <summary>
-        /// The y-coordinate of the arrow target.
-        /// </summary>
-        [TypeConverter(typeof(LengthConverter))]
-        public Double Y2
-        {
-
-            get
-            {
-                return (Double)base.GetValue(Y2Property);
-            }
-
-            set
-            {
-                base.SetValue(Y2Property, value);
+                base.SetValue(YProperty, value);
             }
 
         }
@@ -210,30 +157,30 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region Color
+        //#region Color
 
-        /// <summary>
-        /// The color of the arrow (fill and stroke).
-        /// </summary>
-        [TypeConverter(typeof(BrushConverter))]
-        public Brush Color
-        {
+        ///// <summary>
+        ///// The color of the arrow (fill and stroke).
+        ///// </summary>
+        //[TypeConverter(typeof(BrushConverter))]
+        //public Brush Color
+        //{
 
-            get
-            {
-                return (Brush) base.GetValue(ColorProperty);
-            }
+        //    get
+        //    {
+        //        return (Brush) base.GetValue(ColorProperty);
+        //    }
 
-            set
-            {
-                base.SetValue(ColorProperty, value);
-                //this.Stroke = value;
-                //this.Fill = value;
-            }
+        //    set
+        //    {
+        //        base.SetValue(ColorProperty, value);
+        //        //this.Stroke = value;
+        //        //this.Fill = value;
+        //    }
 
-        }
+        //}
 
-        #endregion
+        //#endregion
 
         #region ShowCaption
 
@@ -258,14 +205,14 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region EdgeCaption
+        #region Caption
 
-        private EdgeCaptionDelegate _Caption;
+        private VertexCaptionDelegate _Caption;
 
         /// <summary>
-        /// A delegate for generating caption for the given edge.
+        /// A delegate for generating caption for the given vertex.
         /// </summary>
-        public EdgeCaptionDelegate Caption
+        public VertexCaptionDelegate Caption
         {
 
             get
@@ -285,6 +232,9 @@ namespace de.ahzf.Loki
 
         #endregion
 
+        public Brush Fill { get; set; }
+        public Pen Stroke { get; set; }
+
         public Typeface Typeface { get; set; }
 
         public Double FontSize { get; set; }
@@ -303,70 +253,40 @@ namespace de.ahzf.Loki
         
         public double MaxTextWidth { get; set; }
 
-        public IPropertyEdge<UInt64, Int64, String, String, Object,
-                             UInt64, Int64, String, String, Object,
-                             UInt64, Int64, String, String, Object,
-                             UInt64, Int64, String, String, Object> Edge
+        public IPropertyVertex<UInt64, Int64, String, String, Object,
+                               UInt64, Int64, String, String, Object,
+                               UInt64, Int64, String, String, Object,
+                               UInt64, Int64, String, String, Object> Vertex
         { get; private set; }
 
         #endregion
 
         #region Dependency Properties
 
-        #region X1
+        #region X
 
         /// <summary>
         /// The x-coordinate of the arrow origin.
         /// </summary>
-        public static readonly DependencyProperty X1Property
-                             = DependencyProperty.Register("X1",
+        public static readonly DependencyProperty XProperty
+                             = DependencyProperty.Register("X",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(VertexControl),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         #endregion
 
-        #region Y1
+        #region Y
 
         /// <summary>
         /// The y-coordinate of the arrow origin.
         /// </summary>
-        public static readonly DependencyProperty Y1Property
-                             = DependencyProperty.Register("Y1",
+        public static readonly DependencyProperty YProperty
+                             = DependencyProperty.Register("Y",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
-                                                           new FrameworkPropertyMetadata(0.0,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #region X2
-
-        /// <summary>
-        /// The x-coordinate of the arrow target.
-        /// </summary>
-        public static readonly DependencyProperty X2Property
-                             = DependencyProperty.Register("X2",
-                                                           typeof(Double),
-                                                           typeof(EdgeControl),
-                                                           new FrameworkPropertyMetadata(0.0,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #region Y2
-
-        /// <summary>
-        /// The y-coordinate of the arrow target.
-        /// </summary>
-        public static readonly DependencyProperty Y2Property
-                             = DependencyProperty.Register("Y2",
-                                                           typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(VertexControl),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -381,7 +301,7 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty ShowDirectionProperty
                              = DependencyProperty.Register("ShowDirectionProperty",
                                                            typeof(Boolean),
-                                                           typeof(EdgeControl),
+                                                           typeof(VertexControl),
                                                            new FrameworkPropertyMetadata(true,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -396,7 +316,7 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty HeadWidthProperty
                              = DependencyProperty.Register("HeadWidth",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(VertexControl),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -411,7 +331,7 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty HeadHeightProperty
                              = DependencyProperty.Register("HeadHeight",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(VertexControl),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -426,7 +346,7 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty ColorProperty
                              = DependencyProperty.Register("Color",
                                                            typeof(Brush),
-                                                           typeof(EdgeControl),
+                                                           typeof(VertexControl),
                                                            new FrameworkPropertyMetadata(Brushes.Black,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -441,7 +361,7 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty ShowCaptionProperty
                              = DependencyProperty.Register("ShowCaptionProperty",
                                                            typeof(Boolean),
-                                                           typeof(EdgeControl),
+                                                           typeof(VertexControl),
                                                            new FrameworkPropertyMetadata(true,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -451,22 +371,17 @@ namespace de.ahzf.Loki
         #endregion
 
 
-        public EdgeControl(IPropertyEdge<UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object> Edge)
+        public VertexControl(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                             UInt64, Int64, String, String, Object,
+                                             UInt64, Int64, String, String, Object,
+                                             UInt64, Int64, String, String, Object> Vertex)
         {
-            
-            this.Edge          = Edge;
-            this.DataContext   = Edge;
 
-            OutVertexControl = Edge.OutVertex.GetProperty(GraphCanvas.__VertexShapePropertyKey) as VertexControl;
-             InVertexControl = Edge. InVertex.GetProperty(GraphCanvas.__VertexShapePropertyKey) as VertexControl;
+            this.Vertex        = Vertex;
+            this.DataContext   = Vertex;
 
-            this.X1 = Canvas.GetLeft(OutVertexControl);// + Vertex1.Width/2;
-            this.Y1 = Canvas.GetTop (OutVertexControl);// + Vertex1.Height/2;
-            this.X2 = Canvas.GetLeft (InVertexControl);// + Vertex2.Width/2;
-            this.Y2 = Canvas.GetTop  (InVertexControl);// + Vertex2.Height/2;
+            this.Fill          = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+            this.Stroke        = new Pen(new SolidColorBrush(Colors.Black), 1.0);
 
             this.Typeface      = new Typeface("Verdana");
             this.FontSize      = 12;
@@ -483,81 +398,39 @@ namespace de.ahzf.Loki
             
             base.OnRender(DrawingContext);
 
-            var line = new Line2D<Double>(X1, Y1, this.X2, this.Y2);
-            var center = line.Center;
-
-            var theta = Math.Atan2(Y1 - this.Y2, X1 - this.X2);
-			var sint  = Math.Sin(theta);
-			var cost  = Math.Cos(theta);
-
-            var X2 = X1 - (line.Length - 17) * cost;
-            var Y2 = Y1 - (line.Length - 17) * sint;
-
-			var ArrowOrigin = new Point(X1, Y1);
-			var ArrowTarget = new Point(X2, Y2);
-            var DrawingPen  = new Pen(Brushes.Black, 1);
-
-            var blueBlackLGB            = new LinearGradientBrush();
-            blueBlackLGB.StartPoint     = new Point(0, 0);
-            blueBlackLGB.EndPoint       = new Point(1, 1);
-
-            var blueGS                  = new GradientStop();
-            blueGS.Color                = Colors.Blue;
-            blueGS.Offset               = 0.0;
-            blueBlackLGB.GradientStops.Add(blueGS);
-
-            var blackGS                 = new GradientStop();
-            blackGS.Color               = Colors.Black;
-            blackGS.Offset              = 1.0;
-            blueBlackLGB.GradientStops.Add(blackGS);
-
-            var blackBluePen = new Pen();
-            blackBluePen.Thickness      = 5;
-            blackBluePen.LineJoin       = PenLineJoin.Bevel;
-            blackBluePen.StartLineCap   = PenLineCap.Triangle;
-            blackBluePen.EndLineCap     = PenLineCap.Round;
-            blackBluePen.Brush          = blueBlackLGB;
-
-            var pt3 = new Point(X2 + (HeadWidth  * cost - HeadHeight * sint),
-				                Y2 + (HeadWidth  * sint + HeadHeight * cost));
-
-            var pt4 = new Point(X2 + (HeadWidth  * cost + HeadHeight * sint),
-				                Y2 - (HeadHeight * cost - HeadWidth  * sint));
-
-            DrawingContext.DrawLine(blackBluePen, ArrowOrigin, ArrowTarget);
-            //DrawingContext.DrawLine(DrawingPen, pt3, ArrowTarget);
-            //DrawingContext.DrawLine(DrawingPen, pt4, ArrowTarget);
-
-            var PathFigure = new PathFigure();
-            PathFigure.StartPoint = ArrowTarget;
-
-            var PathSegmentCollection = new PathSegmentCollection();
-            PathSegmentCollection.Add(new LineSegment(pt3, true));
-            PathSegmentCollection.Add(new LineSegment(pt4, true));
-            PathSegmentCollection.Add(new LineSegment(ArrowTarget, true));
-
-            PathFigure.Segments = PathSegmentCollection;
-            var PathGeometry = new PathGeometry();
-            PathGeometry.Figures.Add(PathFigure);
-
-            DrawingContext.DrawGeometry(Brushes.Red, DrawingPen, PathGeometry);
-
+            DrawingContext.DrawEllipse(Fill,
+                                       Stroke,
+                                       new Point(X, Y),
+                                       Vertex.Id * 10,
+                                       Vertex.Id * 10);
 
             if (ShowCaption && Caption != null)
             {
 
-                DrawingContext.DrawText(new FormattedText(Caption(Edge),
+                DrawingContext.DrawText(new FormattedText(Caption(Vertex),
                                                           CultureInfo.CurrentCulture,
                                                           FlowDirection.LeftToRight,
                                                           Typeface,
                                                           FontSize,
                                                           FontBrush) { TextAlignment = TextAlignment.Center },
-                                        new Point(center.X, center.Y));
+                                        new Point(X, Y));
 
             }
 
         }
 
+
+        public VertexBounding VertexBounding
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 
 }

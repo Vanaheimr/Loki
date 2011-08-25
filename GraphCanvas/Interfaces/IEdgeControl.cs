@@ -33,8 +33,8 @@ namespace de.ahzf.Loki
     public interface IEdgeControl //: IShape
     {
 
-        Boolean ShowDirection  { get; set; }
-        Boolean ShowCaption { get; set; }
+        Boolean ShowDirection { get; set; }
+        Boolean ShowCaption   { get; set; }
 
     }
 

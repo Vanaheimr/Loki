@@ -27,6 +27,8 @@ using System.Windows.Shapes;
 
 using de.ahzf.Blueprints.PropertyGraph;
 using de.ahzf.Blueprints.PropertyGraph.InMemory;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 #endregion
 
@@ -39,10 +41,10 @@ namespace de.ahzf.Loki
     /// A delegate for creating a shape for the given vertex.
     /// </summary>
     /// <param name="Vertex">A property vertex.</param>
-    public delegate Shape  VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                      UInt64, Int64, String, String, Object,
-                                                                      UInt64, Int64, String, String, Object,
-                                                                      UInt64, Int64, String, String, Object> Vertex);
+    public delegate VertexControl  VertexControlCreatorDelegate(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object> Vertex);
 
     /// <summary>
     /// A delegate for generating a caption for the given vertex.
@@ -76,10 +78,10 @@ namespace de.ahzf.Loki
     /// A delegate for creating a shape for the given edge.
     /// </summary>
     /// <param name="Edge">A proeprty edge</param>
-    public delegate Shape EdgeShapeCreatorDelegate(IPropertyEdge<UInt64, Int64, String, String, Object,
-                                                                 UInt64, Int64, String, String, Object,
-                                                                 UInt64, Int64, String, String, Object,
-                                                                 UInt64, Int64, String, String, Object> Edge);
+    public delegate EdgeControl EdgeControlCreatorDelegate(IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object> Edge);
 
     /// <summary>
     /// A delegate for generating a caption for the given edge.
@@ -139,7 +141,7 @@ namespace de.ahzf.Loki
 
         private Random  Random;
         private Point   Mousy;
-        private Shape   SelectedVertexShape;
+        private VertexControl SelectedVertexShape;
         private IPropertyVertex<UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object,
@@ -162,25 +164,25 @@ namespace de.ahzf.Loki
         #endregion
 
 
-        #region VertexShapeCreator
+        #region VertexControlCreator
 
-        private VertexShapeCreatorDelegate _VertexShapeCreator;
+        private VertexControlCreatorDelegate _VertexControlCreator;
 
         /// <summary>
-        /// A delegate for creating a shape for the given vertex.
+        /// A delegate for creating a control for the given vertex.
         /// </summary>
-        public VertexShapeCreatorDelegate VertexShapeCreator
+        public VertexControlCreatorDelegate VertexControlCreator
         {
             
             get
             {
-                return _VertexShapeCreator;
+                return _VertexControlCreator;
             }
 
             set
             {
                 if (value != null)
-                    _VertexShapeCreator = value;
+                    _VertexControlCreator = value;
             }
 
         }
@@ -261,25 +263,25 @@ namespace de.ahzf.Loki
         #endregion
 
 
-        #region EdgeShapeCreator
+        #region EdgeControlCreator
 
-        private EdgeShapeCreatorDelegate _EdgeShapeCreator;
+        private EdgeControlCreatorDelegate _EdgeControlCreator;
 
         /// <summary>
-        /// A delegate for creating a shape for the given edge.
+        /// A delegate for creating a control for the given edge.
         /// </summary>
-        public EdgeShapeCreatorDelegate EdgeShapeCreator
+        public EdgeControlCreatorDelegate EdgeControlCreator
         {
 
             get
             {
-                return _EdgeShapeCreator;
+                return _EdgeControlCreator;
             }
 
             set
             {
                 if (value != null)
-                    _EdgeShapeCreator = value;
+                    _EdgeControlCreator = value;
             }
 
         }
@@ -416,23 +418,24 @@ namespace de.ahzf.Loki
                                           UInt64, Int64, String, String, Object> IPropertyGraph)
         {
 
-            this.Graph           = IPropertyGraph;
+            this.Graph              = IPropertyGraph;
             Graph.SetProperty("GraphCanvas", this);
-            DataContext          = Graph;
-            Random               = new Random();
+            DataContext             = Graph;
+            Random                  = new Random();
 
-            this.Background      = new SolidColorBrush(Colors.Transparent);
-            this.MouseMove      += GraphCanvas_MouseMove;
-            this.MouseLeave     += GraphCanvas_MouseLeave;
-            Graph.OnVertexAdded += AddVertex;
-            Graph.OnEdgeAdded   += AddEdge;
+            this.Background         = new SolidColorBrush(Colors.Transparent);
+            this.MouseMove         += GraphCanvas_MouseMove;
+            this.MouseLeave        += GraphCanvas_MouseLeave;
+            Graph.OnVertexAdded    += AddVertex;
+            Graph.OnEdgeAdded      += AddEdge;
 
-            _VertexShapeCreator  = DefaultVertexShape;
-            _VertexCaption       = DefaultVertexCaption;
-            _VertexToolTip       = DefaultVertexToolTip;
+            _VertexControlCreator   = DefaultVertexControlCreator;
+            _VertexCaption          = DefaultVertexCaption;
+            _VertexToolTip          = DefaultVertexToolTip;
 
-            _EdgeCaption         = DefaultEdgeCaption;
-            _EdgeToolTip         = DefaultEdgeToolTip;
+            _EdgeControlCreator     = DefaultEdgeControlCreator;
+            _EdgeCaption            = DefaultEdgeCaption;
+            _EdgeToolTip            = DefaultEdgeToolTip;
 
         }
 
@@ -516,26 +519,48 @@ namespace de.ahzf.Loki
             if (Vertex != null)
             {
 
-                var VertexShape                  = _VertexShapeCreator(Vertex);                    
-                VertexShape.MouseMove           += VertexShape_MouseMove;
-                VertexShape.MouseLeftButtonDown += VertexShape_MouseLeftButtonDown;
-                VertexShape.MouseLeftButtonUp   += VertexShape_MouseLeftButtonUp;
-                VertexShape.DataContext          = Vertex;
+                var VertexControl                  = _VertexControlCreator(Vertex);
+                VertexControl.MouseMove           += VertexControl_MouseMove;
+                VertexControl.MouseLeftButtonDown += VertexControl_MouseLeftButtonDown;
+                VertexControl.MouseLeftButtonUp   += VertexControl_MouseLeftButtonUp;
+                VertexControl.DataContext          = Vertex;
+                Vertex.SetProperty(__VertexShapePropertyKey, VertexControl);
+
+                VertexControl.Caption              = _VertexCaption;
                 
 #if SILVERLIGHT
                 ToolTipService.SetToolTip(VertexShape, VertexToolTip(Vertex));
 #else
-                VertexShape.ToolTip              = VertexToolTip(Vertex);
+                VertexControl.ToolTip              = VertexToolTip(Vertex);
 #endif
 
                 if (OnChangedNumberOfVertices != null)
                     OnChangedNumberOfVertices(Graph.NumberOfVertices());
 
-                Children.Add(VertexShape);
-                Canvas.SetLeft(VertexShape, Random.Next(20, 400 - 20));
-                Canvas.SetTop (VertexShape, Random.Next(20, 200 - 20));
+                Children.Add(VertexControl);
+                Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
+                Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
 
-                Vertex.SetProperty(__VertexShapePropertyKey, VertexShape);
+                // Must be here... do not why!
+                this.ContextMenu = new ContextMenu();
+
+                var ClearGraph = new MenuItem() {
+                    Header = "Clear graph"
+                };
+                ClearGraph.Click += new RoutedEventHandler(SaveAs_Click);
+                this.ContextMenu.Items.Add(ClearGraph);
+
+                var LoadGraph = new MenuItem() {
+                    Header = "Load graph..."
+                };
+                LoadGraph.Click += new RoutedEventHandler(SaveAs_Click);
+                this.ContextMenu.Items.Add(LoadGraph);
+
+                var SaveGraphAs = new MenuItem() {
+                    Header = "Save graph as..."
+                };
+                SaveGraphAs.Click += new RoutedEventHandler(SaveAs_Click);
+                this.ContextMenu.Items.Add(SaveGraphAs);
 
             }
 
@@ -543,27 +568,27 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region (static)  DefaultVertexShape(Vertex)
+        #region (static)  DefaultVertexControlCreator(Vertex)
 
         /// <summary>
-        /// Returns the default shape for the given vertex,
+        /// Returns the default control for the given vertex,
         /// which is a constant sized circle.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public static Shape DefaultVertexShape(IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                               UInt64, Int64, String, String, Object,
-                                                               UInt64, Int64, String, String, Object,
-                                                               UInt64, Int64, String, String, Object> Vertex)
+        public static VertexControl DefaultVertexControlCreator(IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object> Vertex)
         {
 
-            var VertexShape             = new Ellipse();
-            VertexShape.Stroke          = new SolidColorBrush(Colors.Black);
-            VertexShape.StrokeThickness = 1;
-            VertexShape.Width           = Vertex.Id * 10;
-            VertexShape.Height          = Vertex.Id * 10;
-            VertexShape.Fill            = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+            var VertexControl             = new VertexControl(Vertex);
+            VertexControl.Fill            = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+            VertexControl.Stroke          = new Pen(new SolidColorBrush(Colors.Black), 1.0);
+            VertexControl.Width           = Vertex.Id * 10;
+            VertexControl.Height          = Vertex.Id * 10;
+            VertexControl.ShowCaption     = true;
 
-            return VertexShape;
+            return VertexControl;
 
         }
 
@@ -572,7 +597,7 @@ namespace de.ahzf.Loki
         #region (static)  DefaultVertexCaption(Vertex)
 
         /// <summary>
-        /// Returns the default caption for the given vertex.
+        /// Returns the default caption for the given vertex control.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
         public static String DefaultVertexCaption(IPropertyVertex<UInt64, Int64, String, String, Object,
@@ -588,7 +613,7 @@ namespace de.ahzf.Loki
         #region (static)  DefaultVertexToolTip(Vertex)
 
         /// <summary>
-        /// Returns the default tooltip for the given vertex.
+        /// Returns the default tooltip for the given vertex control.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
         public static String DefaultVertexToolTip(IPropertyVertex<UInt64, Int64, String, String, Object,
@@ -601,18 +626,18 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region (private) VertexShape_MouseLeftButtonDown(Sender, MouseButtonEventArgs)
+        #region (private) VertexControl_MouseLeftButtonDown(Sender, MouseButtonEventArgs)
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Sender"></param>
         /// <param name="MouseButtonEventArgs"></param>
-        private void VertexShape_MouseLeftButtonDown(Object Sender, MouseButtonEventArgs MouseButtonEventArgs)
+        private void VertexControl_MouseLeftButtonDown(Object Sender, MouseButtonEventArgs MouseButtonEventArgs)
         {
 
             Mousy               = MouseButtonEventArgs.GetPosition(this);
-            SelectedVertexShape = Sender as Shape;
+            SelectedVertexShape = Sender as VertexControl;
             Vertex              = SelectedVertexShape.DataContext as IPropertyVertex<UInt64, Int64, String, String, Object,
                                                                                      UInt64, Int64, String, String, Object,
                                                                                      UInt64, Int64, String, String, Object,
@@ -622,9 +647,9 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region (private) VertexShape_MouseLeftButtonUp(Sender, MouseButtonEventArgs)
+        #region (private) VertexControl_MouseLeftButtonUp(Sender, MouseButtonEventArgs)
 
-        private void VertexShape_MouseLeftButtonUp(Object sender, MouseButtonEventArgs MouseButtonEventArgs)
+        private void VertexControl_MouseLeftButtonUp(Object sender, MouseButtonEventArgs MouseButtonEventArgs)
         {
             Mousy               = MouseButtonEventArgs.GetPosition(this);
             SelectedVertexShape = null;
@@ -632,9 +657,9 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region (private) VertexShape_MouseMove(Sender, MouseEventArgs)
+        #region (private) VertexControl_MouseMove(Sender, MouseEventArgs)
 
-        private void VertexShape_MouseMove(Object Sender, MouseEventArgs MouseEventArgs)
+        private void VertexControl_MouseMove(Object Sender, MouseEventArgs MouseEventArgs)
         {
             GraphCanvas_MouseMove(Sender, MouseEventArgs);
         }
@@ -659,38 +684,30 @@ namespace de.ahzf.Loki
             if (Edge != null)
             {
 
-                var Vertex1               = Edge.OutVertex.GetProperty(__VertexShapePropertyKey) as Shape;
-                var Vertex2               = Edge. InVertex.GetProperty(__VertexShapePropertyKey) as Shape;
-
-                var EdgeShape             = new EdgeControl(Edge);
-                EdgeShape.X1              = Canvas.GetLeft(Vertex1) + Vertex1.Width/2;
-                EdgeShape.Y1              = Canvas.GetTop (Vertex1) + Vertex1.Height/2;
-                EdgeShape.X2              = Canvas.GetLeft(Vertex2) + Vertex2.Width/2;
-                EdgeShape.Y2              = Canvas.GetTop (Vertex2) + Vertex2.Height/2;
-                EdgeShape.HeadWidth       = 12;
-                EdgeShape.HeadHeight      = 8;
-                //EdgeShape.Stroke          = new SolidColorBrush(Colors.Black);
-                //EdgeShape.StrokeThickness = 2;
-                EdgeShape.ShowCaption     = true;
-                EdgeShape.Caption         = _EdgeCaption;
+                var EdgeControl             = _EdgeControlCreator(Edge);
+                EdgeControl.Caption         = _EdgeCaption;
 
 #if SILVERLIGHT
                 ToolTipService.SetToolTip(EdgeShape, EdgeToolTip(Edge));
 #else
-                EdgeShape.ToolTip         = EdgeToolTip(Edge);
+                EdgeControl.ToolTip         = EdgeToolTip(Edge);
 #endif
 
-                Canvas.SetZIndex(EdgeShape, -99);
-                Children.Add(EdgeShape);
+                Canvas.SetZIndex(EdgeControl, -99);
+                Children.Add(EdgeControl);
 
-                Edge.SetProperty(__EdgeShapePropertyKey, EdgeShape);
+                Edge.SetProperty(__EdgeShapePropertyKey, EdgeControl);
+
+
+                var OutVertexControl = Edge.OutVertex.GetProperty(__VertexShapePropertyKey) as VertexControl;
+                var InVertexControl  = Edge.InVertex. GetProperty(__VertexShapePropertyKey) as VertexControl;
 
 #if SILVERLIGHT
-                ToolTipService.SetToolTip(Vertex1, DefaultVertexToolTip(Edge.OutVertex));
-                ToolTipService.SetToolTip(Vertex2, DefaultVertexToolTip(Edge.InVertex));
+                ToolTipService.SetToolTip(OutVertexControl, DefaultVertexToolTip(Edge.OutVertex));
+                ToolTipService.SetToolTip(InVertexControl,  DefaultVertexToolTip(Edge.InVertex));
 #else
-                Vertex1.ToolTip           = DefaultVertexToolTip(Edge.OutVertex);
-                Vertex2.ToolTip           = DefaultVertexToolTip(Edge. InVertex);
+                OutVertexControl.ToolTip    = DefaultVertexToolTip(Edge.OutVertex);
+                 InVertexControl.ToolTip    = DefaultVertexToolTip(Edge. InVertex);
 #endif
 
                 if (OnChangedNumberOfEdges != null)
@@ -701,6 +718,37 @@ namespace de.ahzf.Loki
         }
 
         #endregion
+
+        #region (static)  DefaultEdgeControlCreator(Vertex)
+
+        /// <summary>
+        /// Returns the default control for the given edge.
+        /// </summary>
+        /// <param name="Edge">A property edge.</param>
+        public static EdgeControl DefaultEdgeControlCreator(IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object> Edge)
+        {
+
+            var EdgeControl                 = new EdgeControl(Edge);
+            //VertexShape.Stroke              = new SolidColorBrush(Colors.Black);
+            //VertexShape.StrokeThickness     = 1;
+            EdgeControl.HeadWidth           = 12;
+            EdgeControl.HeadHeight          = 8;
+            //EdgeShape.Stroke                = new SolidColorBrush(Colors.Black);
+            //EdgeShape.StrokeThickness       = 2;
+            EdgeControl.ShowCaption         = true;
+            //VertexShape.Fill                = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+
+            return EdgeControl;
+
+        }
+
+        #endregion
+
+        
+
 
         #region (static)  DefaultEdgeCaption(Edge)
 
@@ -733,6 +781,95 @@ namespace de.ahzf.Loki
         }
 
         #endregion
+
+
+
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBox.Show("Size: " + this.Width + " x " + this.Height);
+
+            var SaveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            SaveFileDialog.Filter = "All files (*.*)|*.*|PNG files (*.png)|*.png*|JPEG files (*.jpg, *.jpeg)|*.jpg*;*.jpeg";
+            SaveFileDialog.FilterIndex = 0;
+            SaveFileDialog.AddExtension = true;
+         //   SaveFileDialog.InitialDirectory = CurrentDirectory;
+            SaveFileDialog.Title = "Chosse a filename and a location...";
+            SaveFileDialog.CheckPathExists = true;
+
+            var _Dialog = SaveFileDialog.ShowDialog();
+            if (_Dialog.HasValue && _Dialog.Value)
+            {
+                try
+                {
+
+                //    CurrentDirectory = SaveFileDialog.FileName.Substring(0, SaveFileDialog.FileName.LastIndexOf(System.IO.Path.DirectorySeparatorChar));
+
+                    BitmapEncoder BitmapEncoder = null;
+
+                    switch (SaveFileDialog.FilterIndex)
+                    {
+
+                        case 1: if (!SaveFileDialog.FileName.EndsWith(".png"))
+                                BitmapEncoder = new PngBitmapEncoder();
+                            else if (!SaveFileDialog.FileName.EndsWith(".jpg"))
+                                BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
+                            else if (!SaveFileDialog.FileName.EndsWith(".jpeg"))
+                                BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
+                            else
+                            {
+                                MessageBox.Show("A problem occured, try again later!");
+                                return;
+                            }
+                            break;
+
+                        case 2:
+                            if (!SaveFileDialog.FileName.EndsWith(".png"))
+                                SaveFileDialog.FileName += ".png";
+                            BitmapEncoder = new PngBitmapEncoder();
+                            //BitmapEncoder.Metadata = new BitmapMetadata("png");
+                            //BitmapEncoder.Metadata.ApplicationName = "Loki";
+                            break;
+
+                        case 3:
+                            if (!SaveFileDialog.FileName.EndsWith(".jpg"))
+                                SaveFileDialog.FileName += ".jpg";
+                            BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
+                            //BitmapEncoder.Metadata = new BitmapMetadata("jpg");
+                            //BitmapEncoder.Metadata.ApplicationName = "Loki";
+                            break;
+
+                        default: MessageBox.Show("A problem occured, try again later!"); break;
+
+                    }
+
+                    using (var _FileStream = File.Create(SaveFileDialog.FileName))
+                    {
+                        switch (SaveFileDialog.FilterIndex)
+                        {
+
+                            case 1: this.SaveAs(BitmapEncoder, 300, 300).WriteTo(_FileStream); break;
+
+                            case 2:
+                            case 3: this.SaveAs(BitmapEncoder, 300, 300).WriteTo(_FileStream); break;
+
+                            default: MessageBox.Show("A problem occured, try again later!"); break;
+
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not save file to disk. Original error: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("A problem occured, try again later!");
+            }
+
+        }
 
     }
 

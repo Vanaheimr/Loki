@@ -17,6 +17,7 @@
             <ComboBox Name="VertexTypeListBox" Height="23" Width="110" ToolTip="Choose a vertex type" Margin="3,0,0,0">
                 <ComboBoxItem Name="DefaultVertex" IsSelected="True">default vertex</ComboBoxItem>
             </ComboBox>
+            <Button Name="SaveAs" Height="23" Width="110" ToolTip="Save" Margin="3,0,0,0" Click="SaveAs_Click" />
         </StackPanel>
         <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
@@ -30,7 +31,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <my:GraphCanvas Grid.Column="0" HorizontalAlignment="Stretch" Name="GraphCanvas" VerticalAlignment="Stretch" ClipToBounds="True" ToolTip="Graph canvas" SnapsToDevicePixels="False">
+                <my:GraphCanvas Grid.Column="0" HorizontalAlignment="Stretch" Name="GraphCanvas" VerticalAlignment="Stretch" ClipToBounds="True" ToolTip="Graph canvas" SnapsToDevicePixels="True">
                     <my:GraphCanvas.ContextMenu>
                         <ContextMenu>
                         </ContextMenu>
