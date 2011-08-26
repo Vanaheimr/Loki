@@ -146,6 +146,7 @@ namespace de.ahzf.Loki
                                 UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object,
                                 UInt64, Int64, String, String, Object> Vertex;
+        private String CurrentDirectory;
 
         #endregion
 
@@ -437,6 +438,10 @@ namespace de.ahzf.Loki
             _EdgeCaption            = DefaultEdgeCaption;
             _EdgeToolTip            = DefaultEdgeToolTip;
 
+            CurrentDirectory        = Directory.GetCurrentDirectory();
+
+            AddGraphCanvasContextMenu();
+
         }
 
         #endregion
@@ -541,26 +546,7 @@ namespace de.ahzf.Loki
                 Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
                 Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
 
-                // Must be here... do not why!
-                this.ContextMenu = new ContextMenu();
-
-                var ClearGraph = new MenuItem() {
-                    Header = "Clear graph"
-                };
-                ClearGraph.Click += new RoutedEventHandler(SaveAs_Click);
-                this.ContextMenu.Items.Add(ClearGraph);
-
-                var LoadGraph = new MenuItem() {
-                    Header = "Load graph..."
-                };
-                LoadGraph.Click += new RoutedEventHandler(SaveAs_Click);
-                this.ContextMenu.Items.Add(LoadGraph);
-
-                var SaveGraphAs = new MenuItem() {
-                    Header = "Save graph as..."
-                };
-                SaveGraphAs.Click += new RoutedEventHandler(SaveAs_Click);
-                this.ContextMenu.Items.Add(SaveGraphAs);
+                
 
             }
 
@@ -783,19 +769,49 @@ namespace de.ahzf.Loki
         #endregion
 
 
+        private void AddGraphCanvasContextMenu()
+        {
+
+            // Must be here... do not why!
+            this.ContextMenu = new ContextMenu();
+
+            var ClearGraph = new MenuItem()
+            {
+                Header = "Clear graph"
+            };
+            ClearGraph.Click += new RoutedEventHandler(SaveAs_Click);
+            this.ContextMenu.Items.Add(ClearGraph);
+
+            var LoadGraph = new MenuItem()
+            {
+                Header = "Load graph..."
+            };
+            LoadGraph.Click += new RoutedEventHandler(SaveAs_Click);
+            this.ContextMenu.Items.Add(LoadGraph);
+
+            var SaveGraphAs = new MenuItem()
+            {
+                Header = "Save graph as..."
+            };
+            SaveGraphAs.Click += new RoutedEventHandler(SaveAs_Click);
+            this.ContextMenu.Items.Add(SaveGraphAs);
+
+        }
+
+
 
         private void SaveAs_Click(object sender, RoutedEventArgs e)
         {
 
-            MessageBox.Show("Size: " + this.Width + " x " + this.Height);
+          //  MessageBox.Show("Size: " + GraphCanvas.Width + " x " + GraphCanvas.Height);
 
-            var SaveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            SaveFileDialog.Filter = "All files (*.*)|*.*|PNG files (*.png)|*.png*|JPEG files (*.jpg, *.jpeg)|*.jpg*;*.jpeg";
-            SaveFileDialog.FilterIndex = 0;
-            SaveFileDialog.AddExtension = true;
-         //   SaveFileDialog.InitialDirectory = CurrentDirectory;
-            SaveFileDialog.Title = "Chosse a filename and a location...";
-            SaveFileDialog.CheckPathExists = true;
+            var SaveFileDialog              = new Microsoft.Win32.SaveFileDialog();
+            SaveFileDialog.Filter           = "All files (*.*)|*.*|PNG files (*.png)|*.png*|JPEG files (*.jpg, *.jpeg)|*.jpg*;*.jpeg|XAML files (*.xaml)|*.xaml*";
+            SaveFileDialog.FilterIndex      = 0;
+            SaveFileDialog.AddExtension     = true;
+            SaveFileDialog.InitialDirectory = CurrentDirectory;
+            SaveFileDialog.Title            = "Choose a filename and a location...";
+            SaveFileDialog.CheckPathExists  = true;
 
             var _Dialog = SaveFileDialog.ShowDialog();
             if (_Dialog.HasValue && _Dialog.Value)
@@ -803,43 +819,42 @@ namespace de.ahzf.Loki
                 try
                 {
 
-                //    CurrentDirectory = SaveFileDialog.FileName.Substring(0, SaveFileDialog.FileName.LastIndexOf(System.IO.Path.DirectorySeparatorChar));
-
-                    BitmapEncoder BitmapEncoder = null;
+                    CurrentDirectory = SaveFileDialog.FileName.Substring(0, SaveFileDialog.FileName.LastIndexOf(System.IO.Path.DirectorySeparatorChar));
 
                     switch (SaveFileDialog.FilterIndex)
                     {
 
-                        case 1: if (!SaveFileDialog.FileName.EndsWith(".png"))
-                                BitmapEncoder = new PngBitmapEncoder();
-                            else if (!SaveFileDialog.FileName.EndsWith(".jpg"))
-                                BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
-                            else if (!SaveFileDialog.FileName.EndsWith(".jpeg"))
-                                BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
+                        case 2:
+                            if (!SaveFileDialog.FileName.EndsWith(".png"))
+                                SaveFileDialog.FileName += ".png";
+                            break;
+
+                        case 3:
+                            if (!(SaveFileDialog.FileName.EndsWith(".jpg") ||
+                                  SaveFileDialog.FileName.EndsWith(".jpeg")))
+                                SaveFileDialog.FileName += ".jpg";
+                            break;
+
+                        case 4:
+                            if (!SaveFileDialog.FileName.EndsWith(".xaml"))
+                                SaveFileDialog.FileName += ".xaml";
+                            break;
+
+                        default:
+                            if (SaveFileDialog.FileName.EndsWith(".png"))
+                                SaveFileDialog.FilterIndex = 2;
+                            else if (SaveFileDialog.FileName.EndsWith(".jpg"))
+                                SaveFileDialog.FilterIndex = 3;
+                            else if (SaveFileDialog.FileName.EndsWith(".jpeg"))
+                                SaveFileDialog.FilterIndex = 3;
+                            else if (SaveFileDialog.FileName.EndsWith(".xaml"))
+                                SaveFileDialog.FilterIndex = 4;
                             else
                             {
                                 MessageBox.Show("A problem occured, try again later!");
                                 return;
                             }
                             break;
-
-                        case 2:
-                            if (!SaveFileDialog.FileName.EndsWith(".png"))
-                                SaveFileDialog.FileName += ".png";
-                            BitmapEncoder = new PngBitmapEncoder();
-                            //BitmapEncoder.Metadata = new BitmapMetadata("png");
-                            //BitmapEncoder.Metadata.ApplicationName = "Loki";
-                            break;
-
-                        case 3:
-                            if (!SaveFileDialog.FileName.EndsWith(".jpg"))
-                                SaveFileDialog.FileName += ".jpg";
-                            BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
-                            //BitmapEncoder.Metadata = new BitmapMetadata("jpg");
-                            //BitmapEncoder.Metadata.ApplicationName = "Loki";
-                            break;
-
-                        default: MessageBox.Show("A problem occured, try again later!"); break;
 
                     }
 
@@ -848,12 +863,17 @@ namespace de.ahzf.Loki
                         switch (SaveFileDialog.FilterIndex)
                         {
 
-                            case 1: this.SaveAs(BitmapEncoder, 300, 300).WriteTo(_FileStream); break;
+                            case 1: break;
+                            case 2: this.SaveAsPNG (                  dpiX: 300, dpiY: 300).WriteTo(_FileStream); break;
+                            case 3: this.SaveAsJPEG(QualityLevel: 98, dpiX: 300, dpiY: 300).WriteTo(_FileStream); break;
+                            case 4: this.SaveAsXAML(Indent: true); break;
 
-                            case 2:
-                            case 3: this.SaveAs(BitmapEncoder, 300, 300).WriteTo(_FileStream); break;
-
-                            default: MessageBox.Show("A problem occured, try again later!"); break;
+                            default:
+                                MessageBox.Show("Error occurred during XAML saving.",
+                                                "Error",
+                                                MessageBoxButton.OK,
+                                                MessageBoxImage.Error);
+                                break;
 
                         }
                     }
@@ -866,7 +886,10 @@ namespace de.ahzf.Loki
             }
             else
             {
-                MessageBox.Show("A problem occured, try again later!");
+                MessageBox.Show("Cancel!",
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
             }
 
         }

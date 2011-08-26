@@ -49,7 +49,6 @@ namespace TutorialsWPF
         private readonly LinkedList<String>             CommandHistory;
         private          LinkedListNode<String>         CurrentCommand;
         private readonly Int32                          MaxCommandsHistorySize;
-        private          String                         CurrentDirectory;
 
         #endregion
 
@@ -59,8 +58,6 @@ namespace TutorialsWPF
         {
 
             InitializeComponent();
-
-            CurrentDirectory = Directory.GetCurrentDirectory();
 
             MaxCommandsHistorySize = 50;
             CommandHistory         = new LinkedList<String>();
@@ -303,92 +300,7 @@ namespace TutorialsWPF
 
         #endregion
 
-        private void SaveAs_Click(object sender, RoutedEventArgs e)
-        {
-
-            MessageBox.Show("Size: " + GraphCanvas.Width + " x " + GraphCanvas.Height);
-
-            var SaveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            SaveFileDialog.Filter = "All files (*.*)|*.*|PNG files (*.png)|*.png*|JPEG files (*.jpg, *.jpeg)|*.jpg*;*.jpeg";
-            SaveFileDialog.FilterIndex = 0;
-            SaveFileDialog.AddExtension = true;
-            SaveFileDialog.InitialDirectory = CurrentDirectory;
-            SaveFileDialog.Title = "Chosse a filename and a location...";
-            SaveFileDialog.CheckPathExists = true;
-
-            var _Dialog = SaveFileDialog.ShowDialog();
-            if (_Dialog.HasValue && _Dialog.Value)
-            {
-                try
-                {
-
-                    CurrentDirectory = SaveFileDialog.FileName.Substring(0, SaveFileDialog.FileName.LastIndexOf(System.IO.Path.DirectorySeparatorChar));
-
-                    BitmapEncoder BitmapEncoder = null;
-
-                    switch (SaveFileDialog.FilterIndex)
-                    {
-
-                        case 1: if (!SaveFileDialog.FileName.EndsWith(".png"))
-                                    BitmapEncoder = new PngBitmapEncoder();
-                                else if (!SaveFileDialog.FileName.EndsWith(".jpg"))
-                                    BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
-                                else if (!SaveFileDialog.FileName.EndsWith(".jpeg"))
-                                    BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
-                                else
-                                {
-                                    MessageBox.Show("A problem occured, try again later!");
-                                    return;
-                                }
-                                break;
-
-                        case 2:
-                            if (!SaveFileDialog.FileName.EndsWith(".png"))
-                                SaveFileDialog.FileName += ".png";
-                            BitmapEncoder = new PngBitmapEncoder();
-                            //BitmapEncoder.Metadata = new BitmapMetadata("png");
-                            //BitmapEncoder.Metadata.ApplicationName = "Loki";
-                            break;
-
-                        case 3:
-                            if (!SaveFileDialog.FileName.EndsWith(".jpg"))
-                                SaveFileDialog.FileName += ".jpg";
-                            BitmapEncoder = new JpegBitmapEncoder() { QualityLevel = 98 };
-                            //BitmapEncoder.Metadata = new BitmapMetadata("jpg");
-                            //BitmapEncoder.Metadata.ApplicationName = "Loki";
-                            break;
-
-                        default: MessageBox.Show("A problem occured, try again later!"); break;
-
-                    }
-
-                    using (var _FileStream = File.Create(SaveFileDialog.FileName))
-                    {
-                        switch (SaveFileDialog.FilterIndex)
-                        {
-
-                            case 1: GraphCanvas.SaveAs(BitmapEncoder, 300, 300).WriteTo(_FileStream); break;
-
-                            case 2:
-                            case 3: GraphCanvas.SaveAs(BitmapEncoder, 300, 300).WriteTo(_FileStream); break;
-
-                            default: MessageBox.Show("A problem occured, try again later!"); break;
-
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: Could not save file to disk. Original error: " + ex.Message);
-                }
-            }
-            else
-            {
-                MessageBox.Show("A problem occured, try again later!");
-            }
-
-        }
+        
 
     }
 

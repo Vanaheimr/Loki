@@ -17,7 +17,6 @@
             <ComboBox Name="VertexTypeListBox" Height="23" Width="110" ToolTip="Choose a vertex type" Margin="3,0,0,0">
                 <ComboBoxItem Name="DefaultVertex" IsSelected="True">default vertex</ComboBoxItem>
             </ComboBox>
-            <Button Name="SaveAs" Height="23" Width="110" ToolTip="Save" Margin="3,0,0,0" Click="SaveAs_Click" />
         </StackPanel>
         <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
@@ -31,12 +30,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <my:GraphCanvas Grid.Column="0" HorizontalAlignment="Stretch" Name="GraphCanvas" VerticalAlignment="Stretch" ClipToBounds="True" ToolTip="Graph canvas" SnapsToDevicePixels="True">
-                    <my:GraphCanvas.ContextMenu>
-                        <ContextMenu>
-                        </ContextMenu>
-                    </my:GraphCanvas.ContextMenu>
-                </my:GraphCanvas>
+                <my:GraphCanvas Grid.Column="0" HorizontalAlignment="Stretch" Name="GraphCanvas" VerticalAlignment="Stretch" ClipToBounds="True" ToolTip="Graph canvas" SnapsToDevicePixels="True" />
                 <Expander Grid.Column="1" Header="info" Name="expander1" Expanded="expander1_Expanded" ExpandDirection="Left">
                     <Border BorderBrush="DarkGray" Margin="3" BorderThickness="1">
                         <StackPanel Name="InfoStackPanel" Background="#F8F8F8" Width="250" />

@@ -19,16 +19,13 @@
 #region Usings
 
 using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-
-using de.ahzf.Blueprints.PropertyGraph;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
-using System.Windows.Media.Imaging;
 using System.IO;
+using System.Xml;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Markup;
 
 #endregion
 
@@ -41,50 +38,136 @@ namespace de.ahzf.Loki
     public static class CanvasExtensions
     {
 
-        public static MemoryStream SaveAsPNG(this Canvas _Canvas, Double dpiX = 96d, Double dpiY = 96d)
+        #region SaveAsPNG(this Canvas, dpiX = 96d, dpiY = 96d)
+
+        /// <summary>
+        /// Saves the given canvas as PNG image.
+        /// </summary>
+        /// <param name="Canvas">The canvas.</param>
+        /// <param name="dpiX">The desired x-resolution of the saved image.</param>
+        /// <param name="dpiY">The desired y-resolution of the saved image.</param>
+        /// <returns>A memory stream containing the encoded PNG image.</returns>
+        public static MemoryStream SaveAsPNG(this Canvas Canvas, Double dpiX = 96d, Double dpiY = 96d)
         {
-            return _Canvas.SaveAs(new PngBitmapEncoder(), dpiX, dpiY);
+
+            if (Canvas == null)
+                throw new ArgumentNullException("The given canvas must not be null!");
+
+            return Canvas.SaveAs(new PngBitmapEncoder(), dpiX, dpiY);
+
         }
 
-        public static MemoryStream SaveAsJPEG(this Canvas _Canvas, Double dpiX = 96d, Double dpiY = 96d)
+        #endregion
+
+        #region SaveAsJPEG(this Canvas, QualityLevel = 98, dpiX = 96d, dpiY = 96d)
+
+        /// <summary>
+        /// Saves the given canvas as JPEG image.
+        /// </summary>
+        /// <param name="Canvas">The canvas.</param>
+        /// <param name="QualityLevel">The JPEG quality level.</param>
+        /// <param name="dpiX">The desired x-resolution of the saved image.</param>
+        /// <param name="dpiY">The desired y-resolution of the saved image.</param>
+        /// <returns>A memory stream containing the encoded JPEG image.</returns>
+        public static MemoryStream SaveAsJPEG(this Canvas Canvas, Int32 QualityLevel = 98, Double dpiX = 96d, Double dpiY = 96d)
         {
-            return _Canvas.SaveAs(new JpegBitmapEncoder(), dpiX, dpiY);
+
+            if (Canvas == null)
+                throw new ArgumentNullException("The given canvas must not be null!");
+
+            return Canvas.SaveAs(new JpegBitmapEncoder() { QualityLevel = QualityLevel }, dpiX, dpiY);
+
         }
 
-        public static MemoryStream SaveAs(this Canvas _Canvas, BitmapEncoder BitmapEncoder, Double dpiX = 96d, Double dpiY = 96d)
+        #endregion
+
+        #region SaveAsXAML(this Canvas, Indent = true)
+
+        /// <summary>
+        /// Saves the given canvas as XAML.
+        /// </summary>
+        /// <param name="Canvas">The canvas.</param>
+        /// <param name="Indent">XML indention on or off.</param>
+        /// <returns>A memory stream containing the encoded XAML.</returns>
+        public static MemoryStream SaveAsXAML(this Canvas Canvas, Boolean Indent = true)
         {
+
+            #region Initial checks
+
+            if (Canvas == null)
+                throw new ArgumentNullException("The given canvas must not be null!");
+
+            #endregion
+
+            var MemoryStream = new MemoryStream();
+            var XAMLWriter   = new XamlDesignerSerializationManager(
+                                       XmlWriter.Create(MemoryStream,
+                                                        new XmlWriterSettings() {
+                                                            Indent = Indent
+                                                        })
+                                   );
+
+            XamlWriter.Save(Canvas, XAMLWriter);
+
+            return MemoryStream;
+
+        }
+
+        #endregion
+
+        #region SaveAs(this Canvas, BitmapEncoder, dpiX = 96d, dpiY = 96d)
+
+        /// <summary>
+        /// Saves the given canvas using the given bitmap encoder.
+        /// </summary>
+        /// <param name="Canvas">The canvas.</param>
+        /// <param name="BitmapEncoder">A bitmap encoder.</param>
+        /// <param name="dpiX">The desired x-resolution of the saved image.</param>
+        /// <param name="dpiY">The desired y-resolution of the saved image.</param>
+        /// <returns>A memory stream containing the encoded JPEG image.</returns>
+        public static MemoryStream SaveAs(this Canvas Canvas, BitmapEncoder BitmapEncoder, Double dpiX = 96d, Double dpiY = 96d)
+        {
+
+            #region Initial checks
+
+            if (Canvas == null)
+                throw new ArgumentNullException("The given canvas must not be null!");
 
             if (BitmapEncoder == null)
                 throw new ArgumentNullException("The bitmap encoder must not be null!");
 
+            #endregion
+
             // Save and reset current canvas transform
-            var CanvasTransformation = _Canvas.LayoutTransform;
-            _Canvas.LayoutTransform = null;
+            var CanvasTransformation = Canvas.LayoutTransform;
+            Canvas.LayoutTransform = null;
 
             // Measure and arrange the canvas
-            var w = Double.IsNaN(_Canvas.Width)  ? _Canvas.ActualWidth  : _Canvas.Width;
-            var h = Double.IsNaN(_Canvas.Height) ? _Canvas.ActualHeight : _Canvas.Height;
-            var CanvasSize = new Size(w, h);
-            _Canvas.Measure(CanvasSize);
-            _Canvas.Arrange(new Rect(CanvasSize));
+            var CanvasWidth  = Double.IsNaN(Canvas.Width)  ? Canvas.ActualWidth  : Canvas.Width;
+            var CanvasHeight = Double.IsNaN(Canvas.Height) ? Canvas.ActualHeight : Canvas.Height;
+            var CanvasSize   = new Size(CanvasWidth, CanvasHeight);
+            Canvas.Measure(CanvasSize);
+            Canvas.Arrange(new Rect(CanvasSize));
 
             var _RenderTargetBitmap = new RenderTargetBitmap(
                 (Int32) (CanvasSize.Width  * dpiX / 96.0),
                 (Int32) (CanvasSize.Height * dpiY / 96.0),
-                dpiX, dpiY,
-                PixelFormats.Pbgra32);
-            _RenderTargetBitmap.Render(_Canvas);
+                dpiX, dpiY, PixelFormats.Pbgra32);
+            _RenderTargetBitmap.Render(Canvas);
 
+            // Encode bitmap
             var MemoryStream = new MemoryStream();
             BitmapEncoder.Frames.Add(BitmapFrame.Create(_RenderTargetBitmap));
             BitmapEncoder.Save(MemoryStream);
 
             // Restore previously saved layout
-            _Canvas.LayoutTransform = CanvasTransformation;
+            Canvas.LayoutTransform = CanvasTransformation;
 
             return MemoryStream;
 
         }
+
+        #endregion
 
     }
 

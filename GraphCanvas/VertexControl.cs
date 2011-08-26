@@ -424,11 +424,11 @@ namespace de.ahzf.Loki
         {
             get
             {
-                throw new NotImplementedException();
+                return VertexBounding.Circle;
             }
             set
             {
-                throw new NotImplementedException();
+                
             }
         }
     }
