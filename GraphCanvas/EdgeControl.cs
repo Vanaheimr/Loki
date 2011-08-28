@@ -495,7 +495,7 @@ namespace de.ahzf.Loki
 
 			var ArrowOrigin = new Point(X1, Y1);
 			var ArrowTarget = new Point(X2, Y2);
-            var DrawingPen  = new Pen(Brushes.Black, 1);
+            var BlackPen    = new Pen(Brushes.Black, 2);
 
             var blueBlackLGB            = new LinearGradientBrush();
             blueBlackLGB.StartPoint     = new Point(0, 0);
@@ -524,7 +524,7 @@ namespace de.ahzf.Loki
             var pt4 = new Point(X2 + (HeadWidth  * cost + HeadHeight * sint),
 				                Y2 - (HeadHeight * cost - HeadWidth  * sint));
 
-            DrawingContext.DrawLine(blackBluePen, ArrowOrigin, ArrowTarget);
+            DrawingContext.DrawLine(BlackPen, ArrowOrigin, ArrowTarget);
             //DrawingContext.DrawLine(DrawingPen, pt3, ArrowTarget);
             //DrawingContext.DrawLine(DrawingPen, pt4, ArrowTarget);
 
@@ -540,7 +540,7 @@ namespace de.ahzf.Loki
             var PathGeometry = new PathGeometry();
             PathGeometry.Figures.Add(PathFigure);
 
-            DrawingContext.DrawGeometry(Brushes.Red, DrawingPen, PathGeometry);
+            DrawingContext.DrawGeometry(Brushes.Red, BlackPen, PathGeometry);
 
 
             if (ShowCaption && Caption != null)
