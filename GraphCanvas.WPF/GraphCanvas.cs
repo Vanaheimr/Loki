@@ -493,11 +493,14 @@ namespace de.ahzf.Loki
                 var diffX    = Mousy.X - mousePos.X;
                 var diffY    = Mousy.Y - mousePos.Y;
 
-                var canvLeft = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.LeftProperty));
-                var canvTop  = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.TopProperty));
+                //var canvLeft = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.LeftProperty));
+                //var canvTop  = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.TopProperty));
 
-                Canvas.SetLeft(SelectedVertexShape, canvLeft - diffX);
-                Canvas.SetTop (SelectedVertexShape, canvTop  - diffY);
+                //Canvas.SetLeft(SelectedVertexShape, canvLeft - diffX);
+                //Canvas.SetTop (SelectedVertexShape, canvTop  - diffY);
+
+                SelectedVertexShape.X -= diffX;
+                SelectedVertexShape.Y -= diffY;
 
                 foreach (var outedge in Vertex.OutEdges())
                 {
@@ -505,8 +508,7 @@ namespace de.ahzf.Loki
                                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-                    EdgeLine.X1 -= diffX;
-                    EdgeLine.Y1 -= diffY;
+                    EdgeLine.ShowDirection = !EdgeLine.ShowDirection;
                 }
 
                 foreach (var inedge in Vertex.InEdges())
@@ -515,8 +517,7 @@ namespace de.ahzf.Loki
                                                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                 TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-                    EdgeLine.X2 -= diffX;
-                    EdgeLine.Y2 -= diffY;
+                    EdgeLine.ShowDirection = !EdgeLine.ShowDirection;
                 }
 
                 Mousy = MouseEventArgs.GetPosition(this);
@@ -562,15 +563,18 @@ namespace de.ahzf.Loki
                 VertexControl.DataContext          = Vertex;
                 Vertex.SetProperty(this.VertexShapePropertyKey, (TValueVertex) (Object) VertexControl);
 
-                VertexControl.Caption              = _VertexCaption;
+                VertexControl.VertexCaption        = _VertexCaption;
                 VertexControl.ToolTip              = VertexToolTip(Vertex);
 
                 if (OnChangedNumberOfVertices != null)
                     OnChangedNumberOfVertices(Graph.NumberOfVertices());
 
                 Children.Add(VertexControl);
-                Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
-                Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
+                VertexControl.X = Random.Next(20, 400 - 20);
+                VertexControl.Y = Random.Next(20, 400 - 20);
+
+//                Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
+//                Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
 
             }
 
@@ -710,7 +714,7 @@ namespace de.ahzf.Loki
             {
 
                 var EdgeControl             = _EdgeControlCreator(this, Edge);
-                EdgeControl.Caption         = _EdgeCaption;
+                EdgeControl.EdgeCaption     = _EdgeCaption;
                 EdgeControl.ToolTip         = EdgeToolTip(Edge);
 
                 Canvas.SetZIndex(EdgeControl, -99);
@@ -780,9 +784,6 @@ namespace de.ahzf.Loki
         }
 
         #endregion
-
-        
-
 
         #region (static)  DefaultEdgeCaption(Edge)
 

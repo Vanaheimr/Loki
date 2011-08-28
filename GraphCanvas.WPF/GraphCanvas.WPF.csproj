@@ -55,6 +55,7 @@
     <Compile Include="Arrows\Arrow.cs" />
     <Compile Include="Arrows\BezierArrow.cs" />
     <Compile Include="CanvasExtensions.cs" />
+    <Compile Include="CommonControl.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="VertexControl.cs" />
     <Compile Include="Interfaces\VertexBounding.cs" />

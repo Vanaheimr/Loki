@@ -19,16 +19,12 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows;
+using System.Windows.Media;
 using System.Globalization;
-using System.Windows.Input;
 using System.ComponentModel;
-using System.Windows.Shapes;
+using System.Windows.Controls;
+
 using de.ahzf.Blueprints;
 using de.ahzf.Blueprints.PropertyGraph;
 
@@ -37,10 +33,41 @@ using de.ahzf.Blueprints.PropertyGraph;
 namespace de.ahzf.Loki
 {
 
+    /// <summary>
+    /// A visual representation of a property edge.
+    /// </summary>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TVertexType">The type of the vertex type.</typeparam>
+    /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+    /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+    /// 
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdEdge">The type of the edge revision identifiers.</typeparam>
+    /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+    /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+    /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+    /// 
+    /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+    /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+    /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
     public class EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> : UserControl, IEdgeControl
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> :
+
+                             CommonControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
@@ -80,25 +107,29 @@ namespace de.ahzf.Loki
 
         #region Properties
 
+        #region Edge
+
+        /// <summary>
+        /// The associated property edge.
+        /// </summary>
+        public IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge { get; private set; }
+
+        #endregion
+
         #region X1
 
         /// <summary>
         /// The x-coordinate of the arrow origin.
         /// </summary>
-        [TypeConverter(typeof(LengthConverter))]
         public Double X1
         {
-
             get
             {
-                return (Double)base.GetValue(X1Property);
+                return OutVertexControl.X;
             }
-
-            set
-            {
-                base.SetValue(X1Property, value);
-            }
-
         }
 
         #endregion
@@ -108,20 +139,12 @@ namespace de.ahzf.Loki
         /// <summary>
         /// The y-coordinate of the arrow origin.
         /// </summary>
-        [TypeConverter(typeof(LengthConverter))]
         public Double Y1
         {
-
             get
             {
-                return (Double)base.GetValue(Y1Property);
+                return OutVertexControl.Y;
             }
-
-            set
-            {
-                base.SetValue(Y1Property, value);
-            }
-
         }
 
         #endregion
@@ -131,20 +154,12 @@ namespace de.ahzf.Loki
         /// <summary>
         /// The x-coordinate of the arrow target.
         /// </summary>
-        [TypeConverter(typeof(LengthConverter))]
         public Double X2
         {
-
             get
             {
-                return (Double)base.GetValue(X2Property);
+                return InVertexControl.X;
             }
-
-            set
-            {
-                base.SetValue(X2Property, value);
-            }
-
         }
 
         #endregion
@@ -154,20 +169,12 @@ namespace de.ahzf.Loki
         /// <summary>
         /// The y-coordinate of the arrow target.
         /// </summary>
-        [TypeConverter(typeof(LengthConverter))]
         public Double Y2
         {
-
             get
             {
-                return (Double)base.GetValue(Y2Property);
+                return InVertexControl.Y;
             }
-
-            set
-            {
-                base.SetValue(Y2Property, value);
-            }
-
         }
 
         #endregion
@@ -241,80 +248,32 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region Color
-
-        /// <summary>
-        /// The color of the arrow (fill and stroke).
-        /// </summary>
-        [TypeConverter(typeof(BrushConverter))]
-        public Brush Color
-        {
-
-            get
-            {
-                return (Brush) base.GetValue(ColorProperty);
-            }
-
-            set
-            {
-                base.SetValue(ColorProperty, value);
-                //this.Stroke = value;
-                //this.Fill = value;
-            }
-
-        }
-
-        #endregion
-
-        #region ShowCaption
-
-        /// <summary>
-        /// Show or hide the edge caption.
-        /// </summary>
-        [TypeConverter(typeof(BooleanConverter))]
-        public Boolean ShowCaption
-        {
-
-            get
-            {
-                return (Boolean) base.GetValue(ShowCaptionProperty);
-            }
-
-            set
-            {
-                base.SetValue(ShowCaptionProperty, value);
-            }
-
-        }
-
-        #endregion
-
         #region EdgeCaption
 
         private EdgeCaptionDelegate<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Caption;
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _EdgeCaption;
 
         /// <summary>
         /// A delegate for generating caption for the given edge.
         /// </summary>
         public EdgeCaptionDelegate<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Caption
+                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeCaption
         {
 
             get
             {
-                return _Caption;
+                return _EdgeCaption;
             }
 
             set
             {
                 if (value != null)
                 {
-                    _Caption = value;
+                    _EdgeCaption = value;
                 }
             }
 
@@ -322,109 +281,9 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        public Typeface Typeface { get; set; }
-
-        public Double FontSize { get; set; }
-
-        public Brush FontBrush { get; set; }
-
-        public TextAlignment TextAlignment { get; set; }
-
-        public TextTrimming TextTrimming { get; set; }
-
-        public double LineHeight { get; set; }
-        
-        public int MaxLineCount { get; set; }
-        
-        public double MaxTextHeight { get; set; }
-        
-        public double MaxTextWidth { get; set; }
-
-        public GraphCanvas<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphCanvas { get; private set; }
-
-        public IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge { get; private set; }
-
         #endregion
 
         #region Dependency Properties
-
-        #region X1
-
-        /// <summary>
-        /// The x-coordinate of the arrow origin.
-        /// </summary>
-        public static readonly DependencyProperty X1Property
-                             = DependencyProperty.Register("X1",
-                                                           typeof(Double),
-                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(0.0,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #region Y1
-
-        /// <summary>
-        /// The y-coordinate of the arrow origin.
-        /// </summary>
-        public static readonly DependencyProperty Y1Property
-                             = DependencyProperty.Register("Y1",
-                                                           typeof(Double),
-                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(0.0,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #region X2
-
-        /// <summary>
-        /// The x-coordinate of the arrow target.
-        /// </summary>
-        public static readonly DependencyProperty X2Property
-                             = DependencyProperty.Register("X2",
-                                                           typeof(Double),
-                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(0.0,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #region Y2
-
-        /// <summary>
-        /// The y-coordinate of the arrow target.
-        /// </summary>
-        public static readonly DependencyProperty Y2Property
-                             = DependencyProperty.Register("Y2",
-                                                           typeof(Double),
-                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(0.0,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
 
         #region ShowDirection
 
@@ -480,81 +339,51 @@ namespace de.ahzf.Loki
 
         #endregion
 
-        #region Color
+        #endregion
+
+
+        #region Constructor(s)
+
+        #region EdgeControl(GraphCanvas, Edge)
 
         /// <summary>
-        /// The color of the arrow (fill and stroke).
+        /// Create a new visual representation of a property edge.
         /// </summary>
-        public static readonly DependencyProperty ColorProperty
-                             = DependencyProperty.Register("Color",
-                                                           typeof(Brush),
-                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(Brushes.Black,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #region ShowCaption
-
-        /// <summary>
-        /// Show or hide the edge caption.
-        /// </summary>
-        public static readonly DependencyProperty ShowCaptionProperty
-                             = DependencyProperty.Register("ShowCaptionProperty",
-                                                           typeof(Boolean),
-                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(true,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
-                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #endregion
-
-
-        public EdgeControl(GraphCanvas<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphCanvas,
+        /// <param name="GraphCanvas">The graph canvas hosting the edge control.</param>
+        /// <param name="Edge">The associated property edge.</param>
+        public EdgeControl(GraphCanvas  <TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphCanvas,
                            IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
+
+            : base(GraphCanvas)
+
         {
 
-            this.GraphCanvas   = GraphCanvas;
-            this.Edge          = Edge;
-            this.DataContext   = Edge;
+            this.Edge           = Edge;
+            this.DataContext    = Edge;
 
-            OutVertexControl = Edge.OutVertex.GetProperty(GraphCanvas.VertexShapePropertyKey) as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-             InVertexControl = Edge. InVertex.GetProperty(GraphCanvas.VertexShapePropertyKey) as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+            OutVertexControl    = Edge.OutVertex.GetProperty(GraphCanvas.VertexShapePropertyKey) as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
-            this.X1 = Canvas.GetLeft(OutVertexControl);// + Vertex1.Width/2;
-            this.Y1 = Canvas.GetTop (OutVertexControl);// + Vertex1.Height/2;
-            this.X2 = Canvas.GetLeft (InVertexControl);// + Vertex2.Width/2;
-            this.Y2 = Canvas.GetTop  (InVertexControl);// + Vertex2.Height/2;
+            InVertexControl     = Edge. InVertex.GetProperty(GraphCanvas.VertexShapePropertyKey) as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
-            this.Typeface      = new Typeface("Verdana");
-            this.FontSize      = 12;
-            this.FontBrush     = Brushes.Black;
-            this.TextAlignment = TextAlignment.Center;
-            this.TextTrimming  = TextTrimming.None;
+            this.CaptionYOffset = 10.0;
 
         }
 
+        #endregion
+
+        #endregion
 
 
         protected override void OnRender(DrawingContext DrawingContext)
@@ -621,19 +450,8 @@ namespace de.ahzf.Loki
 
             DrawingContext.DrawGeometry(Brushes.Red, BlackPen, PathGeometry);
 
-
-            if (ShowCaption && Caption != null)
-            {
-
-                DrawingContext.DrawText(new FormattedText(Caption(Edge),
-                                                          CultureInfo.CurrentCulture,
-                                                          FlowDirection.LeftToRight,
-                                                          Typeface,
-                                                          FontSize,
-                                                          FontBrush) { TextAlignment = TextAlignment.Center },
-                                        new Point(center.X, center.Y));
-
-            }
+            if (EdgeCaption != null)
+                RenderCaption(DrawingContext, center.X, center.Y, EdgeCaption(Edge));
 
         }
 
