@@ -37,13 +37,44 @@ using de.ahzf.Blueprints.PropertyGraph;
 namespace de.ahzf.Loki
 {
 
-    public class EdgeControl : UserControl, IEdgeControl
+    public class EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> : UserControl, IEdgeControl
+
+        where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
+        where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
+        where TKeyMultiEdge           : IEquatable<TKeyMultiEdge>,        IComparable<TKeyMultiEdge>,        IComparable
+        where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
+
+        where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdMultiEdge            : IEquatable<TIdMultiEdge>,         IComparable<TIdMultiEdge>,         IComparable, TValueMultiEdge
+        where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
+
+        where TVertexType             : IEquatable<TVertexType>,          IComparable<TVertexType>,          IComparable
+        where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where TMultiEdgeLabel         : IEquatable<TMultiEdgeLabel>,      IComparable<TMultiEdgeLabel>,      IComparable
+        where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
+
+        where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdMultiEdge    : IEquatable<TRevisionIdMultiEdge>, IComparable<TRevisionIdMultiEdge>, IComparable, TValueMultiEdge
+        where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
+
     {
 
         #region Data
 
-        private VertexControl OutVertexControl;
-        private VertexControl  InVertexControl;
+        private VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertexControl;
+
+        private VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>  InVertexControl;
 
         #endregion
 
@@ -260,12 +291,18 @@ namespace de.ahzf.Loki
 
         #region EdgeCaption
 
-        private EdgeCaptionDelegate _Caption;
+        private EdgeCaptionDelegate<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Caption;
 
         /// <summary>
         /// A delegate for generating caption for the given edge.
         /// </summary>
-        public EdgeCaptionDelegate Caption
+        public EdgeCaptionDelegate<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Caption
         {
 
             get
@@ -303,11 +340,15 @@ namespace de.ahzf.Loki
         
         public double MaxTextWidth { get; set; }
 
-        public IPropertyEdge<UInt64, Int64, String, String, Object,
-                             UInt64, Int64, String, String, Object,
-                             UInt64, Int64, String, String, Object,
-                             UInt64, Int64, String, String, Object> Edge
-        { get; private set; }
+        public GraphCanvas<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphCanvas { get; private set; }
+
+        public IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge { get; private set; }
 
         #endregion
 
@@ -321,7 +362,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty X1Property
                              = DependencyProperty.Register("X1",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -336,7 +380,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty Y1Property
                              = DependencyProperty.Register("Y1",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -351,7 +398,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty X2Property
                              = DependencyProperty.Register("X2",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -366,7 +416,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty Y2Property
                              = DependencyProperty.Register("Y2",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -381,7 +434,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty ShowDirectionProperty
                              = DependencyProperty.Register("ShowDirectionProperty",
                                                            typeof(Boolean),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(true,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -396,7 +452,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty HeadWidthProperty
                              = DependencyProperty.Register("HeadWidth",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -411,7 +470,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty HeadHeightProperty
                              = DependencyProperty.Register("HeadHeight",
                                                            typeof(Double),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -426,7 +488,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty ColorProperty
                              = DependencyProperty.Register("Color",
                                                            typeof(Brush),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(Brushes.Black,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -441,7 +506,10 @@ namespace de.ahzf.Loki
         public static readonly DependencyProperty ShowCaptionProperty
                              = DependencyProperty.Register("ShowCaptionProperty",
                                                            typeof(Boolean),
-                                                           typeof(EdgeControl),
+                                                           typeof(EdgeControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(true,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -451,17 +519,28 @@ namespace de.ahzf.Loki
         #endregion
 
 
-        public EdgeControl(IPropertyEdge<UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object> Edge)
+        public EdgeControl(GraphCanvas<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphCanvas,
+                           IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
         {
-            
+
+            this.GraphCanvas   = GraphCanvas;
             this.Edge          = Edge;
             this.DataContext   = Edge;
 
-            OutVertexControl = Edge.OutVertex.GetProperty(GraphCanvas.__VertexShapePropertyKey) as VertexControl;
-             InVertexControl = Edge. InVertex.GetProperty(GraphCanvas.__VertexShapePropertyKey) as VertexControl;
+            OutVertexControl = Edge.OutVertex.GetProperty(GraphCanvas.VertexShapePropertyKey) as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+             InVertexControl = Edge. InVertex.GetProperty(GraphCanvas.VertexShapePropertyKey) as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
             this.X1 = Canvas.GetLeft(OutVertexControl);// + Vertex1.Width/2;
             this.Y1 = Canvas.GetTop (OutVertexControl);// + Vertex1.Height/2;

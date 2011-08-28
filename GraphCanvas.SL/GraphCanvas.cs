@@ -33,31 +33,80 @@ using de.ahzf.Blueprints.PropertyGraph.InMemory;
 namespace de.ahzf.Loki.Silverlight
 {
 
+    //ToolTipService.SetToolTip(OutVertexControl, DefaultVertexToolTip(Edge.OutVertex));
+    //ToolTipService.SetToolTip(InVertexControl,  DefaultVertexToolTip(Edge.InVertex));
+
+    #region Non-generic GraphCanvas
+
     /// <summary>
-    /// Creates a new canvas for visualizing a property graph.
+    /// Creates a new canvas for visualizing a non-generic property graph.
     /// </summary>
-    public class GraphCanvas : Canvas
+    public class GraphCanvas : GraphCanvas<UInt64, Int64, String, String, Object,
+                                           UInt64, Int64, String, String, Object,
+                                           UInt64, Int64, String, String, Object,
+                                           UInt64, Int64, String, String, Object>
+    {
+
+        #region Constructor(s)
+
+        #region GraphCanvas()
+
+        /// <summary>
+        /// Creates a new canvas for visualizing a non-generic property graph.
+        /// </summary>
+        public GraphCanvas()
+            : base(new SimplePropertyGraph(), "GraphCanvas", "VertexShape", "EdgeShape")
+        { }
+
+        #endregion
+
+        #endregion
+
+    }
+
+    #endregion
+
+    #region Generic GraphCanvas
+
+    /// <summary>
+    /// Creates a new canvas for visualizing a generic property graph.
+    /// </summary>
+    public class GraphCanvas<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> : Canvas
+
+        where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
+        where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
+        where TKeyMultiEdge           : IEquatable<TKeyMultiEdge>,        IComparable<TKeyMultiEdge>,        IComparable
+        where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
+
+        where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdMultiEdge            : IEquatable<TIdMultiEdge>,         IComparable<TIdMultiEdge>,         IComparable, TValueMultiEdge
+        where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
+
+        where TVertexType             : IEquatable<TVertexType>,          IComparable<TVertexType>,          IComparable
+        where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where TMultiEdgeLabel         : IEquatable<TMultiEdgeLabel>,      IComparable<TMultiEdgeLabel>,      IComparable
+        where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
+
+        where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdMultiEdge    : IEquatable<TRevisionIdMultiEdge>, IComparable<TRevisionIdMultiEdge>, IComparable, TValueMultiEdge
+        where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
+
     {
 
         #region Data
 
-        /// <summary>
-        /// The property key for storing the vertex shape.
-        /// </summary>
-        public const String __VertexShapePropertyKey = "VertexShape";
-
-        /// <summary>
-        /// The property key for storing the edge shape.
-        /// </summary>
-        public const String __EdgeShapePropertyKey = "EdgeShape";
-
         private Random Random;
         private Point Mousy;
         private Shape SelectedVertexShape;
-        private IPropertyVertex<UInt64, Int64, String, String, Object,
-                                UInt64, Int64, String, String, Object,
-                                UInt64, Int64, String, String, Object,
-                                UInt64, Int64, String, String, Object> Vertex;
+        private IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex;
 
         #endregion
 
@@ -69,19 +118,19 @@ namespace de.ahzf.Loki.Silverlight
         /// A delegate for creating a shape for the given vertex.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public delegate Shape VertexShapeCreatorDelegate(IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Vertex);
+        public delegate Shape VertexShapeCreatorDelegate(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
 
         /// <summary>
         /// A delegate for generating a tooltip for the given vertex.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public delegate String VertexToolTipDelegate(IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Vertex);
+        public delegate String VertexToolTipDelegate(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
 
         /// <summary>
         /// The current number of vertices.
@@ -97,19 +146,19 @@ namespace de.ahzf.Loki.Silverlight
         /// A delegate for creating a shape for the given edge.
         /// </summary>
         /// <param name="Edge">A proeprty edge</param>
-        public delegate Shape EdgeShapeCreatorDelegate(IPropertyEdge<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Edge);
+        public delegate Shape EdgeShapeCreatorDelegate(IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
 
         /// <summary>
         /// A delegate for generating a tooltip for the given edge.
         /// </summary>
         /// <param name="Edge">A proeprty edge</param>
-        public delegate String EdgeToolTipDelegate(IPropertyEdge<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> Edge);
+        public delegate String EdgeToolTipDelegate(IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
 
         /// <summary>
         /// The current number of edges.
@@ -135,12 +184,27 @@ namespace de.ahzf.Loki.Silverlight
         /// <summary>
         /// The associated property graph.
         /// </summary>
-        public IPropertyGraph<UInt64, Int64, String, String, Object,
-                              UInt64, Int64, String, String, Object,
-                              UInt64, Int64, String, String, Object,
-                              UInt64, Int64, String, String, Object> Graph { get; private set; }
+        public IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; private set; }
 
         #endregion
+
+        /// <summary>
+        /// The property key for storing the graph canvas.
+        /// </summary>
+        public TKeyVertex GraphCanvasPropertyKey { get; private set; }
+
+        /// <summary>
+        /// The property key for storing the vertex shape.
+        /// </summary>
+        public TKeyVertex VertexShapePropertyKey { get; private set; }
+
+        /// <summary>
+        /// The property key for storing the edge shape.
+        /// </summary>
+        public TKeyEdge EdgeShapePropertyKey { get; private set; }
 
 
         #region VertexShapeCreator
@@ -191,10 +255,10 @@ namespace de.ahzf.Loki.Silverlight
                     _VertexToolTip = value;
 
                     Shape VertexShape;
-                    Object VertexShapeProperty;
+                    TValueVertex VertexShapeProperty;
                     foreach (var Vertex in Graph.Vertices())
                     {
-                        if (Vertex.GetProperty(__VertexShapePropertyKey, out VertexShapeProperty))
+                        if (Vertex.GetProperty(VertexShapePropertyKey, out VertexShapeProperty))
                         {
 
                             VertexShape = VertexShapeProperty as Shape;
@@ -260,10 +324,10 @@ namespace de.ahzf.Loki.Silverlight
                     _EdgeToolTip = value;
 
                     Shape EdgeShape;
-                    Object EdgeShapeProperty;
+                    TValueEdge EdgeShapeProperty;
                     foreach (var Edge in Graph.Edges())
                     {
-                        if (Edge.GetProperty(__EdgeShapePropertyKey, out EdgeShapeProperty))
+                        if (Edge.GetProperty(EdgeShapePropertyKey, out EdgeShapeProperty))
                         {
 
                             EdgeShape = EdgeShapeProperty as Shape;
@@ -315,30 +379,25 @@ namespace de.ahzf.Loki.Silverlight
 
         #region Constructor(s)
 
-        #region GraphCanvas()
-
-        /// <summary>
-        /// Creates a new canvas for visualizing a SimplePropertyGraph.
-        /// </summary>
-        public GraphCanvas()
-            : this(new SimplePropertyGraph())
-        { }
-
-        #endregion
-
         #region GraphCanvas(IPropertyGraph)
 
         /// <summary>
         /// Creates a new canvas for visualizing the given property graph.
         /// </summary>
-        public GraphCanvas(IPropertyGraph<UInt64, Int64, String, String, Object,
-                                          UInt64, Int64, String, String, Object,
-                                          UInt64, Int64, String, String, Object,
-                                          UInt64, Int64, String, String, Object> IPropertyGraph)
+        public GraphCanvas(IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph,
+            TKeyVertex GraphCanvasPropertyKey,
+            TKeyVertex VertexShapePropertyKey,
+            TKeyEdge   EdgeShapePropertyKey)
         {
 
             this.Graph = IPropertyGraph;
-            Graph.SetProperty("GraphCanvas", this);
+            this.GraphCanvasPropertyKey = GraphCanvasPropertyKey;
+            this.VertexShapePropertyKey = VertexShapePropertyKey;
+            this.EdgeShapePropertyKey   = EdgeShapePropertyKey;
+            Graph.SetProperty(GraphCanvasPropertyKey, (TValueVertex) (Object) this);
             DataContext = Graph;
             Random = new Random();
 
@@ -379,21 +438,21 @@ namespace de.ahzf.Loki.Silverlight
                 var diffY = Mousy.Y - mousePos.Y;
 
                 var canvLeft = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.LeftProperty));
-                var canvTop = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.TopProperty));
+                var canvTop  = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.TopProperty));
 
                 Canvas.SetLeft(SelectedVertexShape, canvLeft - diffX);
                 Canvas.SetTop(SelectedVertexShape, canvTop - diffY);
 
                 foreach (var outedge in Vertex.OutEdges())
                 {
-                    var EdgeLine = outedge.GetProperty(__EdgeShapePropertyKey) as Line;
+                    var EdgeLine = outedge.GetProperty(EdgeShapePropertyKey) as Line;
                     EdgeLine.X1 -= diffX;
                     EdgeLine.Y1 -= diffY;
                 }
 
                 foreach (var inedge in Vertex.InEdges())
                 {
-                    var EdgeLine = inedge.GetProperty(__EdgeShapePropertyKey) as Line;
+                    var EdgeLine = inedge.GetProperty(EdgeShapePropertyKey) as Line;
                     EdgeLine.X2 -= diffX;
                     EdgeLine.Y2 -= diffY;
                 }
@@ -421,14 +480,14 @@ namespace de.ahzf.Loki.Silverlight
 
         #region (private) AddVertex(Graph, Vertex)
 
-        private void AddVertex(IPropertyGraph<UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object> Graph,
-                               IPropertyVertex<UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object> Vertex)
+        private void AddVertex(IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+                               IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
         {
 
             if (Vertex != null)
@@ -449,7 +508,7 @@ namespace de.ahzf.Loki.Silverlight
                 Canvas.SetLeft(VertexShape, Random.Next(20, 400 - 20));
                 Canvas.SetTop(VertexShape, Random.Next(20, 200 - 20));
 
-                Vertex.SetProperty(__VertexShapePropertyKey, VertexShape);
+                Vertex.SetProperty(VertexShapePropertyKey, (TValueVertex) (Object) VertexShape);
 
             }
 
@@ -464,10 +523,10 @@ namespace de.ahzf.Loki.Silverlight
         /// which is a constant sized circle.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public static Shape DefaultVertexShape(IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                               UInt64, Int64, String, String, Object,
-                                                               UInt64, Int64, String, String, Object,
-                                                               UInt64, Int64, String, String, Object> Vertex)
+        public static Shape DefaultVertexShape(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
         {
 
             var VertexShape = new Ellipse();
@@ -489,10 +548,10 @@ namespace de.ahzf.Loki.Silverlight
         /// Returns the default tooltip for the given vertex.
         /// </summary>
         /// <param name="Vertex">A property vertex.</param>
-        public static String DefaultVertexToolTip(IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object> Vertex)
+        public static String DefaultVertexToolTip(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
         {
             return "VertexId: " + Vertex.Id + " [" + Vertex.OutDegree() + " OutEdges, " + Vertex.InDegree() + " InEdges]";
         }
@@ -511,10 +570,10 @@ namespace de.ahzf.Loki.Silverlight
 
             Mousy = MouseButtonEventArgs.GetPosition(this);
             SelectedVertexShape = Sender as Shape;
-            Vertex = SelectedVertexShape.DataContext as IPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object>;
+            Vertex = SelectedVertexShape.DataContext as IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
         }
 
@@ -544,21 +603,21 @@ namespace de.ahzf.Loki.Silverlight
 
         #region (private) AddEdge(Graph, Edge)
 
-        private void AddEdge(IPropertyGraph<UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object> Graph,
-                             IPropertyEdge<UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object> Edge)
+        private void AddEdge(IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+                             IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
         {
 
             if (Edge != null)
             {
 
-                var Vertex1 = Edge.OutVertex.GetProperty(__VertexShapePropertyKey) as Shape;
-                var Vertex2 = Edge.InVertex.GetProperty(__VertexShapePropertyKey) as Shape;
+                var Vertex1 = Edge.OutVertex.GetProperty(VertexShapePropertyKey) as Shape;
+                var Vertex2 = Edge.InVertex.GetProperty(VertexShapePropertyKey) as Shape;
 
                 var EdgeShape = new Line();
                 EdgeShape.X1 = Canvas.GetLeft(Vertex1) + Vertex1.Width / 2;
@@ -573,7 +632,7 @@ namespace de.ahzf.Loki.Silverlight
                 Canvas.SetZIndex(EdgeShape, -99);
                 Children.Add(EdgeShape);
 
-                Edge.SetProperty(__EdgeShapePropertyKey, EdgeShape);
+                Edge.SetProperty(EdgeShapePropertyKey, (TValueEdge) (Object) EdgeShape);
 
                 ToolTipService.SetToolTip(Vertex1, DefaultVertexToolTip(Edge.OutVertex));
                 ToolTipService.SetToolTip(Vertex2, DefaultVertexToolTip(Edge.InVertex));
@@ -593,17 +652,18 @@ namespace de.ahzf.Loki.Silverlight
         /// Returns the default tooltip for the given edge.
         /// </summary>
         /// <param name="Edge">A property edge.</param>
-        public static String DefaultEdgeToolTip(IPropertyEdge<UInt64, Int64, String, String, Object,
-                                                              UInt64, Int64, String, String, Object,
-                                                              UInt64, Int64, String, String, Object,
-                                                              UInt64, Int64, String, String, Object> Edge)
+        public static String DefaultEdgeToolTip(IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
         {
             return "EdgeId: " + Edge.Id + " [OutVertexId: " + Edge.OutVertex.Id.ToString() + ", InVertexId: " + Edge.InVertex.Id.ToString() + "]";
         }
 
         #endregion
 
-
     }
+
+    #endregion
 
 }
