@@ -123,6 +123,10 @@
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Pipes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphCanvas.WPF\GraphCanvas.WPF.csproj">
+      <Project>{18EC0A3B-39EF-4BE2-A881-4F9008842F77}</Project>
+      <Name>GraphCanvas.WPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WPFPipeControl\WPFPipeControl.csproj">
       <Project>{8FB4A584-A2B3-49A7-B82F-0D50F698BB2A}</Project>
       <Name>WPFPipeControl</Name>

@@ -534,7 +534,7 @@ namespace de.ahzf.Loki
                 VertexControl.Caption              = _VertexCaption;
                 
 #if SILVERLIGHT
-                ToolTipService.SetToolTip(VertexShape, VertexToolTip(Vertex));
+                ToolTipService.SetToolTip(VertexControl, VertexToolTip(Vertex));
 #else
                 VertexControl.ToolTip              = VertexToolTip(Vertex);
 #endif
@@ -545,8 +545,6 @@ namespace de.ahzf.Loki
                 Children.Add(VertexControl);
                 Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
                 Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
-
-                
 
             }
 
@@ -674,7 +672,7 @@ namespace de.ahzf.Loki
                 EdgeControl.Caption         = _EdgeCaption;
 
 #if SILVERLIGHT
-                ToolTipService.SetToolTip(EdgeShape, EdgeToolTip(Edge));
+                ToolTipService.SetToolTip(EdgeControl, EdgeToolTip(Edge));
 #else
                 EdgeControl.ToolTip         = EdgeToolTip(Edge);
 #endif
@@ -772,6 +770,8 @@ namespace de.ahzf.Loki
         private void AddGraphCanvasContextMenu()
         {
 
+#if !SILVERLIGHT
+
             // Must be here... do not why!
             this.ContextMenu = new ContextMenu();
 
@@ -796,9 +796,12 @@ namespace de.ahzf.Loki
             SaveGraphAs.Click += new RoutedEventHandler(SaveAs_Click);
             this.ContextMenu.Items.Add(SaveGraphAs);
 
+#endif
+
         }
 
 
+#if !SILVERLIGHT
 
         private void SaveAs_Click(object sender, RoutedEventArgs e)
         {
@@ -886,13 +889,11 @@ namespace de.ahzf.Loki
             }
             else
             {
-                MessageBox.Show("Cancel!",
-                                "Error",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error);
+                MessageBox.Show("Cancel!", "Error", MessageBoxButton.OK, MessageBoxImage .Error);
             }
 
         }
+#endif
 
     }
 

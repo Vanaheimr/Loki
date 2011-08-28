@@ -38,6 +38,8 @@ namespace de.ahzf.Loki
     public static class CanvasExtensions
     {
 
+#if !SILVERLIGHT
+
         #region SaveAsPNG(this Canvas, dpiX = 96d, dpiY = 96d)
 
         /// <summary>
@@ -168,6 +170,8 @@ namespace de.ahzf.Loki
         }
 
         #endregion
+
+#endif
 
     }
 

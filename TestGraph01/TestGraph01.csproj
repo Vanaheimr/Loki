@@ -99,7 +99,7 @@
       <Project>{E4F1D941-58DC-43AC-84A6-1B4ABC60294C}</Project>
       <Name>InMemoryGraph.SL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GraphCanvas\GraphCanvas.SL.csproj">
+    <ProjectReference Include="..\GraphCanvas.SL\GraphCanvas.SL.csproj">
       <Project>{179D386D-69F4-4A68-807E-1E20F51A7C1C}</Project>
       <Name>GraphCanvas.SL</Name>
     </ProjectReference>

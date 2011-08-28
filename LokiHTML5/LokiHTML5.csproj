@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="LokiHTML5.cs" />
+    <Compile Include="ILokiHTML5Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LokiHTML5Service.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Arrows.NET\Arrows\Arrows.csproj">
@@ -79,7 +81,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="resources\" />
+    <Content Include="resources\landingpage.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\robots.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

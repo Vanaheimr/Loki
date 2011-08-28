@@ -5,8 +5,6 @@
 *.xap
 /WPFPipeControl/bin
 /WPFPipeControl/obj
-/GraphCanvas/bin
-/GraphCanvas/obj
 /TutorialsWPF/bin
 /TutorialsWPF/obj
 /TestGraph01.Web/obj
@@ -17,3 +15,7 @@
 /LokiHTML5/bin
 /HTML5Demo/obj
 /HTML5Demo/bin
+/GraphCanvas.SL/obj
+/GraphCanvas.SL/bin
+/GraphCanvas.WPF/obj
+/GraphCanvas.WPF/bin

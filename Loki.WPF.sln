@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphCanvas", "GraphCanvas\GraphCanvas.csproj", "{18EC0A3B-39EF-4BE2-A881-4F9008842F77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphCanvas.WPF", "GraphCanvas.WPF\GraphCanvas.WPF.csproj", "{18EC0A3B-39EF-4BE2-A881-4F9008842F77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFPipeControl", "WPFPipeControl\WPFPipeControl.csproj", "{8FB4A584-A2B3-49A7-B82F-0D50F698BB2A}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCSharp", "..\MonoCompilerAsAService\MonoCSharp\MonoCSharp.csproj", "{322FD822-7722-4176-A7D7-CD8D36488DB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCompilerAsAService", "..\MonoCompilerAsAService\MonoCompilerAsAService\MonoCompilerAsAService.csproj", "{A2ABC2B4-28D1-47B1-8EF9-6E8C60215515}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,5 +136,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{55B3070D-C264-44BB-8315-504F8C512D75} = {7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}
+		{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D} = {7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}
+		{B9DE4181-416E-4DE4-A983-B90FC9412774} = {7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}
+		{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD} = {7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}
+		{A2ABC2B4-28D1-47B1-8EF9-6E8C60215515} = {7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}
+		{322FD822-7722-4176-A7D7-CD8D36488DB9} = {7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}
+		{3949790D-8591-4101-9E4D-CE7A758E7409} = {7BACE35D-B07D-4FC3-B9A2-76A5F6182EF4}
 	EndGlobalSection
 EndGlobal

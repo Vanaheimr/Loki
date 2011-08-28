@@ -26,17 +26,52 @@ using System.Globalization;
 using System.ComponentModel;
 using de.ahzf.Blueprints;
 using de.ahzf.Blueprints.PropertyGraph;
+using de.ahzf.Hermod.HTTP;
+using de.ahzf.Hermod.Datastructures;
 
 #endregion
 
-namespace de.ahzf.Loki
+namespace de.ahzf.Loki.HTML5
 {
 
+    /// <summary>
+    /// A simple hermod demo using TCP and HTTP servers.
+    /// </summary>
     public class HTML5Demo
     {
-        
-        public static void Main(string[] args)
+
+        /// <summary>
+        /// Main.
+        /// </summary>
+        /// <param name="myArgs">The arguments.</param>
+        public static void Main(String[] myArgs)
         {
+
+            #region Start HTTPServers
+
+            // Although the socket listens on IPv4Address.Any the service is
+            // configured to serve clients only on http://localhost:8181
+            // More details within DefaultHTTPService.cs
+            var _HTTPServer1 = new HTTPServer(IPv4Address.Any, new IPPort(8181), Autostart: true)
+            {
+                ServerName = "Default Hermod Demo"
+            };
+
+            Console.WriteLine(_HTTPServer1);
+
+            // This service uses a custom HTTPService defined within IRESTService.cs
+            var _HTTPServer2 = new HTTPServer<LokiHTML5Service>(IPv4Address.Localhost, IPPort.HTTP, Autostart: true)
+            {
+                ServerName = "Customized Hermod Demo"
+            };
+
+            Console.WriteLine(_HTTPServer2);
+
+            #endregion
+
+            Console.ReadLine();
+            Console.WriteLine("done!");
+
         }
 
     }

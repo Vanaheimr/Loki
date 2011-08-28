@@ -111,6 +111,10 @@
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Pipes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WPFPipeControl\WPFPipeControl.csproj">
+      <Project>{8FB4A584-A2B3-49A7-B82F-0D50F698BB2A}</Project>
+      <Name>WPFPipeControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

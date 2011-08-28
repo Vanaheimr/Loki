@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blueprints.SL", "..\Bluepri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemoryGraph.SL", "..\Blueprints.NET\InMemoryGraph\InMemoryGraph.SL.csproj", "{E4F1D941-58DC-43AC-84A6-1B4ABC60294C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphCanvas.SL", "GraphCanvas\GraphCanvas.SL.csproj", "{179D386D-69F4-4A68-807E-1E20F51A7C1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphCanvas.SL", "GraphCanvas.SL\GraphCanvas.SL.csproj", "{179D386D-69F4-4A68-807E-1E20F51A7C1C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGraph01", "TestGraph01\TestGraph01.csproj", "{9CBD29F3-7901-4BBF-84EC-23EB391C756E}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.SL", "..\Balder\Balder\Balder.SL.csproj", "{CCB63436-61DA-44BD-AC84-5CFA9378823F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipes.SL", "..\Pipes.NET\Pipes\Pipes.SL.csproj", "{31E35DEA-EC3D-4004-8E9E-E00E28C7DA71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{69297F63-E8B7-4B5D-B45A-76D3D00C6F54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,5 +60,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4CC8282B-A807-434A-BD22-39C8B2E62535} = {69297F63-E8B7-4B5D-B45A-76D3D00C6F54}
+		{CCB63436-61DA-44BD-AC84-5CFA9378823F} = {69297F63-E8B7-4B5D-B45A-76D3D00C6F54}
+		{C907FBA5-7DE0-4244-9872-806FCFF97175} = {69297F63-E8B7-4B5D-B45A-76D3D00C6F54}
+		{E4F1D941-58DC-43AC-84A6-1B4ABC60294C} = {69297F63-E8B7-4B5D-B45A-76D3D00C6F54}
+		{31E35DEA-EC3D-4004-8E9E-E00E28C7DA71} = {69297F63-E8B7-4B5D-B45A-76D3D00C6F54}
 	EndGlobalSection
 EndGlobal
