@@ -1,1 +1,36 @@
-﻿Hello robots!
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="resources/d3.js"></script>
+    <script type='text/javascript'>
+        var source = new EventSource('/Events');
+        source.onmessage = function (event) {
+            ev = document.getElementById('events');
+            ev.innerHTML += "<br>[in] " + event.data;
+        };
+        source.addEventListener('vertexadded', function (event) {
+            eval(event.data);
+        }, false);
+//        source.addEventListener('error', function (e) {
+//            alert("Error!" + e.data);
+//        }, false);
+    </script>
+</head>
+
+<body>
+    
+    <div id="events">hello</div>
+    <div id="viz"></div>
+
+    <script type="text/javascript">
+
+        var sampleSVG = d3.select("#viz")
+        .append("svg:svg")
+        .attr("width",  600)
+        .attr("height", 400);
+
+    </script>
+
+</body>
+</html>

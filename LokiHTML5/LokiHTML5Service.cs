@@ -110,144 +110,47 @@ namespace de.ahzf.Loki.HTML5
 
         public HTTPResponse GetRoot()
         {
-
-            return new HTTPResponse(
-
-                new HTTPResponseHeader()
-                {
-                    HttpStatusCode = HTTPStatusCode.OK,
-                    CacheControl   = "no-cache",
-                    ContentType    = HTTPContentType.XHTML_UTF8
-                },
-
-                HTMLBuilder("Hello World!", _StringBuilder =>
-                {
-
-                    _StringBuilder.Append("<p><a href=\"/robots.txt\">Look at the '/robots.txt'!</a></p><br /><br />");
-                    _StringBuilder.Append("<p><a href=\"/raw\">Look at your raw http request header!</a></p><br /><br />");
-
-                }).ToUTF8Bytes()
-
-            );
-
+            return GetResources("landingpage.html");
         }
 
         #endregion
 
-        #region GetRAWRequestHeader()
+        #region GetEvents()
 
-        public HTTPResponse GetRAWRequestHeader()
+        public HTTPResponse GetEvents()
         {
+            var _Random = new Random();
+
+            var _ResourceContent = new StringBuilder();
+            _ResourceContent.AppendLine("event:vertexadded");
+            _ResourceContent.Append("data: ");
+            _ResourceContent.Append("sampleSVG.append(\"svg:circle\")");
+            _ResourceContent.Append(".style(\"stroke\", \"gray\")");
+            _ResourceContent.Append(".style(\"fill\", \"red\")");
+            _ResourceContent.Append(".attr(\"r\", "  + _Random.Next(5, 50) + ")");
+            _ResourceContent.Append(".attr(\"cx\", " + _Random.Next(50, 550) + ")");
+            _ResourceContent.Append(".attr(\"cy\", " + _Random.Next(50, 350) + ")");
+            _ResourceContent.Append(".on(\"mouseover\", function () { d3.select(this).style(\"fill\", \"aliceblue\"); })");
+            _ResourceContent.Append(".on(\"mouseout\",  function () { d3.select(this).style(\"fill\", \"white\");     });");
+            _ResourceContent.AppendLine().AppendLine();
+
+            var _ResourceContent2 = _ResourceContent.ToString().ToUTF8Bytes();
 
             return new HTTPResponse(
 
-                new HTTPResponseHeader()
-                {
-                    HttpStatusCode = HTTPStatusCode.OK,
-                    CacheControl   = "no-cache",
-                    Connection     = "close",
-                    ContentType    = HTTPContentType.TEXT_UTF8
-                },
+                    new HTTPResponseHeader()
+                        {
+                            HttpStatusCode = HTTPStatusCode.OK,
+                            ContentType    = HTTPContentType.EVENTSTREAM,
+                            ContentLength  = (UInt64) _ResourceContent2.Length,
+                            CacheControl   = "no-cache",
+                            Connection     = "keep-alive",
+                        },
 
-                Encoding.UTF8.GetBytes("Incoming http connection from '" + IHTTPConnection.RemoteSocket + "'" +
-                                        Environment.NewLine + Environment.NewLine +
-                                        IHTTPConnection.RequestHeader.RAWHTTPHeader +
-                                        Environment.NewLine + Environment.NewLine +
-                                        "Method => " + IHTTPConnection.RequestHeader.HTTPMethod + Environment.NewLine +
-                                        "URL => " + IHTTPConnection.RequestHeader.Url + Environment.NewLine +
-                                        "QueryString => " + IHTTPConnection.RequestHeader.QueryString + Environment.NewLine +
-                                        "Protocol => " + IHTTPConnection.RequestHeader.ProtocolName + Environment.NewLine +
-                                        "Version => " + IHTTPConnection.RequestHeader.ProtocolVersion + Environment.NewLine +
-                                        Environment.NewLine + Environment.NewLine +
-                                        IHTTPConnection.ResponseHeader.HttpStatusCode
-                                        )
+                    _ResourceContent2
 
-            );
-
+                );
         }
-
-        #endregion
-
-        #region /HelloWorld
-
-        #region HelloWorld_OPTIONS()
-
-        public HTTPResponse HelloWorld_OPTIONS()
-        {
-
-            return new HTTPResponse(
-
-                new HTTPResponseHeader()
-                {
-
-                    HttpStatusCode = HTTPStatusCode.OK,
-                    CacheControl = "no-cache",
-
-                    Allow = new List<HTTPMethod> {
-                                          HTTPMethod.OPTIONS,
-                                          HTTPMethod.HEAD,
-                                          HTTPMethod.GET
-                                      }
-
-                }
-
-            );
-
-        }
-
-        #endregion
-
-        #region HelloWorld_HEAD()
-
-        public HTTPResponse HelloWorld_HEAD()
-        {
-
-            var _RequestHeader = IHTTPConnection.RequestHeader;
-            var _Content = Encoding.UTF8.GetBytes("Hello world!");
-
-            return new HTTPResponse(
-
-                new HTTPResponseHeader()
-                {
-                    HttpStatusCode = HTTPStatusCode.OK,
-                    CacheControl   = "no-cache",
-                    ContentLength  = (UInt64) _Content.Length,
-                    ContentType    = HTTPContentType.TEXT_UTF8
-                },
-
-                _Content
-
-            );
-
-        }
-
-        #endregion
-
-        #region HelloWorld_GET()
-
-        public HTTPResponse HelloWorld_GET()
-        {
-
-            var _RequestHeader = IHTTPConnection.RequestHeader;
-            var _Content = Encoding.UTF8.GetBytes("Hello world!");
-
-            return new HTTPResponse(
-
-                new HTTPResponseHeader()
-                {
-                    HttpStatusCode = HTTPStatusCode.OK,
-                    CacheControl   = "no-cache",
-                    ContentLength  = (UInt64) _Content.Length,
-                    ContentType    = HTTPContentType.TEXT_UTF8
-                },
-
-                _Content
-
-            );
-
-        }
-
-        #endregion
 
         #endregion
 
@@ -272,18 +175,18 @@ namespace de.ahzf.Loki.HTML5
 
             #region Return internal assembly resources...
 
-            if (_AllResources.Contains("HermodDemo.resources." + myResource))
+            if (_AllResources.Contains("LokiHTML5.resources." + myResource))
             {
 
-                var _ResourceContent = _Assembly.GetManifestResourceStream("HermodDemo.resources." + myResource);
+                var _ResourceContent = _Assembly.GetManifestResourceStream("LokiHTML5.resources." + myResource);
 
                 HTTPContentType _ResponseContentType = null;
 
                 // Get the apropriate content type based on the suffix of the requested resource
                 switch (myResource.Remove(0, myResource.LastIndexOf(".") + 1))
                 {
-                    case "htm":  _ResponseContentType = HTTPContentType.XHTML_UTF8;      break;
-                    case "html": _ResponseContentType = HTTPContentType.XHTML_UTF8;      break;
+                    case "htm":  _ResponseContentType = HTTPContentType.HTML_UTF8;       break;
+                    case "html": _ResponseContentType = HTTPContentType.HTML_UTF8;       break;
                     case "css":  _ResponseContentType = HTTPContentType.CSS_UTF8;        break;
                     case "gif":  _ResponseContentType = HTTPContentType.GIF;             break;
                     case "ico":  _ResponseContentType = HTTPContentType.ICO;             break;
@@ -318,8 +221,8 @@ namespace de.ahzf.Loki.HTML5
                 
                 Stream _ResourceContent = null;
 
-                if (_AllResources.Contains("HermodDemo.resources.errorpages.Error404.html"))
-                    _ResourceContent = _Assembly.GetManifestResourceStream("HermodDemo.resources.errorpages.Error404.html");
+                if (_AllResources.Contains("LokiHTML5.resources.errorpages.Error404.html"))
+                    _ResourceContent = _Assembly.GetManifestResourceStream("LokiHTML5.resources.errorpages.Error404.html");
                 else
                     _ResourceContent = new MemoryStream(UTF8Encoding.UTF8.GetBytes("Error 404 - File not found!"));
 

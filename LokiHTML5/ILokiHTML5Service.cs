@@ -44,14 +44,22 @@ namespace de.ahzf.Loki.HTML5
 
         #endregion
 
+        #region Events
 
-        #region /HelloWorld
+        // In contrast to other popular Comet protocols such as Bayeux or BOSH, Server-Sent Events
+        // support a unidirectional server-to-client channel only. The Bayeux protocol on the other
+        // side supports a bidirectional communication channel. Furthermore, Bayeux can use HTTP
+        // streaming as well as long polling. Like Bayeux, the BOSH protocol is a bidirectional
+        // protocol. BOSH is based on the long polling approach.
 
-        [HTTPMapping(HTTPMethods.GET,     "/HelloWorld")]
-        HTTPResponse HelloWorld_GET();
+        /// <summary>
+        /// Get Events
+        /// </summary>
+        /// <returns>Endless text</returns>
+        [HTTPMapping(HTTPMethods.GET, "/Events"), NoAuthentication]
+        HTTPResponse GetEvents();
 
         #endregion
-
 
         #region Utilities
 
