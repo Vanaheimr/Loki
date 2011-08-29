@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
 using de.ahzf.Hermod.HTTP.Common;
+using System.Threading;
 
 #endregion
 
@@ -37,6 +38,11 @@ namespace de.ahzf.Loki.HTML5
     public class LokiHTML5Service : ILokiHTML5Service
     {
 
+        #region Data
+
+        private HTTPEventSource _HTML5Event;
+        
+        #endregion
 
         #region Properties
 
@@ -115,26 +121,34 @@ namespace de.ahzf.Loki.HTML5
 
         #endregion
 
+
+
         #region GetEvents()
 
         public HTTPResponse GetEvents()
         {
+
+            var _RequestHeader      = IHTTPConnection.RequestHeader;
+            var _LastEventId        = 0UL;
+            var _Client_LastEventId = 0UL;
+
+            if (_RequestHeader.TryGet<UInt64>("Last-Event-Id", out _Client_LastEventId))
+                _LastEventId = _Client_LastEventId + 1;
+
             var _Random = new Random();
+            _HTML5Event.Submit("vertexadded", "data: {\"radius\": " + _Random.Next(5, 50) + ", \"x\": " + _Random.Next(50, 550) + ", \"y\": " + _Random.Next(50, 350) + "}");
 
-            var _ResourceContent = new StringBuilder();
-            _ResourceContent.AppendLine("event:vertexadded");
-            _ResourceContent.Append("data: ");
-            _ResourceContent.Append("sampleSVG.append(\"svg:circle\")");
-            _ResourceContent.Append(".style(\"stroke\", \"gray\")");
-            _ResourceContent.Append(".style(\"fill\", \"red\")");
-            _ResourceContent.Append(".attr(\"r\", "  + _Random.Next(5, 50) + ")");
-            _ResourceContent.Append(".attr(\"cx\", " + _Random.Next(50, 550) + ")");
-            _ResourceContent.Append(".attr(\"cy\", " + _Random.Next(50, 350) + ")");
-            _ResourceContent.Append(".on(\"mouseover\", function () { d3.select(this).style(\"fill\", \"aliceblue\"); })");
-            _ResourceContent.Append(".on(\"mouseout\",  function () { d3.select(this).style(\"fill\", \"white\");     });");
-            _ResourceContent.AppendLine().AppendLine();
+            //var _ResourceContent = new StringBuilder();
+            //_ResourceContent.AppendLine("event:vertexadded");
+            //_ResourceContent.AppendLine("id: " + _LastEventId);
+            //_ResourceContent.Append("data: ");
+            //_ResourceContent.Append("{\"radius\": " + _Random.Next(5, 50));
+            //_ResourceContent.Append(", \"x\": "     + _Random.Next(50, 550));
+            //_ResourceContent.Append(", \"y\": "     + _Random.Next(50, 350) + "}");
+            //_ResourceContent.AppendLine().AppendLine();
 
-            var _ResourceContent2 = _ResourceContent.ToString().ToUTF8Bytes();
+            var _ResourceContent = _HTML5Event.GetEvents(_Client_LastEventId);
+            var _ResourceContent2 = _ResourceContent.Select(e => e.ToString()).Aggregate((a, b) => { return a + Environment.NewLine + b; }).ToUTF8Bytes();
 
             return new HTTPResponse(
 

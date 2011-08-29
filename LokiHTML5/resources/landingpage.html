@@ -10,7 +10,16 @@
             ev.innerHTML += "<br>[in] " + event.data;
         };
         source.addEventListener('vertexadded', function (event) {
-            eval(event.data);
+            var data = JSON.parse(event.data);
+//            eval(event.data);
+            sampleSVG.append("svg:circle")
+            .style("stroke", "gray")
+            .style("fill", "red")
+            .attr("r", data.radius)
+            .attr("cx", data.x)
+            .attr("cy", data.y)
+            .on("mouseover", function () { d3.select(this).style("fill", "aliceblue"); })
+            .on("mouseout",  function () { d3.select(this).style("fill", "white");     });
         }, false);
 //        source.addEventListener('error', function (e) {
 //            alert("Error!" + e.data);
