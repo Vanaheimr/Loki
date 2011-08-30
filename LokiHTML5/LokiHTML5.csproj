@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LokiHTML5Service_HTML.cs" />
     <Compile Include="LokiHTML5.cs" />
     <Compile Include="ILokiHTML5Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LokiHTML5Service.cs" />
+    <Compile Include="LokiHTML5Service_EventStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Arrows.NET\Arrows\Arrows.csproj">
