@@ -92,7 +92,7 @@ namespace TutorialsWPF
 
             #region Customize the vertex and edge captions
 
-            // Vertices ToolTip
+            // Vertices caption
             GraphCanvas.VertexCaption = v =>
             {
                 Object Name;
