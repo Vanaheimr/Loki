@@ -19,10 +19,14 @@
 #region Usings
 
 using System;
+using System.IO;
 using System.Text;
+using System.Linq;
+using System.Threading;
 using System.Reflection;
 using System.Collections.Generic;
 
+using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
 
 #endregion
@@ -33,7 +37,7 @@ namespace de.ahzf.Loki.HTML5
     /// <summary>
     /// HTML representation
     /// </summary>
-    public class LokiHTML5Service_HTML : AHTTPService, ILokiHTML5Service
+    public class LokiHTML5Service : AHTTPService, ILokiHTML5Service
     {
 
         #region Properties
@@ -44,7 +48,7 @@ namespace de.ahzf.Loki.HTML5
         {
             get
             {
-                return new HTTPContentType[1] { HTTPContentType.HTML_UTF8 };
+                return new HTTPContentType[1] { HTTPContentType.ALL };
             }
         }
 
@@ -54,63 +58,29 @@ namespace de.ahzf.Loki.HTML5
 
         #region Constructor(s)
 
-        #region LokiHTML5Service_HTML()
+        #region LokiHTML5Service()
 
         /// <summary>
         /// Creates a new LokiHTML5Service.
         /// </summary>
-        public LokiHTML5Service_HTML()
+        public LokiHTML5Service()
         { }
 
         #endregion
 
-        #region LokiHTML5Service_HTML(myIHTTPConnection)
+        #region LokiHTML5Service(myIHTTPConnection)
 
         /// <summary>
         /// Creates a new LokiHTML5Service.
         /// </summary>
         /// <param name="myIHTTPConnection">The http connection for this request.</param>
-        public LokiHTML5Service_HTML(IHTTPConnection myIHTTPConnection)
+        public LokiHTML5Service(IHTTPConnection myIHTTPConnection)
             : base(myIHTTPConnection, "LokiHTML5.resources.")
         {
             this.CallingAssembly = Assembly.GetExecutingAssembly();
         }
 
         #endregion
-
-        #endregion
-
-        
-        #region (private) HTMLBuilder(myHeadline, myFunc)
-
-        private String HTMLBuilder(String myHeadline, Action<StringBuilder> myFunc)
-        {
-
-            var _StringBuilder = new StringBuilder();
-
-            _StringBuilder.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            _StringBuilder.AppendLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
-            _StringBuilder.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-            _StringBuilder.AppendLine("<head>");
-            _StringBuilder.AppendLine("<title>Hermod HTTP Server</title>");
-            _StringBuilder.AppendLine("</head>");
-            _StringBuilder.AppendLine("<body>");
-            _StringBuilder.Append("<h2>").Append(myHeadline).AppendLine("</h2>");
-            _StringBuilder.AppendLine("<table>");
-            _StringBuilder.AppendLine("<tr>");
-            _StringBuilder.AppendLine("<td style=\"width: 100px\">&nbsp;</td>");
-            _StringBuilder.AppendLine("<td>");
-
-            myFunc(_StringBuilder);
-
-            _StringBuilder.AppendLine("</td>");
-            _StringBuilder.AppendLine("</tr>");
-            _StringBuilder.AppendLine("</table>");
-            _StringBuilder.AppendLine("</body>").AppendLine("</html>").AppendLine();
-
-            return _StringBuilder.ToString();
-
-        }
 
         #endregion
 

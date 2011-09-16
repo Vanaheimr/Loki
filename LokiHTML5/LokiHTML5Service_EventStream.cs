@@ -19,16 +19,12 @@
 #region Usings
 
 using System;
-using System.IO;
-using System.Text;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
 using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
-using de.ahzf.Hermod.HTTP.Common;
-using System.Threading;
 
 #endregion
 
@@ -37,6 +33,22 @@ namespace de.ahzf.Loki.HTML5
 
     public class LokiHTML5Service_EventStream : AHTTPService, ILokiHTML5Service
     {
+
+        #region Properties
+
+        #region HTTPContentTypes
+
+        public IEnumerable<HTTPContentType> HTTPContentTypes
+        {
+            get
+            {
+                return new HTTPContentType[1] { HTTPContentType.EVENTSTREAM };
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         #region Constructor(s)
 
@@ -69,7 +81,7 @@ namespace de.ahzf.Loki.HTML5
 
         #region GetRoot()
 
-        public HTTPResponse GetRoot()
+        public HTTPResponseHeader GetRoot()
         {
             return Error406_NotAcceptable();
         }
@@ -80,7 +92,7 @@ namespace de.ahzf.Loki.HTML5
 
         #region GetEvents()
 
-        public HTTPResponse GetEvents()
+        public HTTPResponseHeader GetEvents()
         {
 
             var _RequestHeader      = IHTTPConnection.RequestHeader;
@@ -107,33 +119,19 @@ namespace de.ahzf.Loki.HTML5
             var _ResourceContent2 = _ResourceContent.Select(e => e.ToString()).Aggregate((a, b) => { return a + Environment.NewLine + b; });
             var _ResourceContent3 = _ResourceContent2.ToUTF8Bytes();
 
-            return new HTTPResponse(
-
-                    new HTTPResponseHeader()
+            return new HTTPResponseBuilder()
                         {
-                            HttpStatusCode = HTTPStatusCode.OK,
+                            HTTPStatusCode = HTTPStatusCode.OK,
                             ContentType    = HTTPContentType.EVENTSTREAM,
                             ContentLength  = (UInt64) _ResourceContent3.Length,
                             CacheControl   = "no-cache",
                             Connection     = "keep-alive",
-                        },
+                            Content        = _ResourceContent3
+                        };
 
-                    _ResourceContent3
-
-                );
         }
 
         #endregion
-
-
-        
-        public IEnumerable<HTTPContentType> HTTPContentTypes
-        {
-            get
-            {
-                return new List<HTTPContentType>() { HTTPContentType.EVENTSTREAM };
-            }
-        }
 
     }
 
