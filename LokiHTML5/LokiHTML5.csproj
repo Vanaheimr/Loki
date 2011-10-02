@@ -60,9 +60,9 @@
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Blueprints.NET\InMemoryGraph\InMemoryGraph.csproj">
-      <Project>{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}</Project>
-      <Name>InMemoryGraph</Name>
+    <ProjectReference Include="..\..\Blueprints.NET\PropertyGraphs\PropertyGraphs.csproj">
+      <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
+      <Name>PropertyGraphs</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj">
       <Project>{EAB20045-3D15-4220-BB56-B22FF6630AC9}</Project>

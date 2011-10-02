@@ -65,9 +65,9 @@
       <Project>{C907FBA5-7DE0-4244-9872-806FCFF97175}</Project>
       <Name>Blueprints.SL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Blueprints.NET\InMemoryGraph\InMemoryGraph.SL.csproj">
-      <Project>{E4F1D941-58DC-43AC-84A6-1B4ABC60294C}</Project>
-      <Name>InMemoryGraph.SL</Name>
+    <ProjectReference Include="..\..\Blueprints.NET\PropertyGraphs\PropertyGraphs.SL.csproj">
+      <Project>{5D45EC93-0E79-4F4B-94C6-F5F5A38B99A0}</Project>
+      <Name>PropertyGraphs.SL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

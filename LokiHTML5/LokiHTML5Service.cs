@@ -18,15 +18,8 @@
 
 #region Usings
 
-using System;
-using System.IO;
-using System.Text;
-using System.Linq;
-using System.Threading;
 using System.Reflection;
-using System.Collections.Generic;
 
-using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
 
 #endregion
@@ -40,22 +33,6 @@ namespace de.ahzf.Loki.HTML5
     public class LokiHTML5Service : AHTTPService, ILokiHTML5Service
     {
 
-        #region Properties
-
-        #region HTTPContentTypes
-
-        public IEnumerable<HTTPContentType> HTTPContentTypes
-        {
-            get
-            {
-                return new HTTPContentType[1] { HTTPContentType.ALL };
-            }
-        }
-
-        #endregion
-
-        #endregion
-
         #region Constructor(s)
 
         #region LokiHTML5Service()
@@ -64,18 +41,19 @@ namespace de.ahzf.Loki.HTML5
         /// Creates a new LokiHTML5Service.
         /// </summary>
         public LokiHTML5Service()
+            : base(HTTPContentType.ALL)
         { }
 
         #endregion
 
-        #region LokiHTML5Service(myIHTTPConnection)
+        #region LokiHTML5Service(IHTTPConnection)
 
         /// <summary>
         /// Creates a new LokiHTML5Service.
         /// </summary>
-        /// <param name="myIHTTPConnection">The http connection for this request.</param>
-        public LokiHTML5Service(IHTTPConnection myIHTTPConnection)
-            : base(myIHTTPConnection, "LokiHTML5.resources.")
+        /// <param name="IHTTPConnection">The http connection for this request.</param>
+        public LokiHTML5Service(IHTTPConnection IHTTPConnection)
+            : base(IHTTPConnection, HTTPContentType.ALL, "LokiHTML5.resources.")
         {
             this.CallingAssembly = Assembly.GetExecutingAssembly();
         }
@@ -87,16 +65,17 @@ namespace de.ahzf.Loki.HTML5
 
         #region GetRoot()
 
-        public HTTPResponseHeader GetRoot()
+        public HTTPResponse GetRoot()
         {
             return GetResources("landingpage.html");
         }
 
         #endregion
 
+
         #region GetEvents()
 
-        public HTTPResponseHeader GetEvents()
+        public HTTPResponse GetEvents()
         {
             return Error406_NotAcceptable();
         }

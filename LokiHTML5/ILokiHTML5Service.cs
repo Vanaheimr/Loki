@@ -39,7 +39,7 @@ namespace de.ahzf.Loki.HTML5
         /// </summary>
         /// <returns>Endless text</returns>
         [HTTPEventMappingAttribute("GraphEvents", "/Events"), NoAuthentication]
-        HTTPResponseHeader GetEvents();
+        HTTPResponse GetEvents();
 
         #endregion
 

@@ -21,7 +21,6 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
 
 using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
@@ -34,22 +33,6 @@ namespace de.ahzf.Loki.HTML5
     public class LokiHTML5Service_EventStream : AHTTPService, ILokiHTML5Service
     {
 
-        #region Properties
-
-        #region HTTPContentTypes
-
-        public IEnumerable<HTTPContentType> HTTPContentTypes
-        {
-            get
-            {
-                return new HTTPContentType[1] { HTTPContentType.EVENTSTREAM };
-            }
-        }
-
-        #endregion
-
-        #endregion
-
         #region Constructor(s)
 
         #region LokiHTML5Service_EventStream()
@@ -58,18 +41,19 @@ namespace de.ahzf.Loki.HTML5
         /// Creates a new LokiHTML5Service.
         /// </summary>
         public LokiHTML5Service_EventStream()
+            : base(HTTPContentType.EVENTSTREAM)
         { }
 
         #endregion
 
-        #region LokiHTML5Service_EventStream(myIHTTPConnection)
+        #region LokiHTML5Service_EventStream(IHTTPConnection)
 
         /// <summary>
         /// Creates a new LokiHTML5Service.
         /// </summary>
-        /// <param name="myIHTTPConnection">The http connection for this request.</param>
-        public LokiHTML5Service_EventStream(IHTTPConnection myIHTTPConnection)
-            : base(myIHTTPConnection, "LokiHTML5.resources.")
+        /// <param name="IHTTPConnection">The http connection for this request.</param>
+        public LokiHTML5Service_EventStream(IHTTPConnection IHTTPConnection)
+            : base(IHTTPConnection, HTTPContentType.EVENTSTREAM, "LokiHTML5.resources.")
         {
             this.CallingAssembly = Assembly.GetExecutingAssembly();
         }
@@ -81,7 +65,7 @@ namespace de.ahzf.Loki.HTML5
 
         #region GetRoot()
 
-        public HTTPResponseHeader GetRoot()
+        public HTTPResponse GetRoot()
         {
             return Error406_NotAcceptable();
         }
@@ -89,13 +73,12 @@ namespace de.ahzf.Loki.HTML5
         #endregion
 
 
-
         #region GetEvents()
 
-        public HTTPResponseHeader GetEvents()
+        public HTTPResponse GetEvents()
         {
 
-            var _RequestHeader      = IHTTPConnection.RequestHeader;
+            var _RequestHeader      = IHTTPConnection.InHTTPRequest;
             var _LastEventId        = 0UL;
             var _Client_LastEventId = 0UL;
             var _EventSource        = IHTTPConnection.URLMapping.EventSource("GraphEvents");
