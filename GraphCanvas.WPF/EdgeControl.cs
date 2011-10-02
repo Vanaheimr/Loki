@@ -19,14 +19,12 @@
 #region Usings
 
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using System.Globalization;
-using System.ComponentModel;
-using System.Windows.Controls;
 
 using de.ahzf.Blueprints;
-using de.ahzf.Blueprints.PropertyGraph;
+using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 

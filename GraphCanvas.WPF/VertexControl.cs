@@ -25,7 +25,7 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Windows.Controls;
 
-using de.ahzf.Blueprints.PropertyGraph;
+using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 

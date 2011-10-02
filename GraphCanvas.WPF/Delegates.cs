@@ -19,16 +19,7 @@
 #region Usings
 
 using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-
-using de.ahzf.Blueprints.PropertyGraph;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
-using System.Windows.Media.Imaging;
-using System.IO;
+using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 

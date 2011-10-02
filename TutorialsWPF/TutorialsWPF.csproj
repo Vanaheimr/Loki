@@ -107,10 +107,6 @@
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Blueprints.NET\InMemoryGraph\InMemoryGraph.csproj">
-      <Project>{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}</Project>
-      <Name>InMemoryGraph</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MonoCompilerAsAService\MonoCompilerAsAService\MonoCompilerAsAService.csproj">
       <Project>{A2ABC2B4-28D1-47B1-8EF9-6E8C60215515}</Project>
       <Name>MonoCompilerAsAService</Name>

@@ -19,16 +19,15 @@
 #region Usings
 
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-using de.ahzf.Blueprints.PropertyGraph;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
-using System.Windows.Media.Imaging;
-using System.IO;
+using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 #endregion
 
@@ -54,7 +53,7 @@ namespace de.ahzf.Loki
         /// Creates a new canvas for visualizing a non-generic property graph.
         /// </summary>
         public GraphCanvas()
-            : base(new SimplePropertyGraph(), "GraphCanvas", "VertexShape", "EdgeShape")
+            : base(new PropertyGraph(), "GraphCanvas", "VertexShape", "EdgeShape")
         { }
 
         #endregion
@@ -128,10 +127,12 @@ namespace de.ahzf.Loki
                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> SelectedVertexShape;
+
         private IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                 TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex;
+
         private String CurrentDirectory;
 
         #endregion
