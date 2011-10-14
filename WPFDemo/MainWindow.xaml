@@ -13,7 +13,7 @@
 			   	          VerticalAlignment   = "Stretch"
 			   	          ClipToBounds        = "True"
 			   	          ToolTip             = "Graph canvas"
-			   	          SnapsToDevicePixels = "True" /><Loki:OldArrow />
+			   	          SnapsToDevicePixels = "True" />
     </Grid>
 
 </Window>
