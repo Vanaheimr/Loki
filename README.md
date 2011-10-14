@@ -14,7 +14,7 @@ normal property graph but is subscribed to all (at the moment at least
 to a lot of...) vertex and edge manipulation methods so you can see
 all programmatically changes to the graph immediately.
 
- 1) Add the GraphCanavas.WPF project to your solution
+ 1) Add the GraphCanvas.WPF project to your solution
 
  2) Adapt your **MainWindow.xaml** to something like this...
 
