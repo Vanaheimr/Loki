@@ -1,4 +1,3 @@
-
 Loki is a collection of graph visualization and interaction tools for
 [Blueprints.NET](http://github.com/ahzf/Blueprints.NET) based graph
 data models hosted in Microsoft Windows Presentation Framework,
@@ -29,7 +28,7 @@ if your **MainWindow.xaml** looks like this...
                               VerticalAlignment   = "Stretch"
                               ClipToBounds        = "True"
                               ToolTip             = "Graph canvas"
-                              SnapsToDevicePixels = "True" /><Loki:OldArrow />
+                              SnapsToDevicePixels = "True" />
         </Grid>
 
     </Window>
