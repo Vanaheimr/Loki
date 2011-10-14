@@ -8,10 +8,15 @@ Silverlight or HTML5 environments.
 WPF has a very nice canvas tool for drawing all kinds of visual stuff.
 Loki provides an extention to this class called GraphCanvas which makes
 it easy to draw a customized 
-[Blueprints.NET graph](http://github.com/ahzf/Blueprints.NET). In order
-to do so just add the GraphCanavas.WPF project to your solution and...
+[Blueprints.NET graph](http://github.com/ahzf/Blueprints.NET). The
+new canvas provides a build-in property graph which can be used like a
+normal property graph but is subscribed to all (at the moment at least
+to a lot of...) vertex and edge manipulation methods so you can see
+all programmatically changes to the graph immediately.
 
-if your **MainWindow.xaml** looks like this...
+ 1) Add the GraphCanavas.WPF project to your solution
+
+ 2) Adapt your **MainWindow.xaml** to something like this...
 
     <Window x:Class    = "de.ahzf.Loki.WPFDemo.MainWindow"
             xmlns      = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -34,7 +39,7 @@ if your **MainWindow.xaml** looks like this...
     </Window>
 
 
-...and your **MainWindow.cs** looks like this...
+ 3) Adapt your **MainWindow.cs** to something like this...
 
     using System;
     using System.Windows;
@@ -90,6 +95,6 @@ if your **MainWindow.xaml** looks like this...
 
     }
 
-...your result will be something like this:
+ 4) And finally your result will be something like this...
 
 ![WPFDemo small](http://github.com/ahzf/Loki/wiki/Loki.WPF_small.png)
