@@ -5,20 +5,19 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{33785160-F99B-4BC4-8A58-BBFEFCA3F086}</ProjectGuid>
+    <ProjectGuid>{6895438D-19C1-4B65-B302-68DB2A862133}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TutorialsWPF</RootNamespace>
-    <AssemblyName>TutorialsWPF</AssemblyName>
+    <RootNamespace>WPFDemo</RootNamespace>
+    <AssemblyName>WPFDemo</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\WPFDemo.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -87,7 +87,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -95,41 +94,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Arrows.NET\Arrows\Arrows.csproj">
-      <Project>{55B3070D-C264-44BB-8315-504F8C512D75}</Project>
-      <Name>Arrows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Balder\Balder\Balder.csproj">
-      <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
-      <Name>Balder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Blueprints.NET\Blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoCompilerAsAService\MonoCompilerAsAService\MonoCompilerAsAService.csproj">
-      <Project>{A2ABC2B4-28D1-47B1-8EF9-6E8C60215515}</Project>
-      <Name>MonoCompilerAsAService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MonoCompilerAsAService\MonoCSharp\MonoCSharp.csproj">
-      <Project>{322FD822-7722-4176-A7D7-CD8D36488DB9}</Project>
-      <Name>MonoCSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Pipes.NET\Pipes\Pipes.csproj">
-      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
-      <Name>Pipes</Name>
+    <ProjectReference Include="..\..\Blueprints.NET\PropertyGraphs\PropertyGraphs.csproj">
+      <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
+      <Name>PropertyGraphs</Name>
     </ProjectReference>
     <ProjectReference Include="..\GraphCanvas.WPF\GraphCanvas.WPF.csproj">
       <Project>{18EC0A3B-39EF-4BE2-A881-4F9008842F77}</Project>
       <Name>GraphCanvas.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HeatMap\HeatMap.csproj">
-      <Project>{472F0378-292E-4D92-9A37-D59ACCCC307C}</Project>
-      <Name>HeatMap</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WPFPipeControl\WPFPipeControl.csproj">
-      <Project>{8FB4A584-A2B3-49A7-B82F-0D50F698BB2A}</Project>
-      <Name>WPFPipeControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

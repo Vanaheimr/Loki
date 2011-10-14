@@ -25,11 +25,8 @@ using System.Windows.Media;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
 using RunCSharp;
-using System.Windows.Shapes;
-using de.ahzf.Loki;
-using System.IO;
-using System.Windows.Media.Imaging;
 
 #endregion
 
@@ -106,13 +103,15 @@ namespace TutorialsWPF
 
             var Graph = GraphCanvas.Graph;
 
-            var Alice = Graph.AddVertex(1, v => v.SetProperty("Name", "Alice"));
-            var Bob   = Graph.AddVertex(2, v => v.SetProperty("Name", "Bob"  ));
-            var Carol = Graph.AddVertex(3, v => v.SetProperty("Name", "Carol"));
+            var Alice = Graph.AddVertex(v => v.SetProperty("Name", "Alice"));
+            var Bob   = Graph.AddVertex(v => v.SetProperty("Name", "Bob"  ));
+            var Carol = Graph.AddVertex(v => v.SetProperty("Name", "Carol"));
+            var Dave  = Graph.AddVertex(v => v.SetProperty("Name", "Dave" ));
 
-            var e1    = Graph.AddEdge(Alice, Bob,   3, "friends");
-            var e2    = Graph.AddEdge(Bob,   Carol, 4, "friends");
-            var e3    = Graph.AddEdge(Alice, Carol, 5, "friends");
+            var e1    = Graph.AddEdge(Alice, "are_friends", Bob  );
+            var e2    = Graph.AddEdge(Bob,   "are_friends", Carol);
+            var e3    = Graph.AddEdge(Alice, "are_friends", Carol);
+            var e4    = Graph.AddEdge(Carol, "are_friends", Dave );
 
             #region Customize the vertex and edge tooltips
 
@@ -299,8 +298,6 @@ namespace TutorialsWPF
         }
 
         #endregion
-
-        
 
     }
 
