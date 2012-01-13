@@ -109,10 +109,6 @@
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
       <Name>PropertyGraphs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Pipes.NET\Pipes\Pipes.csproj">
-      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
-      <Name>Pipes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WPFPipeControl\WPFPipeControl.csproj">
       <Project>{8FB4A584-A2B3-49A7-B82F-0D50F698BB2A}</Project>
       <Name>WPFPipeControl</Name>
