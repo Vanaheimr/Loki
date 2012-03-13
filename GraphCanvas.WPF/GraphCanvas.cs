@@ -263,7 +263,7 @@ namespace de.ahzf.Loki
                     TValueVertex VertexShapeProperty;
                     foreach (var Vertex in Graph.Vertices())
                     {
-                        if (Vertex.GetProperty(this.VertexShapePropertyKey, out VertexShapeProperty))
+                        if (Vertex.TryGetProperty(this.VertexShapePropertyKey, out VertexShapeProperty))
                         {
                             
                             VertexShape = VertexShapeProperty as Shape;
@@ -376,7 +376,7 @@ namespace de.ahzf.Loki
                     TValueEdge EdgeShapeProperty;
                     foreach (var Edge in Graph.Edges())
                     {
-                        if (Edge.GetProperty(this.EdgeShapePropertyKey, out EdgeShapeProperty))
+                        if (Edge.TryGetProperty(this.EdgeShapePropertyKey, out EdgeShapeProperty))
                         {
                             
                             EdgeShape = EdgeShapeProperty as Shape;

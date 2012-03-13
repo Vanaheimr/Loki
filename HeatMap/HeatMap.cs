@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 using de.ahzf.Blueprints;
+using de.ahzf.Illias.Geometry;
 
 #endregion
 
