@@ -22,6 +22,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
+using de.ahzf.Illias.Commons;
 using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
 
@@ -86,30 +87,21 @@ namespace de.ahzf.Loki.HTML5
             if (_RequestHeader.TryGet<UInt64>("Last-Event-Id", out _Client_LastEventId))
                 _LastEventId = _Client_LastEventId + 1;
 
-            var _Random = new Random();
-            _EventSource.Submit("vertexadded", "{\"radius\": " + _Random.Next(5, 50) + ", \"x\": " + _Random.Next(50, 550) + ", \"y\": " + _Random.Next(50, 350) + "}");
+            var _HTTPEvents      = (from   _HTTPEvent
+                                    in     _EventSource.GetEvents(_Client_LastEventId)
+                                    where  _HTTPEvent != null
+                                    select _HTTPEvent.ToString())
+                                   .ToArray(); // For thread safety!
 
-            //var _ResourceContent = new StringBuilder();
-            //_ResourceContent.AppendLine("event:vertexadded");
-            //_ResourceContent.AppendLine("id: " + _LastEventId);
-            //_ResourceContent.Append("data: ");
-            //_ResourceContent.Append("{\"radius\": " + _Random.Next(5, 50));
-            //_ResourceContent.Append(", \"x\": "     + _Random.Next(50, 550));
-            //_ResourceContent.Append(", \"y\": "     + _Random.Next(50, 350) + "}");
-            //_ResourceContent.AppendLine().AppendLine();
+            // Transform HTTP events into an UTF8 string
+            var _ResourceContent = (_HTTPEvents.Any()) ? _HTTPEvents.Aggregate((a, b) => { return a + Environment.NewLine + b; }).ToUTF8Bytes() : new Byte[0];
 
-            var _ResourceContent = _EventSource.GetEvents(_Client_LastEventId);
-            var _ResourceContent2 = _ResourceContent.Select(e => e.ToString()).Aggregate((a, b) => { return a + Environment.NewLine + b; });
-            var _ResourceContent3 = _ResourceContent2.ToUTF8Bytes();
-
-            return new HTTPResponseBuilder()
-                        {
+            return new HTTPResponseBuilder() {
                             HTTPStatusCode = HTTPStatusCode.OK,
                             ContentType    = HTTPContentType.EVENTSTREAM,
-                            ContentLength  = (UInt64) _ResourceContent3.Length,
                             CacheControl   = "no-cache",
                             Connection     = "keep-alive",
-                            Content        = _ResourceContent3
+                            Content        = _ResourceContent
                         };
 
         }

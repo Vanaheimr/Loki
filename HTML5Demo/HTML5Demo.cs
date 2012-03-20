@@ -19,9 +19,12 @@
 #region Usings
 
 using System;
+using System.Linq;
 
 using de.ahzf.Hermod.HTTP;
 using de.ahzf.Hermod.Datastructures;
+using System.Threading.Tasks;
+using System.Threading;
 
 #endregion
 
@@ -52,7 +55,31 @@ namespace de.ahzf.Loki.HTML5
 
             #endregion
 
+            var _Random                  = new Random();
+            var _CancellationTokenSource = new CancellationTokenSource();
+            var _EventSource             = _HTTPServer.URLMapping.EventSource("GraphEvents");
+
+            var _SubmitTask = Task.Factory.StartNew(() =>
+            {
+
+                while (!_CancellationTokenSource.IsCancellationRequested)
+                {
+                    _EventSource.Submit("vertexadded", "{\"radius\": " + _Random.Next(5, 50) + ", \"x\": " + _Random.Next(50, 550) + ", \"y\": ",
+                                                       _Random.Next(50, 350) + "}");
+                    Thread.Sleep(1000);
+                }
+
+            },
+            
+            _CancellationTokenSource.Token,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
+
+
             Console.ReadLine();
+
+            _CancellationTokenSource.Cancel();
+
             Console.WriteLine("done!");
 
         }

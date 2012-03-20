@@ -81,10 +81,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Arrows.NET\Arrows\Arrows.csproj">
-      <Project>{55B3070D-C264-44BB-8315-504F8C512D75}</Project>
-      <Name>Arrows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Balder\Balder\Balder.csproj">
       <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
       <Name>Balder</Name>
@@ -98,7 +94,7 @@
       <Name>PropertyGraphs</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj">
-      <Project>{EAB20045-3D15-4220-BB56-B22FF6630AC9}</Project>
+      <Project>{477EFD16-3627-4473-957D-44CA9A9DFB79}</Project>
       <Name>Hermod</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MonoCompilerAsAService\MonoCompilerAsAService\MonoCompilerAsAService.csproj">
@@ -108,10 +104,6 @@
     <ProjectReference Include="..\..\MonoCompilerAsAService\MonoCSharp\MonoCSharp.csproj">
       <Project>{322FD822-7722-4176-A7D7-CD8D36488DB9}</Project>
       <Name>MonoCSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Pipes.NET\Pipes\Pipes.csproj">
-      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
-      <Name>Pipes</Name>
     </ProjectReference>
     <ProjectReference Include="..\LokiHTML5\LokiHTML5.csproj">
       <Project>{1555E073-7EE7-4A62-852C-8D498184D43D}</Project>

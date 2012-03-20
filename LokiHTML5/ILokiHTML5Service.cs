@@ -38,7 +38,8 @@ namespace de.ahzf.Loki.HTML5
         /// Get Events
         /// </summary>
         /// <returns>Endless text</returns>
-        [HTTPEventMappingAttribute("GraphEvents", "/Events"), NoAuthentication]
+        [NoAuthentication]
+        [HTTPEventMappingAttribute(EventIdentification: "GraphEvents", UriTemplate: "/Events", MaxNumberOfCachedEvents: 50)]
         HTTPResponse GetEvents();
 
         #endregion
