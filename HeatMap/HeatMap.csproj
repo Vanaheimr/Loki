@@ -49,8 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ahzf\Blueprints.NET\Blueprints\Blueprints.csproj">
-      <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
+    <ProjectReference Include="..\..\Blueprints.NET\Blueprints\Blueprints.csproj">
+      <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
