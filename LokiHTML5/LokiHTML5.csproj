@@ -64,14 +64,6 @@
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoCompilerAsAService\MonoCompilerAsAService\MonoCompilerAsAService.csproj">
-      <Project>{A2ABC2B4-28D1-47B1-8EF9-6E8C60215515}</Project>
-      <Name>MonoCompilerAsAService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MonoCompilerAsAService\MonoCSharp\MonoCSharp.csproj">
-      <Project>{322FD822-7722-4176-A7D7-CD8D36488DB9}</Project>
-      <Name>MonoCSharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Styx\Styx\Styx.csproj">
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Styx</Name>
