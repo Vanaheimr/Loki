@@ -93,7 +93,7 @@ namespace TutorialsWPF
             GraphCanvas.VertexCaption = v =>
             {
                 Object Name;
-                if (v.GetProperty("Name", out Name))
+                if (v.TryGetProperty("Name", out Name))
                     return Name as String;
                 else
                     return v.Id.ToString();
@@ -118,7 +118,7 @@ namespace TutorialsWPF
             // Vertices ToolTip
             GraphCanvas.VertexToolTip = v => {
                 Object Name;
-                if (v.GetProperty("Name", out Name))
+                if (v.TryGetProperty("Name", out Name))
                     return Name as String;
                 else
                     return v.Id.ToString();

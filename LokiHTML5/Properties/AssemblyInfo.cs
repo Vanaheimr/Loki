@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LokiHTML5")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Graph Visualizations for HTML5.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
 [assembly: AssemblyProduct("LokiHTML5")]
-[assembly: AssemblyCopyright("Copyright © Achim Friedland 2011")]
+[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

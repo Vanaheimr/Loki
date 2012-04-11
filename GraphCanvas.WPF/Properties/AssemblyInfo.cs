@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Loki Graph Canvas")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Graph Visualizations for WPF.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
 [assembly: AssemblyProduct("Loki Graph Canvas")]
-[assembly: AssemblyCopyright("Copyright © Achim Friedland 2011")]
+[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
