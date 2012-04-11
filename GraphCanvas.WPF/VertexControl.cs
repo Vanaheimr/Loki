@@ -248,10 +248,10 @@ namespace de.ahzf.Loki
 
         #region Constructor(s)
 
-        #region EdgeControl(GraphCanvas, Edge)
+        #region VertexControl(GraphCanvas, Vertex)
 
         /// <summary>
-        /// Create a new visual representation of a property edge.
+        /// Create a new visual representation of a property vertex.
         /// </summary>
         /// <param name="GraphCanvas">The graph canvas hosting the edge control.</param>
         /// <param name="Vertex">The associated property vertex.</param>
