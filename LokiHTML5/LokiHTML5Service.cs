@@ -77,7 +77,7 @@ namespace de.ahzf.Loki.HTML5
 
         public HTTPResponse GetEvents()
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion
