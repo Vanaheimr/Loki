@@ -66,7 +66,7 @@ namespace de.ahzf.Loki.HTML5
 
         #region GetRoot()
 
-        public HTTPResponse GetRoot()
+        public HTTPResponse GET_Root()
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
