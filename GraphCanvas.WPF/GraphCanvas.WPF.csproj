@@ -114,10 +114,6 @@
       <Project>{9F38DCC9-CD80-4B71-8A9C-B3F37E471CAB}</Project>
       <Name>Geometry</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WPFPipeControl\WPFPipeControl.csproj">
-      <Project>{8FB4A584-A2B3-49A7-B82F-0D50F698BB2A}</Project>
-      <Name>WPFPipeControl</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
