@@ -27,7 +27,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 
 using de.ahzf.Blueprints.PropertyGraphs;
-using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
 #endregion
 
@@ -708,6 +708,7 @@ namespace de.ahzf.Loki
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+
                              IGenericPropertyEdge <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
