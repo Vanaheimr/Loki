@@ -23,9 +23,10 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
+using de.ahzf.Illias.Geometry;
+using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Blueprints;
 using de.ahzf.Blueprints.PropertyGraphs;
-using de.ahzf.Illias.Geometry;
 
 #endregion
 
