@@ -27,7 +27,7 @@ using System.Globalization;
 
 #endregion
 
-namespace de.ahzf.Loki
+namespace de.ahzf.Vanaheimr.Loki
 {
 
     /// <summary>

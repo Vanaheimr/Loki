@@ -25,7 +25,7 @@ using System.Windows.Shapes;
 
 #endregion
 
-namespace de.ahzf.Loki
+namespace de.ahzf.Vanaheimr.Loki
 {
     
     /// <summary>

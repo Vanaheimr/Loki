@@ -58,6 +58,7 @@
     <Compile Include="Canvas\SaveCanvas.cs" />
     <Compile Include="CommonControl.cs" />
     <Compile Include="Delegates.cs" />
+    <Compile Include="TreeView\NewTreeViewTraverser.cs" />
     <Compile Include="VertexControl.cs" />
     <Compile Include="Interfaces\VertexBounding.cs" />
     <Compile Include="Interfaces\IVertexControl.cs" />
@@ -113,6 +114,18 @@
     <ProjectReference Include="..\..\Illias\Geometry\Geometry.csproj">
       <Project>{9F38DCC9-CD80-4B71-8A9C-B3F37E471CAB}</Project>
       <Name>Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Styx\Styx\Styx.csproj">
+      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
+      <Name>Styx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Walkyr\GraphML\GraphML.csproj">
+      <Project>{0E75BD4B-22A3-444D-8DA0-39FD33012C61}</Project>
+      <Name>GraphML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Walkyr\Walkyr\Walkyr.csproj">
+      <Project>{A3507C2E-1A82-4342-BD42-F544275D6959}</Project>
+      <Name>Walkyr</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

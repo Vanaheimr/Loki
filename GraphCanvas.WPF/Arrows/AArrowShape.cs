@@ -26,7 +26,7 @@ using System.ComponentModel;
 
 #endregion
 
-namespace de.ahzf.Loki
+namespace de.ahzf.Vanaheimr.Loki
 {
 
     /// <summary>
