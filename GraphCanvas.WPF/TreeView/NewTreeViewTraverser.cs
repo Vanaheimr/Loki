@@ -74,7 +74,7 @@ namespace de.ahzf.Vanaheimr.Loki
 
         {
 
-            graph.OnVertexAdded += (g, vertex) => {
+            graph.OnVertexAddition.OnNotification += (g, vertex) => {
 
                 if (vertex.Label.Equals(VertexLabel))
                 {

@@ -178,6 +178,28 @@ namespace de.ahzf.Vanaheimr.Loki
 
         #endregion
 
+        #region Refresh
+
+        /// <summary>
+        /// Repaint the edge control.
+        /// </summary>
+        public Boolean Refresh
+        {
+
+            get
+            {
+                return (Boolean) GetValue(RefreshProperty);
+            }
+
+            set
+            {
+                SetValue(RefreshProperty, value);
+            }
+
+        }
+
+        #endregion
+
         #region ShowDirection
 
         /// <summary>
@@ -284,6 +306,23 @@ namespace de.ahzf.Vanaheimr.Loki
 
         #region Dependency Properties
 
+        #region Refresh
+
+        /// <summary>
+        /// Repaint the edge control.
+        /// </summary>
+        public static readonly DependencyProperty RefreshProperty =
+                               DependencyProperty.Register("Refresh",
+                                                           typeof(Boolean),
+                                                           typeof(EdgeControl<TIdVertex, TRevisionIdVertex, TVertexType, TKeyVertex, TValueVertex,
+                                                                              TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
+                                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
+                                                           new FrameworkPropertyMetadata(true,
+                                                                                         FrameworkPropertyMetadataOptions.AffectsRender));
+
+        #endregion
+
         #region ShowDirection
 
         /// <summary>
@@ -367,15 +406,15 @@ namespace de.ahzf.Vanaheimr.Loki
             this.Edge           = Edge;
             this.DataContext    = Edge;
 
-            OutVertexControl    = Edge.OutVertex[GraphCanvas.VertexShapePropertyKey] as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                      TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+            OutVertexControl    = Edge.OutVertex[GraphCanvas.VertexControlPropertyKey] as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
-            InVertexControl     = Edge. InVertex[GraphCanvas.VertexShapePropertyKey] as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                      TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+            InVertexControl     = Edge. InVertex[GraphCanvas.VertexControlPropertyKey] as VertexControl<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
             this.CaptionYOffset = 10.0;
 

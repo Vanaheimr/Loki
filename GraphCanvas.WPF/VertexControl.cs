@@ -269,10 +269,10 @@ namespace de.ahzf.Vanaheimr.Loki
 
         {
 
-            this.Vertex         = Vertex;
-            this.DataContext    = Vertex;
-            this.Fill           = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
-            this.Stroke         = new Pen(new SolidColorBrush(Colors.Black), 1.0);
+            this.Vertex       = Vertex;
+            this.DataContext  = Vertex;
+            this.Fill         = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+            this.Stroke       = new Pen(new SolidColorBrush(Colors.Black), 1.0);
 
         }
 
