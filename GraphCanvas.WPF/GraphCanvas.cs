@@ -756,8 +756,11 @@ namespace de.ahzf.Vanaheimr.Loki
                                                                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
-                OutVertexControl.ToolTip    = DefaultVertexToolTip(Edge.OutVertex);
-                 InVertexControl.ToolTip    = DefaultVertexToolTip(Edge. InVertex);
+                if (OutVertexControl != null)
+                    OutVertexControl.ToolTip = DefaultVertexToolTip(Edge.OutVertex);
+
+                if (InVertexControl != null)
+                    InVertexControl.ToolTip  = DefaultVertexToolTip(Edge. InVertex);
 
                 if (OnChangedNumberOfEdges != null)
                     OnChangedNumberOfEdges(Graph.NumberOfEdges());
