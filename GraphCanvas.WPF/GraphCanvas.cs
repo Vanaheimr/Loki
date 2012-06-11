@@ -55,7 +55,7 @@ namespace de.ahzf.Vanaheimr.Loki
         /// Creates a new canvas for visualizing a non-generic property graph.
         /// </summary>
         public GraphCanvas()
-            : base(new PropertyGraph(), "GraphCanvas", "VertexShape", "EdgeShape")
+            : base(GraphFactory.CreateGenericPropertyGraph(1), "GraphCanvas", "VertexShape", "EdgeShape")
         { }
 
         #endregion
