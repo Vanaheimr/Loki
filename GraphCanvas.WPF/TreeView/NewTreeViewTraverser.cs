@@ -30,8 +30,9 @@ namespace de.ahzf.Vanaheimr.Loki
 {
 
     public static partial class Traverser
-
     {
+
+        #region NewTreeViewTraverser
 
         public static void NewTreeViewTraverser<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -81,6 +82,8 @@ namespace de.ahzf.Vanaheimr.Loki
 
                     var TreeViewItem = new TreeViewItem() { Header = TreeViewDataDelegate(vertex) };
 
+                    
+
                     if (vertex.OutDegree(EdgeLabel) == 0)
                     {
                         Treeview.Items.Add(TreeViewItem);
@@ -105,6 +108,92 @@ namespace de.ahzf.Vanaheimr.Loki
             };
 
         }
+
+        #endregion
+
+        #region NewListViewTraverser
+
+        public static void NewListViewTraverser<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+            
+            (this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> graph,
+
+             ListView     Listview,
+             TVertexLabel VertexLabel,
+             TEdgeLabel   EdgeLabel,
+             Func<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, Object> TreeViewDataDelegate,
+             TKeyVertex   VertexPropertyKeyTreeViewItem)
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+
+            graph.OnVertexAddition.OnNotification += (g, vertex) => {
+
+                if (vertex.Label.Equals(VertexLabel))
+                {
+
+                    //var TreeViewItem = new ListViewItem();
+                    //TreeViewItem.DataContext = TreeViewDataDelegate(vertex);
+
+                    //var TreeViewItem = new TreeViewItem() { Header = TreeViewDataDelegate(vertex) };
+
+                    Listview.Items.Add(TreeViewDataDelegate(vertex));
+
+                    //if (vertex.OutDegree(EdgeLabel) == 0)
+                    //{
+                    //    Listview.Items.Add(TreeViewItem);
+                    //    vertex.AsMutable().SetProperty(VertexPropertyKeyTreeViewItem, (TValueVertex) (Object) TreeViewItem);
+                    //}
+
+
+
+                    //else
+                    //{
+                        
+                    //    var ParentTreeViewItem = vertex.OutEdges(EdgeLabel).First().InVertex[VertexPropertyKeyTreeViewItem] as TreeViewItem;
+                        
+                    //    if (ParentTreeViewItem != null)
+                    //    {
+                    //        ParentTreeViewItem.Items.Add(TreeViewItem);
+                    //        vertex.AsMutable().SetProperty(VertexPropertyKeyTreeViewItem, (TValueVertex) (Object) TreeViewItem);
+                    //    }
+
+                    //}
+
+                }
+
+            };
+
+        }
+
+        #endregion
 
     }
 
