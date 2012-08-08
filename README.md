@@ -21,7 +21,7 @@ all programmatically changes to the graph immediately.
     <Window x:Class    = "de.ahzf.Loki.WPFDemo.MainWindow"
             xmlns      = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x    = "http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:Loki = "clr-namespace:de.ahzf.Loki;assembly=GraphCanvas"
+            xmlns:Loki = "clr-namespace:de.ahzf.Vanaheimr.Loki;assembly=GraphCanvas"
             Title      = "Loki WPFDemo"
             Height     = "400"
             Width      = "600">
