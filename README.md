@@ -59,7 +59,7 @@ all programmatically changes to the graph immediately.
                 GraphCanvas.VertexCaption = v =>
                 {
                     Object Name;
-                    if (v.GetProperty("Name", out Name))
+                    if (v.TryGetProperty("Name", out Name))
                         return Name as String;
                     else
                         return v.Id.ToString();
@@ -80,7 +80,7 @@ all programmatically changes to the graph immediately.
                 // Customize the vertices tooltip
                 GraphCanvas.VertexToolTip = v => {
                     Object Name;
-                    if (v.GetProperty("Name", out Name))
+                    if (v.TryGetProperty("Name", out Name))
                         return Name as String;
                     else
                         return v.Id.ToString();
