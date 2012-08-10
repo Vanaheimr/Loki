@@ -30,6 +30,7 @@ using System.Windows.Shapes;
 using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Vanaheimr.Blueprints;
 using de.ahzf.Vanaheimr.Blueprints.InMemory;
+using de.ahzf.Vanaheimr.Blueprints.Schema;
 
 #endregion
 
@@ -66,7 +67,37 @@ namespace de.ahzf.Vanaheimr.Loki
 
     #endregion
 
-    #region Generic GraphCanvas
+    #region Non-generic SchemaGraphCanvas
+
+    /// <summary>
+    /// Creates a new canvas for visualizing a non-generic property graph.
+    /// </summary>
+    public class SchemaGraphCanvas : GraphCanvas<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object>
+    {
+
+        #region Constructor(s)
+
+        #region SchemaGraphCanvas()
+
+        /// <summary>
+        /// Creates a new canvas for visualizing a non-generic property graph.
+        /// </summary>
+        public SchemaGraphCanvas()
+            : base(GraphFactory.CreateSchemaGraph("1"), "GraphCanvas", "VertexShape", "EdgeShape")
+        { }
+
+        #endregion
+
+        #endregion
+
+    }
+
+    #endregion
+
+    #region Generic GraphCanvas<...>
 
     /// <summary>
     /// Creates a new canvas for visualizing a generic property graph.
@@ -589,8 +620,8 @@ namespace de.ahzf.Vanaheimr.Loki
                     OnChangedNumberOfVertices(Graph.NumberOfVertices());
 
                 Children.Add(VertexControl);
-                VertexControl.X = Random.Next(20, 400 - 20);
-                VertexControl.Y = Random.Next(20, 400 - 20);
+                VertexControl.X = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualWidth))  - 20);
+                VertexControl.Y = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualHeight)) - 20);
 
 //                Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
 //                Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
