@@ -620,8 +620,12 @@ namespace de.ahzf.Vanaheimr.Loki
                     OnChangedNumberOfVertices(Graph.NumberOfVertices());
 
                 Children.Add(VertexControl);
-                VertexControl.X = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualWidth))  - 20);
-                VertexControl.Y = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualHeight)) - 20);
+
+                if (this.ActualHeight > 0 && this.ActualWidth > 0)
+                {
+                    VertexControl.X = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualWidth))  - 20);
+                    VertexControl.Y = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualHeight)) - 20);
+                }
 
 //                Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
 //                Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
