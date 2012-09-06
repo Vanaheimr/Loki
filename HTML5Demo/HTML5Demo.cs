@@ -21,8 +21,8 @@
 using System;
 using System.Linq;
 
-using de.ahzf.Hermod.HTTP;
-using de.ahzf.Hermod.Datastructures;
+using de.ahzf.Vanaheimr.Hermod.HTTP;
+using de.ahzf.Vanaheimr.Hermod.Datastructures;
 using System.Threading.Tasks;
 using System.Threading;
 
