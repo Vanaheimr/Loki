@@ -93,6 +93,14 @@
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
       <Name>PropertyGraphs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Hermod\HermodHTTPServer\HermodHTTPServer.csproj">
+      <Project>{9CE48DAC-0512-4947-942B-EF4C42C52B47}</Project>
+      <Name>HermodHTTPServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Hermod\HermodHTTP\HermodHTTP.csproj">
+      <Project>{9A00BD39-1385-4DB4-8F38-363BB947CCB4}</Project>
+      <Name>HermodHTTP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj">
       <Project>{477EFD16-3627-4473-957D-44CA9A9DFB79}</Project>
       <Name>Hermod</Name>
