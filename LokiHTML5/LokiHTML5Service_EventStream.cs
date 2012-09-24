@@ -68,7 +68,7 @@ namespace de.ahzf.Loki.HTML5
 
         public HTTPResponse GET_Root()
         {
-            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
+            return new HTTPResult<Object>(IHTTPConnection.RequestHeader, HTTPStatusCode.NotAcceptable).Error;
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace de.ahzf.Loki.HTML5
         public HTTPResponse GetEvents()
         {
 
-            var _RequestHeader      = IHTTPConnection.InHTTPRequest;
+            var _RequestHeader      = IHTTPConnection.RequestHeader;
             var _LastEventId        = 0UL;
             var _Client_LastEventId = 0UL;
             var _EventSource        = IHTTPConnection.URLMapping.EventSource("GraphEvents");

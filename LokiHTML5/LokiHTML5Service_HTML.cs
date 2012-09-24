@@ -113,7 +113,7 @@ namespace de.ahzf.Loki.HTML5
 
         public HTTPResponse GetEvents()
         {
-            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
+            return new HTTPResult<Object>(IHTTPConnection.RequestHeader, HTTPStatusCode.NotAcceptable).Error;
         }
 
         #endregion
