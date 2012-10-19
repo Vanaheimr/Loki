@@ -119,14 +119,6 @@
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Styx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Walkyr\GraphML\GraphML.csproj">
-      <Project>{0E75BD4B-22A3-444D-8DA0-39FD33012C61}</Project>
-      <Name>GraphML</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Walkyr\Walkyr\Walkyr.csproj">
-      <Project>{A3507C2E-1A82-4342-BD42-F544275D6959}</Project>
-      <Name>Walkyr %28Dependencies\Walkyr\Walkyr%29</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
