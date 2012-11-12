@@ -156,8 +156,8 @@ namespace de.ahzf.Illias.SQL
 
         #region ConstructQueryDelegate
 
-        public Func<String>                 ConstructQueryDelegate         { get; set; }
-        public Func<String, String, String> ConstructStorageQueryDelegate  { get; set; }
+        public Func<String>                          ConstructQueryDelegate         { get; set; }
+        public Func<String, String, Boolean, String> ConstructStorageQueryDelegate  { get; set; }
 
         #endregion
 
@@ -187,6 +187,8 @@ namespace de.ahzf.Illias.SQL
         }
 
         #endregion
+
+        public Func<String, String> StoreQueryTransformator { get; set; }
 
         #endregion
 
@@ -224,6 +226,9 @@ namespace de.ahzf.Illias.SQL
 
             this.DisabledColor = new SolidColorBrush(Color.FromRgb(130, 130, 130));
             this.EnabledColor  = new SolidColorBrush(Color.FromRgb(  0,   0,   0));
+
+            DataGraphGrid.MouseWheel        += DataGraphGrid_MouseWheel;
+            DataGraphGrid.PreviewMouseWheel += DataGraphGrid_MouseWheel;
 
         }
 
@@ -302,6 +307,26 @@ namespace de.ahzf.Illias.SQL
         }
 
 
+
+        void DataGraphGrid_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+            //int currentIndex = this.DataGraphGrid.FirstDisplayedScrollingRowIndex;
+            //int scrollLines = SystemInformation.MouseWheelScrollLines;
+
+            DataGridScroller.ScrollToVerticalOffset(DataGridScroller.VerticalOffset - e.Delta / 3);
+
+            if (e.Delta > 0)
+            {
+            //    this.DataGraphGrid.FirstDisplayedScrollingRowIndex = Math.Max(0, currentIndex - scrollLines);
+            }
+            else if (e.Delta < 0)
+            {
+            //    this.DataGraphGrid.FirstDisplayedScrollingRowIndex = currentIndex + scrollLines;
+            }
+
+        }
+
         private void SomeThingChanged_private()
         {
             if (this.SomeThingChanged != null)
@@ -346,6 +371,15 @@ namespace de.ahzf.Illias.SQL
 
         #endregion
 
+
+        #region LoadQueryButton_Click(Sender, RoutedEventArgs)
+
+        private void LoadQueryButton_Click(Object Sender, RoutedEventArgs RoutedEventArgs)
+        {
+        }
+
+        #endregion
+
         #region SaveQueryButton_Click(Sender, RoutedEventArgs)
 
         private void SaveQueryButton_Click(Object Sender, RoutedEventArgs RoutedEventArgs)
@@ -368,7 +402,12 @@ namespace de.ahzf.Illias.SQL
                 if (file.Exists)
                     file.Delete();
 
-                File.WriteAllText(_SaveFileDialog.FileName, ConstructStorageQueryDelegate("$StartDate", "$EndDate"));
+                var QueryString = ConstructStorageQueryDelegate("$StartDate", "$EndDate", false);
+
+                if (StoreQueryTransformator != null)
+                    QueryString = StoreQueryTransformator(QueryString);
+
+                File.WriteAllText(_SaveFileDialog.FileName, QueryString);
 
             }
 
