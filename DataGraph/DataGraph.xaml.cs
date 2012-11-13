@@ -227,7 +227,6 @@ namespace de.ahzf.Illias.SQL
             this.DisabledColor = new SolidColorBrush(Color.FromRgb(130, 130, 130));
             this.EnabledColor  = new SolidColorBrush(Color.FromRgb(  0,   0,   0));
 
-            DataGraphGrid.MouseWheel        += DataGraphGrid_MouseWheel;
             DataGraphGrid.PreviewMouseWheel += DataGraphGrid_MouseWheel;
 
         }
@@ -307,25 +306,14 @@ namespace de.ahzf.Illias.SQL
         }
 
 
+        #region DataGraphGrid_MouseWheel(Sender, MouseWheelEventArgs MouseWheelEventArgs)
 
-        void DataGraphGrid_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void DataGraphGrid_MouseWheel(Object Sender, MouseWheelEventArgs MouseWheelEventArgs)
         {
-
-            //int currentIndex = this.DataGraphGrid.FirstDisplayedScrollingRowIndex;
-            //int scrollLines = SystemInformation.MouseWheelScrollLines;
-
-            DataGridScroller.ScrollToVerticalOffset(DataGridScroller.VerticalOffset - e.Delta / 3);
-
-            if (e.Delta > 0)
-            {
-            //    this.DataGraphGrid.FirstDisplayedScrollingRowIndex = Math.Max(0, currentIndex - scrollLines);
-            }
-            else if (e.Delta < 0)
-            {
-            //    this.DataGraphGrid.FirstDisplayedScrollingRowIndex = currentIndex + scrollLines;
-            }
-
+            DataGridScroller.ScrollToVerticalOffset(DataGridScroller.VerticalOffset - MouseWheelEventArgs.Delta / 3);
         }
+
+        #endregion
 
         private void SomeThingChanged_private()
         {
