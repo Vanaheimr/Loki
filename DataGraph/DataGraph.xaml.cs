@@ -347,6 +347,18 @@ namespace de.ahzf.Illias.SQL
 
         #endregion
 
+        public void ClearLegend()
+        {
+            DataGraphLegend.Children.Clear();
+        }
+
+        public void Clear()
+        {
+            DataGraphQueryTextBox.Clear();
+            DataGraphLegend.Children.Clear();
+            DataGraphGrid.Columns.Clear();
+        }
+
         #region LoadDataButton_Click(Sender, RoutedEventArgs)
 
         private void LoadDataButton_Click(Object Sender, RoutedEventArgs RoutedEventArgs)
