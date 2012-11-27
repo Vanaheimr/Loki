@@ -43,6 +43,8 @@ namespace de.ahzf.Illias.SQL
 
         #region Data
 
+        private readonly Random random;
+
         private String OldOffset;
         private String OldLimit;
 
@@ -222,6 +224,8 @@ namespace de.ahzf.Illias.SQL
 
             InitializeComponent();
 
+            this.random        = new Random();
+
             this.ConstructQueryDelegate = () => "";
 
             this.DisabledColor = new SolidColorBrush(Color.FromRgb(130, 130, 130));
@@ -380,9 +384,7 @@ namespace de.ahzf.Illias.SQL
 
         #endregion
 
-        #region SaveQueryButton_Click(Sender, RoutedEventArgs)
-
-        private void SaveQueryButton_Click(Object Sender, RoutedEventArgs RoutedEventArgs)
+        public void SaveQueryDialog()
         {
 
             var _SaveFileDialog = new SaveFileDialog();
@@ -411,6 +413,13 @@ namespace de.ahzf.Illias.SQL
 
             }
 
+        }
+
+        #region SaveQueryButton_Click(Sender, RoutedEventArgs)
+
+        private void SaveQueryButton_Click(Object Sender, RoutedEventArgs RoutedEventArgs)
+        {
+            SaveQueryDialog();
         }
 
         #endregion

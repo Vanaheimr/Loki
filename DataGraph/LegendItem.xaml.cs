@@ -34,11 +34,12 @@ namespace de.ahzf.Illias.SQL
     public partial class LegendItem : UserControl, IEquatable<LegendItem>
     {
 
-        private Random             random;
-        private Action<LegendItem> RemovalDelegate;
+        private readonly Random             Random;
+        private readonly Action<LegendItem> RemovalDelegate;
 
-        public String      Legend               { get; private set; }
-        public DataChannel DataChannel          { get; private set; }
+        public String      Legend           { get; private set; }
+        public DataChannel DataChannel      { get; private set; }
+
 
         public LegendItem()
         {
@@ -51,13 +52,12 @@ namespace de.ahzf.Illias.SQL
 
             this.RemovalDelegate = RemovalDelegate;
             this.DataChannel     = DataChannel;
-
-            random = new Random();
+            this.Random          = new Random(Text.GetHashCode());
 
             Legend               = Text;
             LegendLabel.Content  = Text;
             ToolTip              = Text;
-            LegendRectangle.Fill = new SolidColorBrush(Color.FromRgb((Byte) random.Next(255), (Byte) random.Next(255), (Byte) random.Next(255)));
+            LegendRectangle.Fill = new SolidColorBrush(Color.FromRgb((Byte) Random.Next(255), (Byte) Random.Next(255), (Byte) Random.Next(255)));
 
             this.ContextMenu = new ContextMenu();
 
@@ -75,7 +75,7 @@ namespace de.ahzf.Illias.SQL
 
         private void SetNewColor(Object Sender, RoutedEventArgs e)
         {
-            LegendRectangle.Fill = new SolidColorBrush(Color.FromRgb((Byte) random.Next(255), (Byte) random.Next(255), (Byte) random.Next(255)));
+            LegendRectangle.Fill = new SolidColorBrush(Color.FromRgb((Byte) Random.Next(255), (Byte) Random.Next(255), (Byte) Random.Next(255)));
         }
 
         private void RemoveLegendItem(Object Sender, RoutedEventArgs e)
