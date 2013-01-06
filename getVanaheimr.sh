@@ -38,6 +38,7 @@ fi;
 
 
 # Graphs
+
 if [ ! -d Eunomia ]; then
 	git clone git://github.com/Vanaheimr/Eunomia.git;
 else
@@ -60,4 +61,18 @@ if [ ! -d Jurassic ]; then
 	git clone git://github.com/Vanaheimr/Jurassic.git;
 else
 	echo "Jurassic found..."
+fi;
+
+
+# Networking
+if [ ! -d Hermod ]; then
+	git clone git://github.com/Vanaheimr/Hermod.git;
+else
+	echo "Hermod found..."
+fi;
+
+if [ ! -d Bifrost ]; then
+	git clone git://github.com/Vanaheimr/Bifrost.git;
+else
+	echo "Bifrost found..."
 fi;

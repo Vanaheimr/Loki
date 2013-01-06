@@ -81,10 +81,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Balder\Balder\Balder.csproj">
-      <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
-      <Name>Balder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Blueprints.NET\Blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>
