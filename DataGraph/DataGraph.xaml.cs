@@ -163,14 +163,41 @@ namespace de.ahzf.Illias.SQL
 
         #endregion
 
-        #region DisableGraph
+        #region DisableGridTab
 
-        public Boolean DisableGraph
+        public Boolean DisableGridTab
         {
 
             get
             {
-                return DataGridTabControl.Items.Contains(GraphTab);
+                return !DataGridTabControl.Items.Contains(GridTab);
+            }
+
+            set
+            {
+
+                if (value)
+                {
+                    if (DataGridTabControl.Items.Contains(GridTab))
+                        DataGridTabControl.Items.Remove(GridTab);
+                }
+                else
+                    DataGridTabControl.Items.Add(GridTab);
+
+            }
+
+        }
+
+        #endregion
+
+        #region DisableGraphTab
+
+        public Boolean DisableGraphTab
+        {
+
+            get
+            {
+                return !DataGridTabControl.Items.Contains(GraphTab);
             }
 
             set
@@ -191,6 +218,8 @@ namespace de.ahzf.Illias.SQL
         #endregion
 
         public Func<String, String> StoreQueryTransformator { get; set; }
+
+        String InitialDirectory { get; set; }
 
         #endregion
 
@@ -391,7 +420,7 @@ namespace de.ahzf.Illias.SQL
             _SaveFileDialog.FileName          = "myQuery";
             _SaveFileDialog.DefaultExt        = ".dbquery";
             _SaveFileDialog.Filter            = "DB query files (.dbquery)|*.dbquery|All Files|*.*";
-            _SaveFileDialog.InitialDirectory  = Directory.GetCurrentDirectory();
+            _SaveFileDialog.InitialDirectory  = InitialDirectory != null ? InitialDirectory : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             // Show save file dialog box
             var result = _SaveFileDialog.ShowDialog();
