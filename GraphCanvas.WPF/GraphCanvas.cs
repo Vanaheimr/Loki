@@ -72,10 +72,10 @@ namespace de.ahzf.Vanaheimr.Loki
     /// <summary>
     /// Creates a new canvas for visualizing a non-generic property graph.
     /// </summary>
-    public class SchemaGraphCanvas : GraphCanvas<String, Int64, String, String, Object,
-                                                 String, Int64, String, String, Object,
-                                                 String, Int64, String, String, Object,
-                                                 String, Int64, String, String, Object>
+    public class SchemaGraphCanvas : GraphCanvas<String, Int64, VertexLabel,    String, Object,
+                                                 String, Int64, EdgeLabel,      String, Object,
+                                                 String, Int64, MultiEdgeLabel, String, Object,
+                                                 String, Int64, HyperEdgeLabel, String, Object>
     {
 
         #region Constructor(s)
@@ -86,7 +86,7 @@ namespace de.ahzf.Vanaheimr.Loki
         /// Creates a new canvas for visualizing a non-generic property graph.
         /// </summary>
         public SchemaGraphCanvas()
-            : base(GraphFactory.CreateSchemaGraph("1"), "GraphCanvas", "VertexShape", "EdgeShape")
+            : base(GraphFactory.CreateGenericPropertyGraph_WithStringIds("1").SchemaGraph("2"), "GraphCanvas", "VertexShape", "EdgeShape")
         { }
 
         #endregion
