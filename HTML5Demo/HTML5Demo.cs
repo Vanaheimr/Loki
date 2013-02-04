@@ -64,13 +64,13 @@ namespace de.ahzf.Loki.HTML5
 
                 while (!_CancellationTokenSource.IsCancellationRequested)
                 {
-                    _EventSource.Submit("vertexadded", "{\"radius\": " + _Random.Next(5, 50) + ", \"x\": " + _Random.Next(50, 550) + ", \"y\": ",
-                                                       _Random.Next(50, 350) + "}");
+                    _EventSource.SubmitSubEvent("vertexadded", "{\"radius\": " + _Random.Next(5, 50) + ", \"x\": " + _Random.Next(50, 550) + ", \"y\": ",
+                                                                                 _Random.Next(50, 350) + "}");
                     Thread.Sleep(1000);
                 }
 
             },
-            
+
             _CancellationTokenSource.Token,
             TaskCreationOptions.LongRunning,
             TaskScheduler.Default);

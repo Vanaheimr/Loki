@@ -87,7 +87,7 @@ namespace de.ahzf.Vanaheimr.Loki
                     if (vertex.OutDegree(EdgeLabel) == 0)
                     {
                         Treeview.Items.Add(TreeViewItem);
-                        vertex.AsMutable().SetProperty(VertexPropertyKeyTreeViewItem, (TValueVertex) (Object) TreeViewItem);
+                        vertex.AsMutable().Set(VertexPropertyKeyTreeViewItem, (TValueVertex) (Object) TreeViewItem);
                     }
 
                     else
@@ -98,7 +98,7 @@ namespace de.ahzf.Vanaheimr.Loki
                         if (ParentTreeViewItem != null)
                         {
                             ParentTreeViewItem.Items.Add(TreeViewItem);
-                            vertex.AsMutable().SetProperty(VertexPropertyKeyTreeViewItem, (TValueVertex) (Object) TreeViewItem);
+                            vertex.AsMutable().Set(VertexPropertyKeyTreeViewItem, (TValueVertex) (Object) TreeViewItem);
                         }
 
                     }

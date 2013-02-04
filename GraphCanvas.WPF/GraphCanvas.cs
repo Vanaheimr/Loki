@@ -480,7 +480,7 @@ namespace de.ahzf.Vanaheimr.Loki
             this.GraphCanvasPropertyKey    = GraphCanvasPropertyKey;
             this.VertexControlPropertyKey  = VertexShapePropertyKey;
             this.EdgeControlPropertyKey    = EdgeShapePropertyKey;
-            Graph.SetProperty(GraphCanvasPropertyKey, (TValueVertex) (Object) this);
+            Graph.Set(GraphCanvasPropertyKey, (TValueVertex) (Object) this);
             DataContext                    = Graph;
             Random                         = new Random();
 
@@ -611,7 +611,7 @@ namespace de.ahzf.Vanaheimr.Loki
                 VertexControl.MouseLeftButtonDown += VertexControl_MouseLeftButtonDown;
                 VertexControl.MouseLeftButtonUp   += VertexControl_MouseLeftButtonUp;
                 VertexControl.DataContext          = Vertex;
-                Vertex.SetProperty(this.VertexControlPropertyKey, (TValueVertex) (Object) VertexControl);
+                Vertex.Set(this.VertexControlPropertyKey, (TValueVertex) (Object) VertexControl);
 
                 VertexControl.VertexCaption        = _VertexCaption;
                 VertexControl.ToolTip              = VertexToolTip(Vertex);
@@ -779,7 +779,7 @@ namespace de.ahzf.Vanaheimr.Loki
                 Canvas.SetZIndex(EdgeControl, -99);
                 Children.Add(EdgeControl);
 
-                Edge.SetProperty(this.EdgeControlPropertyKey, (TValueEdge) (Object)  EdgeControl);
+                Edge.Set(this.EdgeControlPropertyKey, (TValueEdge) (Object)  EdgeControl);
 
 
                 var OutVertexControl = Edge.OutVertex.GetProperty(this.VertexControlPropertyKey) as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
