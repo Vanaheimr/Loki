@@ -141,6 +141,13 @@
     <Content Include="resources\arbor.js\arbor-full.js" />
     <Content Include="resources\arbor.js\arbor-graphics.js" />
     <Content Include="resources\arbor.js\arbor-tween.js" />
+    <EmbeddedResource Include="resources\JQuery\jquery.min.js" />
+    <EmbeddedResource Include="resources\sigma.js\sigma.fisheye.js" />
+    <EmbeddedResource Include="resources\sigma.js\sigma.parseGexf.js" />
+    <EmbeddedResource Include="resources\sigma2.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\sigma.js\les_miserables.gexf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
