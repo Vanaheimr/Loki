@@ -147,7 +147,9 @@
     <EmbeddedResource Include="resources\sigma2.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\sigma.js\les_miserables.gexf" />
+    <EmbeddedResource Include="resources\sigma.js\les_miserables.gexf">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
