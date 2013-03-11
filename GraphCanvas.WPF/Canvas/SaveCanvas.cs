@@ -29,7 +29,7 @@ using System.Windows.Markup;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Loki
+namespace eu.Vanaheimr.Loki
 {
 
     /// <summary>

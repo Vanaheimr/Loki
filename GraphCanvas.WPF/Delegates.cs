@@ -20,11 +20,11 @@
 
 using System;
 
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Loki
+namespace eu.Vanaheimr.Loki
 {
 
     #region Vertices

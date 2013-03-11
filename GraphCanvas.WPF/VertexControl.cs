@@ -25,11 +25,11 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Windows.Controls;
 
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Loki
+namespace eu.Vanaheimr.Loki
 {
 
     /// <summary>

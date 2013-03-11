@@ -23,13 +23,13 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
-using de.ahzf.Illias.Geometry;
-using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Illias.Geometry;
+using eu.Vanaheimr.Illias.Commons.Collections;
+using eu.Vanaheimr.Balder;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Loki
+namespace eu.Vanaheimr.Loki
 {
 
     /// <summary>

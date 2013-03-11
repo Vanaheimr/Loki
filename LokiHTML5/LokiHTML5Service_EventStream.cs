@@ -22,9 +22,9 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-using de.ahzf.Illias.Commons;
-using de.ahzf.Vanaheimr.Hermod;
-using de.ahzf.Vanaheimr.Hermod.HTTP;
+using eu.Vanaheimr.Illias.Commons;
+using eu.Vanaheimr.Hermod;
+using eu.Vanaheimr.Hermod.HTTP;
 
 #endregion
 

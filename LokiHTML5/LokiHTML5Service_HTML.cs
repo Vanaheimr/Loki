@@ -22,7 +22,7 @@ using System;
 using System.Text;
 using System.Reflection;
 
-using de.ahzf.Vanaheimr.Hermod.HTTP;
+using eu.Vanaheimr.Hermod.HTTP;
 
 #endregion
 

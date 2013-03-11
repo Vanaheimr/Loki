@@ -22,11 +22,11 @@ using System;
 using System.Linq;
 using System.Windows.Controls;
 
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Loki
+namespace eu.Vanaheimr.Loki
 {
 
     public static partial class Traverser

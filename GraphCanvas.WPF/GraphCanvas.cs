@@ -27,14 +27,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Vanaheimr.Blueprints;
-using de.ahzf.Vanaheimr.Blueprints.InMemory;
-using de.ahzf.Vanaheimr.Blueprints.Schema;
+using eu.Vanaheimr.Illias.Commons.Collections;
+using eu.Vanaheimr.Balder;
+using eu.Vanaheimr.Balder.Schema;
+using eu.Vanaheimr.Balder.InMemory;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Loki
+namespace eu.Vanaheimr.Loki
 {
 
     #region Non-generic GraphCanvas
