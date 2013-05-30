@@ -21,11 +21,10 @@ using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
-using de.ahzf.Illias.SQL;
 
 #endregion
 
-namespace de.ahzf.Illias.SQL
+namespace eu.Vanaheimr.Illias.SQL
 {
 
     /// <summary>

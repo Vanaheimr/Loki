@@ -95,11 +95,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Blueprints.NET\Balder\Balder.csproj">
+    <ProjectReference Include="..\..\Balder\Balder\Balder.csproj">
       <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
       <Name>Balder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Blueprints.NET\PropertyGraphs\PropertyGraphs.csproj">
+    <ProjectReference Include="..\..\Balder\PropertyGraphs\PropertyGraphs.csproj">
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
       <Name>PropertyGraphs</Name>
     </ProjectReference>

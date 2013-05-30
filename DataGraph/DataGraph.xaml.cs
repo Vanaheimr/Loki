@@ -28,7 +28,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Microsoft.Win32;
-using de.ahzf.Illias.SQL;
+
+using eu.Vanaheimr.Illias.SQL;
 
 #endregion
 
