@@ -311,9 +311,7 @@ namespace eu.Vanaheimr.Loki
             set
             {
                 if (value != null)
-                {
                     _EdgeCaption = value;
-                }
             }
 
         }
@@ -442,21 +440,21 @@ namespace eu.Vanaheimr.Loki
 
         protected override void OnRender(DrawingContext DrawingContext)
         {
-            
+
             base.OnRender(DrawingContext);
 
             var line = new Line2D<Double>(X1, Y1, this.X2, this.Y2);
             var center = line.Center;
 
             var theta = Math.Atan2(Y1 - this.Y2, X1 - this.X2);
-			var sint  = Math.Sin(theta);
-			var cost  = Math.Cos(theta);
+            var sint  = Math.Sin(theta);
+            var cost  = Math.Cos(theta);
 
             var X2 = X1 - (line.Length - 17) * cost;
             var Y2 = Y1 - (line.Length - 17) * sint;
 
-			var ArrowOrigin = new Point(X1, Y1);
-			var ArrowTarget = new Point(X2, Y2);
+            var ArrowOrigin = new Point(X1, Y1);
+            var ArrowTarget = new Point(X2, Y2);
             var BlackPen    = new Pen(Brushes.Black, 2);
 
             var blueBlackLGB            = new LinearGradientBrush();
@@ -481,10 +479,10 @@ namespace eu.Vanaheimr.Loki
             blackBluePen.Brush          = blueBlackLGB;
 
             var pt3 = new Point(X2 + (HeadWidth  * cost - HeadHeight * sint),
-				                Y2 + (HeadWidth  * sint + HeadHeight * cost));
+                                Y2 + (HeadWidth  * sint + HeadHeight * cost));
 
             var pt4 = new Point(X2 + (HeadWidth  * cost + HeadHeight * sint),
-				                Y2 - (HeadHeight * cost - HeadWidth  * sint));
+                                Y2 - (HeadHeight * cost - HeadWidth  * sint));
 
             DrawingContext.DrawLine(BlackPen, ArrowOrigin, ArrowTarget);
             //DrawingContext.DrawLine(DrawingPen, pt3, ArrowTarget);

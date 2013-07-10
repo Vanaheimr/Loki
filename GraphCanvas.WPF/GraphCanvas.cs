@@ -37,6 +37,210 @@ using eu.Vanaheimr.Balder.InMemory;
 namespace eu.Vanaheimr.Loki
 {
 
+    #region GraphCanvasFactory
+
+    /// <summary>
+    /// Graph canvas helper.
+    /// </summary>
+    public static class GraphCanvasFactory
+    {
+
+        #region BuildGraphCanvas<...>(Graph, GraphCanvasPropertyKey, VertexControlPropertyKey, EdgeControlPropertyKey)
+
+        /// <summary>
+        /// Creates a new graph canvas for visualizing the given generic property graph.
+        /// </summary>
+        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+        /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+        /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+        /// 
+        /// <param name="Graph">A generic property graph.</param>
+        /// <param name="GraphCanvasPropertyKey">The property key for storing the graph canvas.</param>
+        /// <param name="VertexControlPropertyKey">The property key for storing the vertex user control.</param>
+        /// <param name="EdgeControlPropertyKey">The property key for storing the edge user control.</param>
+        /// <param name="MultiEdgeControlPropertyKey">The property key for storing the multiedge user control.</param>
+        /// <param name="HyperEdgeControlPropertyKey">The property key for storing the hyperedge user control.</param>
+        public static GraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            BuildGraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+
+                TKeyVertex     GraphCanvasPropertyKey,
+                TKeyVertex     VertexControlPropertyKey,
+                TKeyEdge       EdgeControlPropertyKey,
+                TKeyMultiEdge  MultiEdgeControlPropertyKey,
+                TKeyHyperEdge  HyperEdgeControlPropertyKey)
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+
+            return new GraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                        Graph,
+                        GraphCanvasPropertyKey,
+                        VertexControlPropertyKey,
+                        EdgeControlPropertyKey,
+                        MultiEdgeControlPropertyKey,
+                        HyperEdgeControlPropertyKey);
+
+        }
+
+        #endregion
+
+        #region BuildSchemaGraphCanvas<...>(Graph, SchemaGraphId, GraphCanvasPropertyKey, VertexControlPropertyKey, EdgeControlPropertyKey)
+
+        /// <summary>
+        /// Creates a new graph canvas for visualizing the schema
+        /// of the given generic property graph.
+        /// </summary>
+        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+        /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+        /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+        /// 
+        /// <param name="Graph">A generic property graph.</param>
+        /// <param name="SchemaGraphId">The schema graph identification.</param>
+        /// <param name="GraphCanvasPropertyKey">The property key for storing the graph canvas.</param>
+        /// <param name="VertexControlPropertyKey">The property key for storing the vertex user control.</param>
+        /// <param name="EdgeControlPropertyKey">The property key for storing the edge user control.</param>
+        /// <param name="MultiEdgeControlPropertyKey">The property key for storing the multiedge user control.</param>
+        /// <param name="HyperEdgeControlPropertyKey">The property key for storing the hyperedge user control.</param>
+        public static GraphCanvas<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
+                                  TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
+                                  TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
+                                  THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>
+
+            BuildSchemaGraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+
+                TVertexLabel   SchemaGraphId,
+                TKeyVertex     GraphCanvasPropertyKey,
+                TKeyVertex     VertexControlPropertyKey,
+                TKeyEdge       EdgeControlPropertyKey,
+                TKeyMultiEdge  MultiEdgeControlPropertyKey,
+                TKeyHyperEdge  HyperEdgeControlPropertyKey)
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+
+            return new GraphCanvas<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
+                                   TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
+                                   TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
+                                   THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>(
+
+                        Graph.StrictSchemaGraph(SchemaGraphId),
+                        GraphCanvasPropertyKey,
+                        VertexControlPropertyKey,
+                        EdgeControlPropertyKey,
+                        MultiEdgeControlPropertyKey,
+                        HyperEdgeControlPropertyKey);
+
+        }
+
+        #endregion
+
+    }
+
+    #endregion
+
+
     #region Non-generic GraphCanvas
 
     /// <summary>
@@ -48,20 +252,12 @@ namespace eu.Vanaheimr.Loki
                                            UInt64, Int64, String, String, Object>
     {
 
-        #region Constructor(s)
-
-        #region GraphCanvas()
-
         /// <summary>
         /// Creates a new canvas for visualizing a non-generic property graph.
         /// </summary>
         public GraphCanvas()
-            : base(GraphFactory.CreateGenericPropertyGraph(1), "GraphCanvas", "VertexShape", "EdgeShape")
+            : base(GraphFactory.CreateGenericPropertyGraph(1), "GraphCanvas", "VertexShape", "EdgeShape", "MultiEdgeShape", "HyperEdgeShape")
         { }
-
-        #endregion
-
-        #endregion
 
     }
 
@@ -78,20 +274,12 @@ namespace eu.Vanaheimr.Loki
                                                  String, Int64, HyperEdgeLabel, String, Object>
     {
 
-        #region Constructor(s)
-
-        #region SchemaGraphCanvas()
-
         /// <summary>
         /// Creates a new canvas for visualizing a non-generic property graph.
         /// </summary>
         public SchemaGraphCanvas()
-            : base(GraphFactory.CreateGenericPropertyGraph_WithStringIds("1").StrictSchemaGraph("2"), "GraphCanvas", "VertexShape", "EdgeShape")
+            : base(GraphFactory.CreateGenericPropertyGraph_WithStringIds("1").StrictSchemaGraph("2"), "GraphCanvas", "VertexShape", "EdgeShape", "MultiEdgeShape", "HyperEdgeShape")
         { }
-
-        #endregion
-
-        #endregion
 
     }
 
@@ -184,20 +372,35 @@ namespace eu.Vanaheimr.Loki
 
         #endregion
 
+
+        #region PropertyKeys for user controls
+
         /// <summary>
         /// The property key for storing the graph canvas.
         /// </summary>
-        public TKeyVertex GraphCanvasPropertyKey { get; private set; }
+        public TKeyVertex     GraphCanvasPropertyKey        { get; private set; }
 
         /// <summary>
         /// The property key for storing the vertex user control.
         /// </summary>
-        public TKeyVertex VertexControlPropertyKey { get; private set; }
+        public TKeyVertex     VertexControlPropertyKey      { get; private set; }
 
         /// <summary>
         /// The property key for storing the edge user control.
         /// </summary>
-        public TKeyEdge EdgeControlPropertyKey { get; private set; }
+        public TKeyEdge       EdgeControlPropertyKey        { get; private set; }
+
+        /// <summary>
+        /// The property key for storing the multiedge user control.
+        /// </summary>
+        public TKeyMultiEdge  MultiEdgeControlPropertyKey   { get; private set; }
+
+        /// <summary>
+        /// The property key for storing the hyperedge user control.
+        /// </summary>
+        public TKeyHyperEdge  HyperEdgeControlPropertyKey   { get; private set; }
+
+        #endregion
 
 
         #region VertexControlCreator
@@ -255,9 +458,7 @@ namespace eu.Vanaheimr.Loki
             set
             {
                 if (value != null)
-                {
                     _VertexCaption = value;
-                }
             }
         
         }
@@ -300,7 +501,7 @@ namespace eu.Vanaheimr.Loki
                         {
 
                             VertexControl = VertexControlProperty as UserControl;
-                            
+
                             if (VertexControl != null)
                                 VertexControl.ToolTip = VertexToolTip(Vertex);
 
@@ -413,7 +614,7 @@ namespace eu.Vanaheimr.Loki
                         {
 
                             EdgeControl = EdgeControlProperty as UserControl;
-                            
+
                             if (EdgeControl != null)
                                 EdgeControl.ToolTip = EdgeToolTip(Edge);
 
@@ -461,32 +662,44 @@ namespace eu.Vanaheimr.Loki
 
         #region Constructor(s)
 
-        #region GraphCanvas(Graph)
+        #region GraphCanvas(Graph, GraphCanvasPropertyKey, VertexControlPropertyKey, EdgeControlPropertyKey, MultiEdgeControlPropertyKey, HyperEdgeControlPropertyKey)
 
         /// <summary>
         /// Creates a new canvas for visualizing the given property graph.
         /// </summary>
+        /// <param name="Graph">The generic property graph to visualize.</param>
+        /// <param name="GraphCanvasPropertyKey">The property key for storing the graph canvas.</param>
+        /// <param name="VertexControlPropertyKey">The property key for storing the vertex user control.</param>
+        /// <param name="EdgeControlPropertyKey">The property key for storing the edge user control.</param>
+        /// <param name="MultiEdgeControlPropertyKey">The property key for storing the multiedge user control.</param>
+        /// <param name="HyperEdgeControlPropertyKey">The property key for storing the hyperedge user control.</param>
         public GraphCanvas(IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
-                           TKeyVertex  GraphCanvasPropertyKey,
-                           TKeyVertex  VertexShapePropertyKey,
-                           TKeyEdge    EdgeShapePropertyKey)
+                           TKeyVertex     GraphCanvasPropertyKey,
+                           TKeyVertex     VertexControlPropertyKey,
+                           TKeyEdge       EdgeControlPropertyKey,
+                           TKeyMultiEdge  MultiEdgeControlPropertyKey,
+                           TKeyHyperEdge  HyperEdgeControlPropertyKey)
 
         {
 
-            this.Graph                     = Graph;
-            this.GraphCanvasPropertyKey    = GraphCanvasPropertyKey;
-            this.VertexControlPropertyKey  = VertexShapePropertyKey;
-            this.EdgeControlPropertyKey    = EdgeShapePropertyKey;
-            Graph.Set(GraphCanvasPropertyKey, (TValueVertex) (Object) this);
-            DataContext                    = Graph;
-            Random                         = new Random();
+            this.ClipToBounds                 = true;
 
-            this.Background                = new SolidColorBrush(Colors.Transparent);
-            this.MouseMove                += GraphCanvas_MouseMove;
-            this.MouseLeave               += GraphCanvas_MouseLeave;
+            this.Graph                        = Graph;
+            this.GraphCanvasPropertyKey       = GraphCanvasPropertyKey;
+            this.VertexControlPropertyKey     = VertexControlPropertyKey;
+            this.EdgeControlPropertyKey       = EdgeControlPropertyKey;
+            this.MultiEdgeControlPropertyKey  = MultiEdgeControlPropertyKey;
+            this.HyperEdgeControlPropertyKey  = HyperEdgeControlPropertyKey;
+            Graph.Set(GraphCanvasPropertyKey, (TValueVertex) (Object) this);
+            DataContext                       = Graph;
+            Random                            = new Random();
+
+            this.Background                   = new SolidColorBrush(Colors.Transparent);
+            this.MouseMove                   += GraphCanvas_MouseMove;
+            this.MouseLeave                  += GraphCanvas_MouseLeave;
 
             Graph.OnVertexAddition.OnNotification += (g, v) => AddVertex(g, v as IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -498,15 +711,15 @@ namespace eu.Vanaheimr.Loki
                                                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>);
 
-            _VertexControlCreator          = DefaultVertexControlCreator;
-            _VertexCaption                 = DefaultVertexCaption;
-            _VertexToolTip                 = DefaultVertexToolTip;
+            _VertexControlCreator             = DefaultVertexControlCreator;
+            _VertexCaption                    = DefaultVertexCaption;
+            _VertexToolTip                    = DefaultVertexToolTip;
 
-            _EdgeControlCreator            = DefaultEdgeControlCreator;
-            _EdgeCaption                   = DefaultEdgeCaption;
-            _EdgeToolTip                   = DefaultEdgeToolTip;
+            _EdgeControlCreator               = DefaultEdgeControlCreator;
+            _EdgeCaption                      = DefaultEdgeCaption;
+            _EdgeToolTip                      = DefaultEdgeToolTip;
 
-            CurrentDirectory               = Directory.GetCurrentDirectory();
+            CurrentDirectory                  = Directory.GetCurrentDirectory();
 
             AddGraphCanvasContextMenu();
 
@@ -1005,6 +1218,57 @@ namespace eu.Vanaheimr.Loki
             {
                 MessageBox.Show("Cancel!", "Error", MessageBoxButton.OK, MessageBoxImage .Error);
             }
+
+        }
+
+        #endregion
+
+
+        #region SchemaGraphCanvas(SchemaGraphId, SchemaGraphDescription = null, ContinuousLearning = true, EnforceSchema = false)
+
+        /// <summary>
+        /// Creates a new graph canvas for visualizing the schema used within
+        /// the given generic property graph canvas.
+        /// </summary>
+        /// <param name="SchemaGraphId">The schema graph identification.</param>
+        /// <param name="SchemaGraphDescription">An optional description of the schema graph.</param>
+        /// <param name="ContinuousLearning">If set to true, the schema graph will subsribe vertex/edge additions in order to continuously learn the graph schema.</param>
+        /// <param name="EnforceSchema">Disallow the 'continous learning' and any changes of the graph schema after setting up the schema graph. NOTE: Changing the schema graph is still allowed!</param>
+        public GraphCanvas<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
+                           TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
+                           TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
+                           THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>
+
+            SchemaGraphCanvas(TVertexLabel  SchemaGraphId,
+                              String        SchemaGraphDescription  = null,
+                              Boolean       ContinuousLearning      = true,
+                              Boolean       EnforceSchema           = false)
+
+        {
+
+            var SchemaGraphCanvas = new GraphCanvas<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
+                                                    TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
+                                                    TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
+                                                    THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>(
+
+                                         this.Graph.StrictSchemaGraph(SchemaGraphId,
+                                                                      SchemaGraphDescription, ContinuousLearning, EnforceSchema,
+                                                                      new TKeyVertex[1]    { this.VertexControlPropertyKey    },
+                                                                      new TKeyEdge[1]      { this.EdgeControlPropertyKey      },
+                                                                      new TKeyMultiEdge[1] { this.MultiEdgeControlPropertyKey },
+                                                                      new TKeyHyperEdge[1] { this.HyperEdgeControlPropertyKey }),
+                                         this.GraphCanvasPropertyKey,
+                                         this.VertexControlPropertyKey,
+                                         this.EdgeControlPropertyKey,
+                                         this.MultiEdgeControlPropertyKey,
+                                         this.HyperEdgeControlPropertyKey);
+
+
+            // Special visualization of schema graphs
+            SchemaGraphCanvas.EdgeCaption = edge => edge.Id.ToString();
+
+
+            return SchemaGraphCanvas;
 
         }
 

@@ -283,7 +283,7 @@ namespace eu.Vanaheimr.Loki
 
         protected override void OnRender(DrawingContext DrawingContext)
         {
-            
+
             base.OnRender(DrawingContext);
 
             DrawingContext.DrawEllipse(Fill,
