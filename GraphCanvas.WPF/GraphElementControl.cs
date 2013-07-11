@@ -35,7 +35,7 @@ namespace eu.Vanaheimr.Loki
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
-    /// <typeparam name="TVertexType">The type of the vertex type.</typeparam>
+    /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
     /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
     /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
     /// 
@@ -56,10 +56,10 @@ namespace eu.Vanaheimr.Loki
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-    public abstract class CommonControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> : UserControl
+    public abstract class GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> : UserControl
 
         where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
         where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -151,7 +151,7 @@ namespace eu.Vanaheimr.Loki
         /// The x-offset of the caption.
         /// </summary>
         [TypeConverter(typeof(DoubleConverter))]
-        public Double CaptionXOffset
+        public Double Caption_XOffset
         {
 
             get
@@ -174,7 +174,7 @@ namespace eu.Vanaheimr.Loki
         /// The y-offset of the caption.
         /// </summary>
         [TypeConverter(typeof(DoubleConverter))]
-        public Double CaptionYOffset
+        public Double Caption_YOffset
         {
 
             get
@@ -197,15 +197,15 @@ namespace eu.Vanaheimr.Loki
         public Pen Stroke { get; set; }
 
 
-        public Typeface Typeface { get; set; }
+        public Typeface Caption_Typeface { get; set; }
 
-        public Double FontSize { get; set; }
+        public Double Caption_FontSize { get; set; }
 
-        public Brush FontBrush { get; set; }
+        public Brush Caption_FontBrush { get; set; }
 
-        public TextAlignment TextAlignment { get; set; }
+        public TextAlignment Caption_TextAlignment { get; set; }
 
-        public TextTrimming TextTrimming { get; set; }
+        public TextTrimming Caption_TextTrimming { get; set; }
 
         public double LineHeight { get; set; }
 
@@ -214,7 +214,10 @@ namespace eu.Vanaheimr.Loki
         public double MaxTextHeight { get; set; }
 
         public double MaxTextWidth { get; set; }
-        
+
+        public FlowDirection Caption_FlowDirection { get; set; }
+
+        public CultureInfo Caption_CultureInfo { get; set; }
 
         #endregion
 
@@ -286,7 +289,7 @@ namespace eu.Vanaheimr.Loki
                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(18.0,
+                                                           new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
 
@@ -297,29 +300,27 @@ namespace eu.Vanaheimr.Loki
 
         #region Constructor(s)
 
-        #region CommonControl(GraphCanvas)
-
         /// <summary>
         /// Create a new visual representation of a property graph element.
         /// </summary>
         /// <param name="GraphCanvas">The graph canvas hosting the edge control.</param>
-        public CommonControl(GraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphCanvas)
+        public GraphElementControl(GraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphCanvas)
         {
 
-            this.GraphCanvas    = GraphCanvas;
+            this.GraphCanvas            = GraphCanvas;
 
-            this.Typeface       = new Typeface("Verdana");
-            this.FontSize       = 12;
-            this.FontBrush      = Brushes.Black;
-            this.TextAlignment  = TextAlignment.Center;
-            this.TextTrimming   = TextTrimming.None;
+            this.Caption_Typeface       = new Typeface("Verdana");
+            this.Caption_FontSize       = 12;
+            this.Caption_FontBrush      = Brushes.Black;
+            this.Caption_TextAlignment  = TextAlignment.Center;
+            this.Caption_TextTrimming   = TextTrimming.None;
+            this.Caption_FlowDirection  = FlowDirection.LeftToRight;
+            this.Caption_CultureInfo    = CultureInfo.CurrentCulture;
 
         }
-
-        #endregion
 
         #endregion
 
@@ -340,12 +341,16 @@ namespace eu.Vanaheimr.Loki
             {
 
                 DrawingContext.DrawText(new FormattedText(CaptionText,
-                                                          CultureInfo.CurrentCulture,
-                                                          FlowDirection.LeftToRight,
-                                                          Typeface,
-                                                          FontSize,
-                                                          FontBrush) { TextAlignment = TextAlignment.Center },
-                                        new Point(X + CaptionXOffset, Y + CaptionYOffset));
+                                                          Caption_CultureInfo,
+                                                          Caption_FlowDirection,
+                                                          Caption_Typeface,
+                                                          Caption_FontSize,
+                                                          Caption_FontBrush) { TextAlignment = Caption_TextAlignment },
+
+                                        new Point(X + Caption_XOffset,
+                                                  Y + Caption_YOffset - Caption_FontSize / 2)
+
+                                       );
 
             }
 

@@ -21,9 +21,7 @@
 using System;
 using System.Windows;
 using System.Windows.Media;
-using System.Globalization;
 using System.ComponentModel;
-using System.Windows.Controls;
 
 using eu.Vanaheimr.Balder;
 
@@ -37,7 +35,7 @@ namespace eu.Vanaheimr.Loki
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
-    /// <typeparam name="TVertexType">The type of the vertex type.</typeparam>
+    /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
     /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
     /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
     /// 
@@ -63,10 +61,10 @@ namespace eu.Vanaheimr.Loki
                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> :
 
-                               CommonControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+                               GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
         where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
         where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -195,12 +193,25 @@ namespace eu.Vanaheimr.Loki
             set
             {
                 if (value != null)
-                {
                     _VertexCaption = value;
-                }
             }
 
         }
+
+        #endregion
+
+        #region DrawingContextDelegate
+
+        /// <summary>
+        /// A delegate creating a visual for this control.
+        /// </summary>
+        public Action<VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                    DrawingContext>
+
+            DrawingContextDelegate { get; set; }
 
         #endregion
 
@@ -246,15 +257,17 @@ namespace eu.Vanaheimr.Loki
 
         #endregion
 
+
         #region Constructor(s)
 
-        #region VertexControl(GraphCanvas, Vertex)
+        #region VertexControl(GraphCanvas, Vertex, DrawingContextDelegate = null)
 
         /// <summary>
         /// Create a new visual representation of a property vertex.
         /// </summary>
         /// <param name="GraphCanvas">The graph canvas hosting the edge control.</param>
         /// <param name="Vertex">The associated property vertex.</param>
+        /// <param name="DrawingContextDelegate">An optional delegate creating a visual for this control.</param>
         public VertexControl(GraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -263,16 +276,31 @@ namespace eu.Vanaheimr.Loki
                              IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
+                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex,
+
+                             Action<VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                    DrawingContext>
+                                 DrawingContextDelegate = null)
 
             : base(GraphCanvas)
 
         {
 
-            this.Vertex       = Vertex;
-            this.DataContext  = Vertex;
-            this.Fill         = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
-            this.Stroke       = new Pen(new SolidColorBrush(Colors.Black), 1.0);
+            this.Vertex                  = Vertex;
+            this.DataContext             = Vertex;
+            this.Fill                    = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+            this.Stroke                  = new Pen(new SolidColorBrush(Colors.Black), 1.0);
+
+            this.DrawingContextDelegate  = (DrawingContextDelegate != null)
+                                           ? DrawingContextDelegate
+                                           : (VC, DA) => DA.DrawEllipse(VC.Fill,
+                                                                        VC.Stroke,
+                                                                        new Point(VC.X, VC.Y),
+                                                                        VC.Width / 2,
+                                                                        VC.Height / 2);
 
         }
 
@@ -281,21 +309,28 @@ namespace eu.Vanaheimr.Loki
         #endregion
 
 
+        #region (protected) OnRender(DrawingContext)
+
+        /// <summary>
+        /// When overridden in a derived class, participates in rendering operations
+        /// that are directed by the layout system. The rendering instructions for this
+        /// element are not used directly when this method is invoked, and are instead
+        /// preserved for later asynchronous use by layout and drawing.
+        /// </summary>
+        /// <param name="DrawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
         protected override void OnRender(DrawingContext DrawingContext)
         {
 
             base.OnRender(DrawingContext);
 
-            DrawingContext.DrawEllipse(Fill,
-                                       Stroke,
-                                       new Point(X, Y),
-                                       15,
-                                       15);
+            DrawingContextDelegate(this, DrawingContext);
 
             if (VertexCaption != null)
                 RenderCaption(DrawingContext, X, Y, VertexCaption(Vertex));
 
         }
+
+        #endregion
 
     }
 

@@ -56,7 +56,7 @@
     <Compile Include="Arrows\BezierArrow.cs" />
     <Compile Include="Canvas\DrawElements.cs" />
     <Compile Include="Canvas\SaveCanvas.cs" />
-    <Compile Include="CommonControl.cs" />
+    <Compile Include="GraphElementControl.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="TreeView\NewTreeViewTraverser.cs" />
     <Compile Include="VertexControl.cs" />

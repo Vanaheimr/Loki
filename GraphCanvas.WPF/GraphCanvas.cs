@@ -27,6 +27,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
+using eu.Vanaheimr.Illias.Commons;
 using eu.Vanaheimr.Illias.Commons.Collections;
 using eu.Vanaheimr.Balder;
 using eu.Vanaheimr.Balder.Schema;
@@ -45,7 +46,7 @@ namespace eu.Vanaheimr.Loki
     public static class GraphCanvasFactory
     {
 
-        #region BuildGraphCanvas<...>(Graph, GraphCanvasPropertyKey, VertexControlPropertyKey, EdgeControlPropertyKey)
+        #region BuildGraphCanvas<...>(Graph, ..., PropertyKeys,...)
 
         /// <summary>
         /// Creates a new graph canvas for visualizing the given generic property graph.
@@ -75,11 +76,16 @@ namespace eu.Vanaheimr.Loki
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// 
         /// <param name="Graph">A generic property graph.</param>
-        /// <param name="GraphCanvasPropertyKey">The property key for storing the graph canvas.</param>
-        /// <param name="VertexControlPropertyKey">The property key for storing the vertex user control.</param>
-        /// <param name="EdgeControlPropertyKey">The property key for storing the edge user control.</param>
-        /// <param name="MultiEdgeControlPropertyKey">The property key for storing the multiedge user control.</param>
-        /// <param name="HyperEdgeControlPropertyKey">The property key for storing the hyperedge user control.</param>
+        /// <param name="GraphCanvas_PropertyKey">The property key for storing the graph canvas.</param>
+        /// 
+        /// <param name="VertexX_PropertyKey">The property key for storing the x position of a vertex user control.</param>
+        /// <param name="VertexY_PropertyKey">The property key for storing the y position of a vertex user control.</param>
+        /// <param name="VertexZ_PropertyKey">The property key for storing the z position of a vertex user control.</param>
+        /// 
+        /// <param name="VertexControl_PropertyKey">The property key for storing the vertex user control.</param>
+        /// <param name="EdgeControl_PropertyKey">The property key for storing the edge user control.</param>
+        /// <param name="MultiEdgeControl_PropertyKey">The property key for storing the multiedge user control.</param>
+        /// <param name="HyperEdgeControl_PropertyKey">The property key for storing the hyperedge user control.</param>
         public static GraphCanvas<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -95,11 +101,17 @@ namespace eu.Vanaheimr.Loki
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
-                TKeyVertex     GraphCanvasPropertyKey,
-                TKeyVertex     VertexControlPropertyKey,
-                TKeyEdge       EdgeControlPropertyKey,
-                TKeyMultiEdge  MultiEdgeControlPropertyKey,
-                TKeyHyperEdge  HyperEdgeControlPropertyKey)
+                TKeyVertex     GraphCanvas_PropertyKey,
+
+                TKeyVertex     VertexX_PropertyKey,
+                TKeyVertex     VertexY_PropertyKey,
+                TKeyVertex     VertexZ_PropertyKey,
+
+                TKeyVertex     VertexControl_PropertyKey,
+                TKeyEdge       EdgeControl_PropertyKey,
+                TKeyMultiEdge  MultiEdgeControl_PropertyKey,
+                TKeyHyperEdge  HyperEdgeControl_PropertyKey)
+
 
             where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
             where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -129,17 +141,22 @@ namespace eu.Vanaheimr.Loki
                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
 
                         Graph,
-                        GraphCanvasPropertyKey,
-                        VertexControlPropertyKey,
-                        EdgeControlPropertyKey,
-                        MultiEdgeControlPropertyKey,
-                        HyperEdgeControlPropertyKey);
+                        GraphCanvas_PropertyKey,
+
+                        VertexX_PropertyKey,
+                        VertexY_PropertyKey,
+                        VertexZ_PropertyKey,
+
+                        VertexControl_PropertyKey,
+                        EdgeControl_PropertyKey,
+                        MultiEdgeControl_PropertyKey,
+                        HyperEdgeControl_PropertyKey);
 
         }
 
         #endregion
 
-        #region BuildSchemaGraphCanvas<...>(Graph, SchemaGraphId, GraphCanvasPropertyKey, VertexControlPropertyKey, EdgeControlPropertyKey)
+        #region BuildSchemaGraphCanvas<...>(Graph, SchemaGraphId, ..., PropertyKeys,...)
 
         /// <summary>
         /// Creates a new graph canvas for visualizing the schema
@@ -171,11 +188,16 @@ namespace eu.Vanaheimr.Loki
         /// 
         /// <param name="Graph">A generic property graph.</param>
         /// <param name="SchemaGraphId">The schema graph identification.</param>
-        /// <param name="GraphCanvasPropertyKey">The property key for storing the graph canvas.</param>
-        /// <param name="VertexControlPropertyKey">The property key for storing the vertex user control.</param>
-        /// <param name="EdgeControlPropertyKey">The property key for storing the edge user control.</param>
-        /// <param name="MultiEdgeControlPropertyKey">The property key for storing the multiedge user control.</param>
-        /// <param name="HyperEdgeControlPropertyKey">The property key for storing the hyperedge user control.</param>
+        /// <param name="GraphCanvas_PropertyKey">The property key for storing the graph canvas.</param>
+        /// 
+        /// <param name="VertexX_PropertyKey">The property key for storing the x position of a vertex user control.</param>
+        /// <param name="VertexY_PropertyKey">The property key for storing the y position of a vertex user control.</param>
+        /// <param name="VertexZ_PropertyKey">The property key for storing the z position of a vertex user control.</param>
+        /// 
+        /// <param name="VertexControl_PropertyKey">The property key for storing the vertex user control.</param>
+        /// <param name="EdgeControl_PropertyKey">The property key for storing the edge user control.</param>
+        /// <param name="MultiEdgeControl_PropertyKey">The property key for storing the multiedge user control.</param>
+        /// <param name="HyperEdgeControl_PropertyKey">The property key for storing the hyperedge user control.</param>
         public static GraphCanvas<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
                                   TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
                                   TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
@@ -192,11 +214,17 @@ namespace eu.Vanaheimr.Loki
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
                 TVertexLabel   SchemaGraphId,
-                TKeyVertex     GraphCanvasPropertyKey,
-                TKeyVertex     VertexControlPropertyKey,
-                TKeyEdge       EdgeControlPropertyKey,
-                TKeyMultiEdge  MultiEdgeControlPropertyKey,
-                TKeyHyperEdge  HyperEdgeControlPropertyKey)
+                TKeyVertex     GraphCanvas_PropertyKey,
+
+                TKeyVertex     VertexX_PropertyKey,
+                TKeyVertex     VertexY_PropertyKey,
+                TKeyVertex     VertexZ_PropertyKey,
+
+                TKeyVertex     VertexControl_PropertyKey,
+                TKeyEdge       EdgeControl_PropertyKey,
+                TKeyMultiEdge  MultiEdgeControl_PropertyKey,
+                TKeyHyperEdge  HyperEdgeControl_PropertyKey)
+
 
             where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
             where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -226,11 +254,16 @@ namespace eu.Vanaheimr.Loki
                                    THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>(
 
                         Graph.StrictSchemaGraph(SchemaGraphId),
-                        GraphCanvasPropertyKey,
-                        VertexControlPropertyKey,
-                        EdgeControlPropertyKey,
-                        MultiEdgeControlPropertyKey,
-                        HyperEdgeControlPropertyKey);
+                        GraphCanvas_PropertyKey,
+
+                        VertexX_PropertyKey,
+                        VertexY_PropertyKey,
+                        VertexZ_PropertyKey,
+
+                        VertexControl_PropertyKey,
+                        EdgeControl_PropertyKey,
+                        MultiEdgeControl_PropertyKey,
+                        HyperEdgeControl_PropertyKey);
 
         }
 
@@ -256,7 +289,10 @@ namespace eu.Vanaheimr.Loki
         /// Creates a new canvas for visualizing a non-generic property graph.
         /// </summary>
         public GraphCanvas()
-            : base(GraphFactory.CreateGenericPropertyGraph(1), "GraphCanvas", "VertexShape", "EdgeShape", "MultiEdgeShape", "HyperEdgeShape")
+            : base(GraphFactory.CreateGenericPropertyGraph(1),
+                   "GraphCanvas",
+                   "X", "Y", "Z",
+                   "VertexShape", "EdgeShape", "MultiEdgeShape", "HyperEdgeShape")
         { }
 
     }
@@ -278,7 +314,10 @@ namespace eu.Vanaheimr.Loki
         /// Creates a new canvas for visualizing a non-generic property graph.
         /// </summary>
         public SchemaGraphCanvas()
-            : base(GraphFactory.CreateGenericPropertyGraph_WithStringIds("1").StrictSchemaGraph("2"), "GraphCanvas", "VertexShape", "EdgeShape", "MultiEdgeShape", "HyperEdgeShape")
+            : base(GraphFactory.CreateGenericPropertyGraph_WithStringIds("1").StrictSchemaGraph("2"),
+                   "GraphCanvas",
+                   "X", "Y", "Z",
+                   "VertexShape", "EdgeShape", "MultiEdgeShape", "HyperEdgeShape")
         { }
 
     }
@@ -343,7 +382,7 @@ namespace eu.Vanaheimr.Loki
         #region Data
 
         private Random  Random;
-        private Point   Mousy;
+        private Point   SavedMousePosition;
         private VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -352,7 +391,7 @@ namespace eu.Vanaheimr.Loki
         private IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex;
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> SelectedVertex;
 
         private String CurrentDirectory;
 
@@ -378,27 +417,44 @@ namespace eu.Vanaheimr.Loki
         /// <summary>
         /// The property key for storing the graph canvas.
         /// </summary>
-        public TKeyVertex     GraphCanvasPropertyKey        { get; private set; }
+        public TKeyVertex     GraphCanvas_PropertyKey        { get; private set; }
+
+
+        /// <summary>
+        /// The property key for storing the x position of a vertex user control.
+        /// </summary>
+        public TKeyVertex     VertexX_PropertyKey            { get; private set; }
+
+        /// <summary>
+        /// The property key for storing the y position of a vertex user control.
+        /// </summary>
+        public TKeyVertex     VertexY_PropertyKey            { get; private set; }
+
+        /// <summary>
+        /// The property key for storing the z position of a vertex user control.
+        /// </summary>
+        public TKeyVertex     VertexZ_PropertyKey            { get; private set; }
+
 
         /// <summary>
         /// The property key for storing the vertex user control.
         /// </summary>
-        public TKeyVertex     VertexControlPropertyKey      { get; private set; }
+        public TKeyVertex     VertexControl_PropertyKey      { get; private set; }
 
         /// <summary>
         /// The property key for storing the edge user control.
         /// </summary>
-        public TKeyEdge       EdgeControlPropertyKey        { get; private set; }
+        public TKeyEdge       EdgeControl_PropertyKey        { get; private set; }
 
         /// <summary>
         /// The property key for storing the multiedge user control.
         /// </summary>
-        public TKeyMultiEdge  MultiEdgeControlPropertyKey   { get; private set; }
+        public TKeyMultiEdge  MultiEdgeControl_PropertyKey   { get; private set; }
 
         /// <summary>
         /// The property key for storing the hyperedge user control.
         /// </summary>
-        public TKeyHyperEdge  HyperEdgeControlPropertyKey   { get; private set; }
+        public TKeyHyperEdge  HyperEdgeControl_PropertyKey   { get; private set; }
 
         #endregion
 
@@ -418,7 +474,7 @@ namespace eu.Vanaheimr.Loki
                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexControlCreator
         {
-            
+
             get
             {
                 return _VertexControlCreator;
@@ -497,7 +553,7 @@ namespace eu.Vanaheimr.Loki
                     TValueVertex VertexControlProperty;
                     foreach (var Vertex in Graph.Vertices())
                     {
-                        if (Vertex.TryGetProperty(this.VertexControlPropertyKey, out VertexControlProperty))
+                        if (Vertex.TryGetProperty(this.VertexControl_PropertyKey, out VertexControlProperty))
                         {
 
                             VertexControl = VertexControlProperty as UserControl;
@@ -610,7 +666,7 @@ namespace eu.Vanaheimr.Loki
                     TValueEdge EdgeControlProperty;
                     foreach (var Edge in Graph.Edges())
                     {
-                        if (Edge.TryGetProperty(this.EdgeControlPropertyKey, out EdgeControlProperty))
+                        if (Edge.TryGetProperty(this.EdgeControl_PropertyKey, out EdgeControlProperty))
                         {
 
                             EdgeControl = EdgeControlProperty as UserControl;
@@ -662,13 +718,18 @@ namespace eu.Vanaheimr.Loki
 
         #region Constructor(s)
 
-        #region GraphCanvas(Graph, GraphCanvasPropertyKey, VertexControlPropertyKey, EdgeControlPropertyKey, MultiEdgeControlPropertyKey, HyperEdgeControlPropertyKey)
+        #region GraphCanvas(Graph, GraphCanvasPropertyKey, VertexX, VertexY, VertexZ, VertexControlPropertyKey, EdgeControlPropertyKey, MultiEdgeControlPropertyKey, HyperEdgeControlPropertyKey)
 
         /// <summary>
         /// Creates a new canvas for visualizing the given property graph.
         /// </summary>
         /// <param name="Graph">The generic property graph to visualize.</param>
         /// <param name="GraphCanvasPropertyKey">The property key for storing the graph canvas.</param>
+        /// 
+        /// <param name="VertexX">The property key for storing the x position of a vertex user control.</param>
+        /// <param name="VertexY">The property key for storing the y position of a vertex user control.</param>
+        /// <param name="VertexZ">The property key for storing the z position of a vertex user control.</param>
+        /// 
         /// <param name="VertexControlPropertyKey">The property key for storing the vertex user control.</param>
         /// <param name="EdgeControlPropertyKey">The property key for storing the edge user control.</param>
         /// <param name="MultiEdgeControlPropertyKey">The property key for storing the multiedge user control.</param>
@@ -677,7 +738,13 @@ namespace eu.Vanaheimr.Loki
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+
                            TKeyVertex     GraphCanvasPropertyKey,
+
+                           TKeyVertex     VertexX,
+                           TKeyVertex     VertexY,
+                           TKeyVertex     VertexZ,
+
                            TKeyVertex     VertexControlPropertyKey,
                            TKeyEdge       EdgeControlPropertyKey,
                            TKeyMultiEdge  MultiEdgeControlPropertyKey,
@@ -685,21 +752,25 @@ namespace eu.Vanaheimr.Loki
 
         {
 
-            this.ClipToBounds                 = true;
+            this.ClipToBounds                  = true;
 
-            this.Graph                        = Graph;
-            this.GraphCanvasPropertyKey       = GraphCanvasPropertyKey;
-            this.VertexControlPropertyKey     = VertexControlPropertyKey;
-            this.EdgeControlPropertyKey       = EdgeControlPropertyKey;
-            this.MultiEdgeControlPropertyKey  = MultiEdgeControlPropertyKey;
-            this.HyperEdgeControlPropertyKey  = HyperEdgeControlPropertyKey;
+            this.Graph                         = Graph;
+            this.GraphCanvas_PropertyKey       = GraphCanvasPropertyKey;
+            this.VertexX_PropertyKey           = VertexX;
+            this.VertexY_PropertyKey           = VertexY;
+            this.VertexZ_PropertyKey           = VertexZ;
+            this.VertexControl_PropertyKey     = VertexControlPropertyKey;
+            this.EdgeControl_PropertyKey       = EdgeControlPropertyKey;
+            this.MultiEdgeControl_PropertyKey  = MultiEdgeControlPropertyKey;
+            this.HyperEdgeControl_PropertyKey  = HyperEdgeControlPropertyKey;
+
             Graph.Set(GraphCanvasPropertyKey, (TValueVertex) (Object) this);
-            DataContext                       = Graph;
-            Random                            = new Random();
+            DataContext                        = Graph;
+            Random                             = new Random();
 
-            this.Background                   = new SolidColorBrush(Colors.Transparent);
-            this.MouseMove                   += GraphCanvas_MouseMove;
-            this.MouseLeave                  += GraphCanvas_MouseLeave;
+            this.Background                    = new SolidColorBrush(Colors.Transparent);
+            this.MouseMove                    += GraphCanvas_MouseMove;
+            this.MouseLeave                   += GraphCanvas_MouseLeave;
 
             Graph.OnVertexAddition.OnNotification += (g, v) => AddVertex(g, v as IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -723,6 +794,65 @@ namespace eu.Vanaheimr.Loki
 
             AddGraphCanvasContextMenu();
 
+            this.SizeChanged                 += new SizeChangedEventHandler(GraphCanvas_SizeChanged);
+
+        }
+
+        #endregion
+
+
+        #region GraphCanvas_SizeChanged(Sender, SizeChangedEventArgs)
+
+        void GraphCanvas_SizeChanged(Object Sender, SizeChangedEventArgs SizeChangedEventArgs)
+        {
+
+            //ToDo: A bit of a hack... but working for now!
+
+            this.Graph.Vertices().ForEach(Vertex => {
+
+                Double Pos = 0;
+
+                var VertexControl = Vertex[VertexControl_PropertyKey] as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+
+
+
+
+                if (Vertex.TryGetProperty<Double>(VertexX_PropertyKey, out Pos))
+                    VertexControl.X = Pos;
+
+                else
+                {
+
+                    var posx = (Double) Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualWidth)) - 20);
+
+                    Vertex.AsMutable().Set(VertexX_PropertyKey, (TValueVertex) (Object) posx);
+                    VertexControl.X = posx;
+
+                }
+
+
+                if (Vertex.TryGetProperty<Double>(VertexY_PropertyKey, out Pos))
+                    VertexControl.Y = Pos;
+
+                else
+                {
+
+                    var posy = (Double) Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualHeight)) - 20);
+
+                    Vertex.AsMutable().Set(VertexY_PropertyKey, (TValueVertex) (Object) posy);
+                    VertexControl.Y = posy;
+
+                }
+
+                UpdateEdgesControls(Vertex);
+
+            });
+
+            this.SizeChanged -= new SizeChangedEventHandler(GraphCanvas_SizeChanged);
+
         }
 
         #endregion
@@ -732,69 +862,11 @@ namespace eu.Vanaheimr.Loki
 
         // Graph canvas
 
-        #region GraphCanvas_MouseMove(Sender, MouseEventArgs)
-
-        private void GraphCanvas_MouseMove(Object sender, MouseEventArgs MouseEventArgs)
-        {
-
-            var MMMousy = MouseEventArgs.GetPosition(this);
-
-            if (OnChangedMousePosition != null)
-                OnChangedMousePosition(MMMousy.X, MMMousy.Y);
-
-            if (SelectedVertexControl != null)
-            {
-
-                var mousePos = MouseEventArgs.GetPosition(this);
-                var diffX    = Mousy.X - mousePos.X;
-                var diffY    = Mousy.Y - mousePos.Y;
-
-                //var canvLeft = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.LeftProperty));
-                //var canvTop  = Convert.ToDouble(SelectedVertexShape.GetValue(Canvas.TopProperty));
-
-                //Canvas.SetLeft(SelectedVertexShape, canvLeft - diffX);
-                //Canvas.SetTop (SelectedVertexShape, canvTop  - diffY);
-
-                SelectedVertexControl.X -= diffX;
-                SelectedVertexControl.Y -= diffY;
-
-                foreach (var outedge in Vertex.OutEdges())
-                {
-
-                    var EdgeLine = outedge.GetProperty(this.EdgeControlPropertyKey) as EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-                    EdgeLine.ShowDirection = !EdgeLine.ShowDirection;
-                    EdgeLine.Refresh = true;
-
-                }
-
-                foreach (var inedge in Vertex.InEdges())
-                {
-
-                    var EdgeLine = inedge.GetProperty(this.EdgeControlPropertyKey) as EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-                    EdgeLine.ShowDirection = !EdgeLine.ShowDirection;
-                    EdgeLine.Refresh = true;
-
-                }
-
-                Mousy = MouseEventArgs.GetPosition(this);
-
-            }
-
-        }
-
-        #endregion
-
         #region GraphCanvas_MouseLeave(Sender, MouseEventArgs)
 
         private void GraphCanvas_MouseLeave(Object Sender, MouseEventArgs MouseEventArgs)
         {
-            Mousy                 = MouseEventArgs.GetPosition(this);
+            SavedMousePosition                 = MouseEventArgs.GetPosition(this);
             SelectedVertexControl = null;
         }
 
@@ -819,29 +891,20 @@ namespace eu.Vanaheimr.Loki
             if (Vertex != null)
             {
 
-                var VertexControl                  = _VertexControlCreator(this, Vertex);
-                VertexControl.MouseMove           += VertexControl_MouseMove;
-                VertexControl.MouseLeftButtonDown += VertexControl_MouseLeftButtonDown;
-                VertexControl.MouseLeftButtonUp   += VertexControl_MouseLeftButtonUp;
-                VertexControl.DataContext          = Vertex;
-                Vertex.Set(this.VertexControlPropertyKey, (TValueVertex) (Object) VertexControl);
+                var VertexControl                   = _VertexControlCreator(this, Vertex);
+                VertexControl.MouseMove            += GraphCanvas_MouseMove;
+                VertexControl.MouseLeftButtonDown  += VertexControl_MouseLeftButtonDown;
+                VertexControl.MouseLeftButtonUp    += VertexControl_MouseLeftButtonUp;
+                VertexControl.DataContext           = Vertex;
+                Vertex.Set(this.VertexControl_PropertyKey, (TValueVertex) (Object) VertexControl);
 
-                VertexControl.VertexCaption        = _VertexCaption;
-                VertexControl.ToolTip              = VertexToolTip(Vertex);
-
-                if (OnChangedNumberOfVertices != null)
-                    OnChangedNumberOfVertices(Graph.NumberOfVertices());
+                VertexControl.VertexCaption         = _VertexCaption;
+                VertexControl.ToolTip               = VertexToolTip(Vertex);
 
                 Children.Add(VertexControl);
 
-                if (this.ActualHeight > 0 && this.ActualWidth > 0)
-                {
-                    VertexControl.X = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualWidth))  - 20);
-                    VertexControl.Y = Random.Next(20, Convert.ToInt32(Math.Abs(this.ActualHeight)) - 20);
-                }
-
-//                Canvas.SetLeft(VertexControl, Random.Next(20, 400 - 20));
-//                Canvas.SetTop (VertexControl, Random.Next(20, 200 - 20));
+                if (OnChangedNumberOfVertices != null)
+                    OnChangedNumberOfVertices(Graph.NumberOfVertices());
 
             }
 
@@ -923,25 +986,20 @@ namespace eu.Vanaheimr.Loki
 
         #region (private) VertexControl_MouseLeftButtonDown(Sender, MouseButtonEventArgs)
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Sender"></param>
-        /// <param name="MouseButtonEventArgs"></param>
         private void VertexControl_MouseLeftButtonDown(Object Sender, MouseButtonEventArgs MouseButtonEventArgs)
         {
 
-            Mousy               = MouseButtonEventArgs.GetPosition(this);
+            SavedMousePosition     = MouseButtonEventArgs.GetPosition(this);
 
-            SelectedVertexControl = Sender as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+            SelectedVertexControl  = Sender as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
-            Vertex              = SelectedVertexControl.DataContext as IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+            SelectedVertex         = SelectedVertexControl.DataContext as IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
         }
 
@@ -951,17 +1009,54 @@ namespace eu.Vanaheimr.Loki
 
         private void VertexControl_MouseLeftButtonUp(Object sender, MouseButtonEventArgs MouseButtonEventArgs)
         {
-            Mousy               = MouseButtonEventArgs.GetPosition(this);
-            SelectedVertexControl = null;
+            SavedMousePosition                  = MouseButtonEventArgs.GetPosition(this);
+            SelectedVertexControl  = null;
         }
 
         #endregion
 
-        #region (private) VertexControl_MouseMove(Sender, MouseEventArgs)
+        #region (private) GraphCanvas_MouseMove(Sender, MouseEventArgs)
 
-        private void VertexControl_MouseMove(Object Sender, MouseEventArgs MouseEventArgs)
+        private void GraphCanvas_MouseMove(Object Sender, MouseEventArgs MouseEventArgs)
         {
-            GraphCanvas_MouseMove(Sender, MouseEventArgs);
+
+            var CurrentMousePosition = MouseEventArgs.GetPosition(this);
+
+            #region If the mouse is dragging a vertex control: Move all adjacent edges
+
+            if (SelectedVertexControl != null)
+            {
+
+                #region Move the vertex control
+
+                Double XPos, YPos = 0.0;
+
+                if (SelectedVertex.TryGetProperty<Double>(VertexX_PropertyKey, out XPos)) {
+                    XPos -= (SavedMousePosition.X - CurrentMousePosition.X);
+                    SelectedVertexControl.X = XPos;
+                    SelectedVertex.Set(VertexX_PropertyKey, (TValueVertex) (Object) XPos);
+                }
+
+                if (SelectedVertex.TryGetProperty<Double>(VertexY_PropertyKey, out YPos))
+                {
+                    YPos -= (SavedMousePosition.Y - CurrentMousePosition.Y);
+                    SelectedVertexControl.Y = YPos;
+                    SelectedVertex.Set(VertexY_PropertyKey, (TValueVertex) (Object) YPos);
+                }
+
+                #endregion
+
+                UpdateEdgesControls(SelectedVertex);
+
+                SavedMousePosition = CurrentMousePosition;
+
+            }
+
+            #endregion
+
+            if (OnChangedMousePosition != null)
+                OnChangedMousePosition(CurrentMousePosition.X, CurrentMousePosition.Y);
+
         }
 
         #endregion
@@ -992,14 +1087,14 @@ namespace eu.Vanaheimr.Loki
                 Canvas.SetZIndex(EdgeControl, -99);
                 Children.Add(EdgeControl);
 
-                Edge.Set(this.EdgeControlPropertyKey, (TValueEdge) (Object)  EdgeControl);
+                Edge.Set(this.EdgeControl_PropertyKey, (TValueEdge) (Object)  EdgeControl);
 
 
-                var OutVertexControl = Edge.OutVertex.GetProperty(this.VertexControlPropertyKey) as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                var OutVertexControl = Edge.OutVertex.GetProperty(this.VertexControl_PropertyKey) as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-                var InVertexControl  = Edge.InVertex. GetProperty(this.VertexControlPropertyKey) as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                var InVertexControl  = Edge.InVertex. GetProperty(this.VertexControl_PropertyKey) as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
@@ -1224,6 +1319,57 @@ namespace eu.Vanaheimr.Loki
         #endregion
 
 
+        #region (private) UpdateEdgesControls(Vertex)
+
+        private void UpdateEdgesControls(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
+        {
+
+            EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _EdgeControl = null;
+
+
+            // Outedges
+            Vertex.OutEdges().ForEach(OutEdge => {
+
+                _EdgeControl = OutEdge.GetCastedProperty<TKeyEdge,
+                                                         TValueEdge,
+                                                         EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(this.EdgeControl_PropertyKey);
+
+                _EdgeControl.ShowDirection = !_EdgeControl.ShowDirection;
+                _EdgeControl.Refresh = true;
+
+            });
+
+
+            // InEdges
+            Vertex.InEdges().ForEach(InEdge => {
+
+                _EdgeControl = InEdge.GetCastedProperty<TKeyEdge,
+                                                        TValueEdge,
+                                                        EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(this.EdgeControl_PropertyKey);
+
+                _EdgeControl.ShowDirection = !_EdgeControl.ShowDirection;
+                _EdgeControl.Refresh = true;
+
+            });
+
+        }
+
+        #endregion
+
+
+
         #region SchemaGraphCanvas(SchemaGraphId, SchemaGraphDescription = null, ContinuousLearning = true, EnforceSchema = false)
 
         /// <summary>
@@ -1253,15 +1399,18 @@ namespace eu.Vanaheimr.Loki
 
                                          this.Graph.StrictSchemaGraph(SchemaGraphId,
                                                                       SchemaGraphDescription, ContinuousLearning, EnforceSchema,
-                                                                      new TKeyVertex[1]    { this.VertexControlPropertyKey    },
-                                                                      new TKeyEdge[1]      { this.EdgeControlPropertyKey      },
-                                                                      new TKeyMultiEdge[1] { this.MultiEdgeControlPropertyKey },
-                                                                      new TKeyHyperEdge[1] { this.HyperEdgeControlPropertyKey }),
-                                         this.GraphCanvasPropertyKey,
-                                         this.VertexControlPropertyKey,
-                                         this.EdgeControlPropertyKey,
-                                         this.MultiEdgeControlPropertyKey,
-                                         this.HyperEdgeControlPropertyKey);
+                                                                      new TKeyVertex[4]    { this.VertexX_PropertyKey, this.VertexY_PropertyKey, this.VertexZ_PropertyKey, this.VertexControl_PropertyKey },
+                                                                      new TKeyEdge[1]      { this.EdgeControl_PropertyKey      },
+                                                                      new TKeyMultiEdge[1] { this.MultiEdgeControl_PropertyKey },
+                                                                      new TKeyHyperEdge[1] { this.HyperEdgeControl_PropertyKey }),
+                                         this.GraphCanvas_PropertyKey,
+                                         this.VertexX_PropertyKey,
+                                         this.VertexY_PropertyKey,
+                                         this.VertexZ_PropertyKey,
+                                         this.VertexControl_PropertyKey,
+                                         this.EdgeControl_PropertyKey,
+                                         this.MultiEdgeControl_PropertyKey,
+                                         this.HyperEdgeControl_PropertyKey);
 
 
             // Special visualization of schema graphs
