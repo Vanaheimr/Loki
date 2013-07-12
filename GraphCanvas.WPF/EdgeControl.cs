@@ -92,33 +92,15 @@ namespace eu.Vanaheimr.Loki
 
         #region Data
 
-        private VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertexControl
-        {
-            get
-            {
-                return Edge.OutVertex[GraphCanvas.VertexControl_PropertyKey] as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-            }
-        }
+        private readonly VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertexControl;
 
-        private VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertexControl
-        {
-            get
-            {
-                return Edge.InVertex[GraphCanvas.VertexControl_PropertyKey] as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-            }
-        }
+        private readonly VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertexControl;
 
         #endregion
 
@@ -322,23 +304,6 @@ namespace eu.Vanaheimr.Loki
 
         #region Dependency Properties
 
-        #region Refresh
-
-        /// <summary>
-        /// Repaint the edge control.
-        /// </summary>
-        public static readonly DependencyProperty RefreshProperty =
-                               DependencyProperty.Register("Refresh",
-                                                           typeof(Boolean),
-                                                           typeof(EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
-                                                           new FrameworkPropertyMetadata(true,
-                                                                                         FrameworkPropertyMetadataOptions.AffectsRender));
-
-        #endregion
-
         #region ShowDirection
 
         /// <summary>
@@ -419,17 +384,23 @@ namespace eu.Vanaheimr.Loki
 
         {
 
-            this.Edge           = Edge;
-            this.DataContext    = Edge;
+            this.Edge                   = Edge;
+            this.DataContext            = Edge;
+            this.SnapsToDevicePixels    = true;
 
-            //OutVertexControl    = ;
+            this.OutVertexControl       = (VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>)
+                                          (Object)
+                                           Edge.OutVertex[GraphCanvas.VertexControl_PropertyKey];
 
-            //InVertexControl     = Edge. InVertex[GraphCanvas.VertexControlPropertyKey] as VertexControl<TIdVertex,    TRevIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-            //                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-            //                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-            //                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-
-            this.Caption_YOffset = 10.0;
+            this.InVertexControl        = (VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>)
+                                          (Object)
+                                           Edge.InVertex[GraphCanvas.VertexControl_PropertyKey];
 
         }
 
@@ -452,19 +423,22 @@ namespace eu.Vanaheimr.Loki
 
             base.OnRender(DrawingContext);
 
-            var line = new Line2D<Double>(X1, Y1, this.X2, this.Y2);
-            var center = line.Center;
+            var EdgeLine                = new Line2D<Double>(this.X1, this.Y1, this.X2, this.Y2);
 
-            var theta = Math.Atan2(Y1 - this.Y2, X1 - this.X2);
-            var sint  = Math.Sin(theta);
-            var cost  = Math.Cos(theta);
+            var theta                   = Math.Atan2(Y1 - this.Y2, X1 - this.X2);
+            var sint                    = Math.Sin(theta);
+            var cost                    = Math.Cos(theta);
 
-            var X2 = X1 - (line.Length - 17) * cost;
-            var Y2 = Y1 - (line.Length - 17) * sint;
+            var EdgeOrigin              = new Point(X1 - (OutVertexControl.Width  / 2 + OutVertexControl.VertexBorder.Width ) * cost,
+                                                    Y1 - (OutVertexControl.Height / 2 + OutVertexControl.VertexBorder.Height) * sint);
 
-            var ArrowOrigin = new Point(X1, Y1);
-            var ArrowTarget = new Point(X2, Y2);
-            var BlackPen    = new Pen(Brushes.Black, 2);
+            var EdgeTarget              = new Point(X1 - (EdgeLine.Length - InVertexControl.Width  / 2 - InVertexControl.VertexBorder.Width ) * cost,
+                                                    Y1 - (EdgeLine.Length - InVertexControl.Height / 2 - InVertexControl.VertexBorder.Height) * sint);
+
+
+            // Colors
+            var BlackPen                = new Pen(new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xAA, 0x00, 0x00, 0x00)), 1);
+            var DrawingPen              = new Pen(new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xAA, 0x00, 0xff, 0x00)), 1);
 
             var blueBlackLGB            = new LinearGradientBrush();
             blueBlackLGB.StartPoint     = new Point(0, 0);
@@ -487,32 +461,47 @@ namespace eu.Vanaheimr.Loki
             blackBluePen.EndLineCap     = PenLineCap.Round;
             blackBluePen.Brush          = blueBlackLGB;
 
-            var pt3 = new Point(X2 + (HeadWidth  * cost - HeadHeight * sint),
-                                Y2 + (HeadWidth  * sint + HeadHeight * cost));
 
-            var pt4 = new Point(X2 + (HeadWidth  * cost + HeadHeight * sint),
-                                Y2 - (HeadHeight * cost - HeadWidth  * sint));
 
-            DrawingContext.DrawLine(BlackPen, ArrowOrigin, ArrowTarget);
-            //DrawingContext.DrawLine(DrawingPen, pt3, ArrowTarget);
-            //DrawingContext.DrawLine(DrawingPen, pt4, ArrowTarget);
+            // The Edge
+            DrawingContext.DrawLine(BlackPen, EdgeOrigin, EdgeTarget);
 
-            var PathFigure = new PathFigure();
-            PathFigure.StartPoint = ArrowTarget;
 
-            var PathSegmentCollection = new PathSegmentCollection();
-            PathSegmentCollection.Add(new LineSegment(pt3, true));
-            PathSegmentCollection.Add(new LineSegment(pt4, true));
-            PathSegmentCollection.Add(new LineSegment(ArrowTarget, true));
 
-            PathFigure.Segments = PathSegmentCollection;
+            var pt3 = new Point(EdgeTarget.X + (HeadWidth  * cost - HeadHeight * sint),
+                                EdgeTarget.Y + (HeadWidth  * sint + HeadHeight * cost));
+
+            var pt4 = new Point(EdgeTarget.X + (HeadWidth  * cost + HeadHeight * sint),
+                                EdgeTarget.Y - (HeadHeight * cost - HeadWidth * sint));
+
+
+            // SimpleArrow
+            //DrawingContext.DrawLine(BlackPen, pt3, EdgeTarget);
+            //DrawingContext.DrawLine(BlackPen, pt4, EdgeTarget);
+
+
+            // SolidArrow
+            var HeadArrow_PathFigure = new PathFigure() { StartPoint = EdgeTarget };
+
+            var HeadArrow_PathSegments = new PathSegmentCollection();
+            HeadArrow_PathSegments.Add(new LineSegment(pt3, true));
+            HeadArrow_PathSegments.Add(new LineSegment(pt4, true));
+            HeadArrow_PathSegments.Add(new LineSegment(EdgeTarget, true));
+
+            HeadArrow_PathFigure.Segments = HeadArrow_PathSegments;
+
             var PathGeometry = new PathGeometry();
-            PathGeometry.Figures.Add(PathFigure);
+            PathGeometry.Figures.Add(HeadArrow_PathFigure);
 
             DrawingContext.DrawGeometry(Brushes.Red, BlackPen, PathGeometry);
 
+
+
             if (EdgeCaption != null)
-                RenderCaption(DrawingContext, center.X, center.Y, EdgeCaption(Edge));
+            {
+                var BaseLineCenter = EdgeLine.Center;
+                RenderCaption(DrawingContext, BaseLineCenter.X, BaseLineCenter.Y , EdgeCaption(Edge));
+            }
 
         }
 

@@ -97,6 +97,7 @@ namespace eu.Vanaheimr.Loki
 
         #endregion
 
+
         #region Color
 
         /// <summary>
@@ -121,6 +122,11 @@ namespace eu.Vanaheimr.Loki
         }
 
         #endregion
+
+        public Brush Fill { get; set; }
+
+        public Pen Stroke { get; set; }
+
 
         #region ShowCaption
 
@@ -156,12 +162,12 @@ namespace eu.Vanaheimr.Loki
 
             get
             {
-                return (Double) base.GetValue(CaptionXOffsetProperty);
+                return (Double) base.GetValue(Caption_XOffsetProperty);
             }
 
             set
             {
-                base.SetValue(CaptionXOffsetProperty, value);
+                base.SetValue(Caption_XOffsetProperty, value);
             }
 
         }
@@ -179,27 +185,42 @@ namespace eu.Vanaheimr.Loki
 
             get
             {
-                return (Double) base.GetValue(CaptionYOffsetProperty);
+                return (Double) base.GetValue(Caption_YOffsetProperty);
             }
 
             set
             {
-                base.SetValue(CaptionYOffsetProperty, value);
+                base.SetValue(Caption_YOffsetProperty, value);
             }
 
         }
 
         #endregion
 
-
-        public Brush Fill { get; set; }
-
-        public Pen Stroke { get; set; }
-
-
         public Typeface Caption_Typeface { get; set; }
 
-        public Double Caption_FontSize { get; set; }
+        #region Caption_FontSize
+
+        /// <summary>
+        /// The font size of the caption.
+        /// </summary>
+        [TypeConverter(typeof(DoubleConverter))]
+        public Double Caption_FontSize
+        {
+
+            get
+            {
+                return (Double) base.GetValue(Caption_FontSizeProperty);
+            }
+
+            set
+            {
+                base.SetValue(Caption_FontSizeProperty, value);
+            }
+
+        }
+
+        #endregion
 
         public Brush Caption_FontBrush { get; set; }
 
@@ -207,21 +228,41 @@ namespace eu.Vanaheimr.Loki
 
         public TextTrimming Caption_TextTrimming { get; set; }
 
-        public double LineHeight { get; set; }
-
-        public int MaxLineCount { get; set; }
-
-        public double MaxTextHeight { get; set; }
-
-        public double MaxTextWidth { get; set; }
-
         public FlowDirection Caption_FlowDirection { get; set; }
 
         public CultureInfo Caption_CultureInfo { get; set; }
 
+
+
+        public double LineHeight    { get; set; }
+
+        public int    MaxLineCount  { get; set; }
+
+        public double MaxTextHeight { get; set; }
+
+        public double MaxTextWidth  { get; set; }
+
         #endregion
 
         #region Dependency Properties
+
+        #region Refresh
+
+        /// <summary>
+        /// Repaint this graph element control.
+        /// </summary>
+        public static readonly DependencyProperty RefreshProperty =
+                               DependencyProperty.Register("Refresh",
+                                                           typeof(Boolean),
+                                                           typeof(GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
+                                                           new FrameworkPropertyMetadata(true,
+                                                                                         FrameworkPropertyMetadataOptions.AffectsRender));
+
+        #endregion
+
 
         #region Color
 
@@ -231,15 +272,16 @@ namespace eu.Vanaheimr.Loki
         public static readonly DependencyProperty ColorProperty
                              = DependencyProperty.Register("Color",
                                                            typeof(Brush),
-                                                           typeof(EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
+                                                           typeof(GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(Brushes.Black,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         #endregion
+
 
         #region ShowCaption
 
@@ -249,10 +291,10 @@ namespace eu.Vanaheimr.Loki
         public static readonly DependencyProperty ShowCaptionProperty
                              = DependencyProperty.Register("ShowCaptionProperty",
                                                            typeof(Boolean),
-                                                           typeof(EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
+                                                           typeof(GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(true,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -264,13 +306,13 @@ namespace eu.Vanaheimr.Loki
         /// <summary>
         /// The x-offset of the caption.
         /// </summary>
-        public static readonly DependencyProperty CaptionXOffsetProperty
-                             = DependencyProperty.Register("CaptionXOffsetProperty",
+        public static readonly DependencyProperty Caption_XOffsetProperty
+                             = DependencyProperty.Register("Caption_XOffsetProperty",
                                                            typeof(Double),
-                                                           typeof(EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
+                                                           typeof(GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -282,18 +324,37 @@ namespace eu.Vanaheimr.Loki
         /// <summary>
         /// The y-offset of the caption.
         /// </summary>
-        public static readonly DependencyProperty CaptionYOffsetProperty
-                             = DependencyProperty.Register("CaptionYOffsetProperty",
+        public static readonly DependencyProperty Caption_YOffsetProperty
+                             = DependencyProperty.Register("Caption_YOffsetProperty",
                                                            typeof(Double),
-                                                           typeof(EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
+                                                           typeof(GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
                                                            new FrameworkPropertyMetadata(0.0,
                                                                                          FrameworkPropertyMetadataOptions.AffectsRender |
                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         #endregion
+
+        #region Caption_FontSize
+
+        /// <summary>
+        /// The font size of the caption.
+        /// </summary>
+        public static readonly DependencyProperty Caption_FontSizeProperty
+                             = DependencyProperty.Register("Caption_FontSizeProperty",
+                                                           typeof(Double),
+                                                           typeof(GraphElementControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>),
+                                                           new FrameworkPropertyMetadata(0.0,
+                                                                                         FrameworkPropertyMetadataOptions.AffectsRender |
+                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        #endregion
+
 
         #endregion
 

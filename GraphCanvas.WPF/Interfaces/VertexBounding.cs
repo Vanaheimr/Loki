@@ -30,10 +30,29 @@ using System.Windows.Shapes;
 namespace eu.Vanaheimr.Loki
 {
 
-    public enum VertexBounding
+    public enum VertexBorderShape
     {
         Rectangle,
         Circle
     }
+
+    public class VertexBorder
+    {
+
+        public readonly Double              Width;
+        public readonly Double              Height;
+        public readonly VertexBorderShape   Shape;
+
+        public VertexBorder(Double Width, Double Height, VertexBorderShape Shape = VertexBorderShape.Circle)
+        {
+
+            this.Width   = Width;
+            this.Height  = Height;
+            this.Shape   = Shape;
+
+        }
+
+    }
+
 
 }

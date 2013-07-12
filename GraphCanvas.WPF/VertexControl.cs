@@ -102,22 +102,9 @@ namespace eu.Vanaheimr.Loki
 
         #endregion
 
-        #region VertexBounding
+        #region VertexBorder
 
-        public VertexBounding VertexBounding
-        {
-
-            get
-            {
-                return VertexBounding.Circle;
-            }
-            
-            set
-            {
-
-            }
-
-        }
+        public VertexBorder VertexBorder { get; set; }
 
         #endregion
 
@@ -293,14 +280,17 @@ namespace eu.Vanaheimr.Loki
             this.DataContext             = Vertex;
             this.Fill                    = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
             this.Stroke                  = new Pen(new SolidColorBrush(Colors.Black), 1.0);
+            this.SnapsToDevicePixels     = true;
+            this.VertexBorder            = new VertexBorder(2, 2, VertexBorderShape.Circle);
 
             this.DrawingContextDelegate  = (DrawingContextDelegate != null)
                                            ? DrawingContextDelegate
-                                           : (VC, DA) => DA.DrawEllipse(VC.Fill,
-                                                                        VC.Stroke,
-                                                                        new Point(VC.X, VC.Y),
-                                                                        VC.Width / 2,
-                                                                        VC.Height / 2);
+                                           : (VertexControl, DrawingContext) =>
+                                                DrawingContext.DrawEllipse(VertexControl.Fill,
+                                                                           VertexControl.Stroke,
+                                                                           new Point(VertexControl.X, VertexControl.Y),
+                                                                           VertexControl.Width  / 2,
+                                                                           VertexControl.Height / 2);
 
         }
 

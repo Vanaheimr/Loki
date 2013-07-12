@@ -935,16 +935,16 @@ namespace eu.Vanaheimr.Loki
                                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
         {
 
-            var VertexControl             = new VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(GraphCanvas, Vertex);
+            var VertexControl          = new VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(GraphCanvas, Vertex);
 
-            VertexControl.Fill            = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
-            VertexControl.Stroke          = new Pen(new SolidColorBrush(Colors.Black), 1.0);
-            VertexControl.Width           = 30;
-            VertexControl.Height          = 30;
-            VertexControl.ShowCaption     = true;
+            VertexControl.Fill         = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+            VertexControl.Stroke       = new Pen(new SolidColorBrush(Colors.Black), 1.0);
+            VertexControl.Width        = 30;
+            VertexControl.Height       = 30;
+            VertexControl.ShowCaption  = true;
 
             return VertexControl;
 
@@ -1137,18 +1137,14 @@ namespace eu.Vanaheimr.Loki
 
         {
 
-            var EdgeControl                 = new EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(GraphCanvas, Edge);
-            //VertexShape.Stroke              = new SolidColorBrush(Colors.Black);
-            //VertexShape.StrokeThickness     = 1;
-            EdgeControl.HeadWidth           = 12;
-            EdgeControl.HeadHeight          = 8;
-            //EdgeShape.Stroke                = new SolidColorBrush(Colors.Black);
-            //EdgeShape.StrokeThickness       = 2;
-            EdgeControl.ShowCaption         = true;
-            //VertexShape.Fill                = new SolidColorBrush(Color.FromArgb(0xCC, 0xff, 0x00, 0x00));
+            var EdgeControl          = new EdgeControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(GraphCanvas, Edge);
+
+            EdgeControl.HeadWidth    = 6;
+            EdgeControl.HeadHeight   = 4;
+            EdgeControl.ShowCaption  = true;
 
             return EdgeControl;
 
