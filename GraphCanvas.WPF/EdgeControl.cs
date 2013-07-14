@@ -468,32 +468,67 @@ namespace eu.Vanaheimr.Loki
 
 
 
-            var pt3 = new Point(EdgeTarget.X + (HeadWidth  * cost - HeadHeight * sint),
-                                EdgeTarget.Y + (HeadWidth  * sint + HeadHeight * cost));
+            #region Head Arrow
 
-            var pt4 = new Point(EdgeTarget.X + (HeadWidth  * cost + HeadHeight * sint),
-                                EdgeTarget.Y - (HeadHeight * cost - HeadWidth * sint));
+            var HeadArrowPoint1 = new Point(EdgeTarget.X + (HeadWidth * cost - HeadHeight * sint),
+                                            EdgeTarget.Y + (HeadWidth * sint + HeadHeight * cost));
+
+            var HeadArrowPoint2 = new Point(EdgeTarget.X + (HeadWidth * cost + HeadHeight * sint),
+                                            EdgeTarget.Y - (HeadHeight * cost - HeadWidth * sint));
 
 
             // SimpleArrow
-            //DrawingContext.DrawLine(BlackPen, pt3, EdgeTarget);
-            //DrawingContext.DrawLine(BlackPen, pt4, EdgeTarget);
+            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint1, EdgeTarget);
+            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint2, EdgeTarget);
 
 
             // SolidArrow
             var HeadArrow_PathFigure = new PathFigure() { StartPoint = EdgeTarget };
 
             var HeadArrow_PathSegments = new PathSegmentCollection();
-            HeadArrow_PathSegments.Add(new LineSegment(pt3, true));
-            HeadArrow_PathSegments.Add(new LineSegment(pt4, true));
+            HeadArrow_PathSegments.Add(new LineSegment(HeadArrowPoint1, true));
+            HeadArrow_PathSegments.Add(new LineSegment(HeadArrowPoint2, true));
             HeadArrow_PathSegments.Add(new LineSegment(EdgeTarget, true));
 
             HeadArrow_PathFigure.Segments = HeadArrow_PathSegments;
 
-            var PathGeometry = new PathGeometry();
-            PathGeometry.Figures.Add(HeadArrow_PathFigure);
+            var HeadArrow_PathGeometry = new PathGeometry();
+            HeadArrow_PathGeometry.Figures.Add(HeadArrow_PathFigure);
 
-            DrawingContext.DrawGeometry(Brushes.Red, BlackPen, PathGeometry);
+            DrawingContext.DrawGeometry(Brushes.Red, BlackPen, HeadArrow_PathGeometry);
+
+            #endregion
+
+            #region Tail Arrow
+
+            var TailArrowPoint1 = new Point(EdgeOrigin.X - (HeadWidth  * cost - HeadHeight * sint),
+                                            EdgeOrigin.Y - (HeadWidth  * sint + HeadHeight * cost));
+
+            var TailArrowPoint2 = new Point(EdgeOrigin.X - (HeadWidth  * cost + HeadHeight * sint),
+                                            EdgeOrigin.Y + (HeadHeight * cost - HeadWidth  * sint));
+
+
+            // SimpleArrow
+            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint1, EdgeTarget);
+            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint2, EdgeTarget);
+
+
+            // SolidArrow
+            var TailArrow_PathFigure = new PathFigure() { StartPoint = EdgeOrigin };
+
+            var TailArrow_PathSegments = new PathSegmentCollection();
+            TailArrow_PathSegments.Add(new LineSegment(TailArrowPoint1, true));
+            TailArrow_PathSegments.Add(new LineSegment(TailArrowPoint2, true));
+            TailArrow_PathSegments.Add(new LineSegment(EdgeOrigin,      true));
+
+            TailArrow_PathFigure.Segments = TailArrow_PathSegments;
+
+            var TailArrow_PathGeometry = new PathGeometry();
+            TailArrow_PathGeometry.Figures.Add(TailArrow_PathFigure);
+
+            DrawingContext.DrawGeometry(Brushes.Red, BlackPen, TailArrow_PathGeometry);
+
+            #endregion
 
 
 
