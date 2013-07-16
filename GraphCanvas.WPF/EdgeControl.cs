@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2011-2012 Achim 'ahzf' Friedland <achim@graph-database.org>
+ * Copyright (c) 2011-2013 Achim 'ahzf' Friedland <achim@graph-database.org>
  * This file is part of Loki <http://www.github.com/ahzf/Loki>
  * 
  * This program is free software; you can redistribute it and/or modify
@@ -8,8 +8,8 @@
  * (at your option) any later version.
  * 
  * You may obtain a copy of the License at
- *     http://www.gnu.org/licenses/gpl.html
- *     
+ *   http://www.gnu.org/licenses/gpl.html
+ * 
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
@@ -24,13 +24,19 @@ using System.Windows;
 using System.Windows.Media;
 
 using eu.Vanaheimr.Illias.Geometry;
-using eu.Vanaheimr.Illias.Commons.Collections;
 using eu.Vanaheimr.Balder;
 
 #endregion
 
 namespace eu.Vanaheimr.Loki
 {
+
+    public enum ArrowStyle
+    {
+        None,
+        Simple,
+        Solid
+    }
 
     /// <summary>
     /// A visual representation of a property edge.
@@ -101,6 +107,10 @@ namespace eu.Vanaheimr.Loki
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertexControl;
+
+        private readonly Pen BlackPen;
+
+        private readonly Brush RedBrush;
 
         #endregion
 
@@ -178,27 +188,15 @@ namespace eu.Vanaheimr.Loki
 
         #endregion
 
-        #region Refresh
 
-        /// <summary>
-        /// Repaint the edge control.
-        /// </summary>
-        public Boolean Refresh
-        {
+        public ArrowStyle   HeadArrowStyle      { get; set; }
+        public Pen          HeadArrowStroke     { get; set; }
+        public Brush        HeadArrowFill       { get; set; }
 
-            get
-            {
-                return (Boolean) GetValue(RefreshProperty);
-            }
+        public ArrowStyle   TailArrowStyle      { get; set; }
+        public Pen          TailArrowStroke     { get; set; }
+        public Brush        TailArrowFill       { get; set; }
 
-            set
-            {
-                SetValue(RefreshProperty, value);
-            }
-
-        }
-
-        #endregion
 
         #region ShowDirection
 
@@ -294,6 +292,28 @@ namespace eu.Vanaheimr.Loki
             {
                 if (value != null)
                     _EdgeCaption = value;
+            }
+
+        }
+
+        #endregion
+
+        #region Refresh
+
+        /// <summary>
+        /// Repaint the edge control.
+        /// </summary>
+        public Boolean Refresh
+        {
+
+            get
+            {
+                return (Boolean) GetValue(RefreshProperty);
+            }
+
+            set
+            {
+                SetValue(RefreshProperty, value);
             }
 
         }
@@ -402,6 +422,19 @@ namespace eu.Vanaheimr.Loki
                                           (Object)
                                            Edge.InVertex[GraphCanvas.VertexControl_PropertyKey];
 
+            this.BlackPen               = new Pen(new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xAA, 0x00, 0x00, 0x00)), 1);
+            this.RedBrush               = Brushes.Red;
+
+            this.Stroke                 = BlackPen;
+
+            this.HeadArrowStyle         = ArrowStyle.Solid;
+            this.HeadArrowStroke        = BlackPen;
+            this.HeadArrowFill          = RedBrush;
+
+            this.TailArrowStyle         = ArrowStyle.Simple;
+            this.TailArrowStroke        = BlackPen;
+            this.TailArrowFill          = RedBrush;
+
         }
 
         #endregion
@@ -423,6 +456,8 @@ namespace eu.Vanaheimr.Loki
 
             base.OnRender(DrawingContext);
 
+            #region Paint a line between two vertices
+
             var EdgeLine                = new Line2D<Double>(this.X1, this.Y1, this.X2, this.Y2);
 
             var theta                   = Math.Atan2(Y1 - this.Y2, X1 - this.X2);
@@ -435,108 +470,127 @@ namespace eu.Vanaheimr.Loki
             var EdgeTarget              = new Point(X1 - (EdgeLine.Length - InVertexControl.Width  / 2 - InVertexControl.VertexBorder.Width ) * cost,
                                                     Y1 - (EdgeLine.Length - InVertexControl.Height / 2 - InVertexControl.VertexBorder.Height) * sint);
 
-
-            // Colors
-            var BlackPen                = new Pen(new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xAA, 0x00, 0x00, 0x00)), 1);
-            var DrawingPen              = new Pen(new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xAA, 0x00, 0xff, 0x00)), 1);
-
-            var blueBlackLGB            = new LinearGradientBrush();
-            blueBlackLGB.StartPoint     = new Point(0, 0);
-            blueBlackLGB.EndPoint       = new Point(1, 1);
-
-            var blueGS                  = new GradientStop();
-            blueGS.Color                = Colors.Blue;
-            blueGS.Offset               = 0.0;
-            blueBlackLGB.GradientStops.Add(blueGS);
-
-            var blackGS                 = new GradientStop();
-            blackGS.Color               = Colors.Black;
-            blackGS.Offset              = 1.0;
-            blueBlackLGB.GradientStops.Add(blackGS);
-
-            var blackBluePen = new Pen();
-            blackBluePen.Thickness      = 5;
-            blackBluePen.LineJoin       = PenLineJoin.Bevel;
-            blackBluePen.StartLineCap   = PenLineCap.Triangle;
-            blackBluePen.EndLineCap     = PenLineCap.Round;
-            blackBluePen.Brush          = blueBlackLGB;
-
-
-
-            // The Edge
-            DrawingContext.DrawLine(BlackPen, EdgeOrigin, EdgeTarget);
-
-
-
-            #region Head Arrow
-
-            var HeadArrowPoint1 = new Point(EdgeTarget.X + (HeadWidth * cost - HeadHeight * sint),
-                                            EdgeTarget.Y + (HeadWidth * sint + HeadHeight * cost));
-
-            var HeadArrowPoint2 = new Point(EdgeTarget.X + (HeadWidth * cost + HeadHeight * sint),
-                                            EdgeTarget.Y - (HeadHeight * cost - HeadWidth * sint));
-
-
-            // SimpleArrow
-            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint1, EdgeTarget);
-            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint2, EdgeTarget);
-
-
-            // SolidArrow
-            var HeadArrow_PathFigure = new PathFigure() { StartPoint = EdgeTarget };
-
-            var HeadArrow_PathSegments = new PathSegmentCollection();
-            HeadArrow_PathSegments.Add(new LineSegment(HeadArrowPoint1, true));
-            HeadArrow_PathSegments.Add(new LineSegment(HeadArrowPoint2, true));
-            HeadArrow_PathSegments.Add(new LineSegment(EdgeTarget, true));
-
-            HeadArrow_PathFigure.Segments = HeadArrow_PathSegments;
-
-            var HeadArrow_PathGeometry = new PathGeometry();
-            HeadArrow_PathGeometry.Figures.Add(HeadArrow_PathFigure);
-
-            DrawingContext.DrawGeometry(Brushes.Red, BlackPen, HeadArrow_PathGeometry);
+            DrawingContext.DrawLine(Stroke, EdgeOrigin, EdgeTarget);
 
             #endregion
 
-            #region Tail Arrow
+            #region Paint an arrow at the head of the edge
 
-            var TailArrowPoint1 = new Point(EdgeOrigin.X - (HeadWidth  * cost - HeadHeight * sint),
+            Point HeadArrowPoint1 = new Point();
+            Point HeadArrowPoint2 = HeadArrowPoint1;
+
+            if (HeadArrowStyle != ArrowStyle.None)
+            {
+
+                HeadArrowPoint1 = new Point(EdgeTarget.X + (HeadWidth  * cost - HeadHeight * sint),
+                                            EdgeTarget.Y + (HeadWidth  * sint + HeadHeight * cost));
+
+                HeadArrowPoint2 = new Point(EdgeTarget.X + (HeadWidth  * cost + HeadHeight * sint),
+                                            EdgeTarget.Y - (HeadHeight * cost - HeadWidth  * sint));
+
+            }
+
+            #region SimpleArrow
+
+            if (HeadArrowStyle == ArrowStyle.Simple)
+            {
+
+                DrawingContext.DrawLine(HeadArrowStroke, HeadArrowPoint1, EdgeTarget);
+                DrawingContext.DrawLine(HeadArrowStroke, HeadArrowPoint2, EdgeTarget);
+
+            }
+
+            #endregion
+
+            #region SolidArrow
+
+            else if (HeadArrowStyle == ArrowStyle.Solid)
+            {
+
+                var ArrowPathSegments = new PathSegmentCollection();
+                ArrowPathSegments.Add(new LineSegment(HeadArrowPoint1, true));
+                ArrowPathSegments.Add(new LineSegment(HeadArrowPoint2, true));
+                ArrowPathSegments.Add(new LineSegment(EdgeTarget,      true));
+
+                var ArrowPathFigure = new PathFigure() {
+                    StartPoint  = EdgeTarget,
+                    Segments    = ArrowPathSegments
+                };
+
+                var ArrowPathGeometry = new PathGeometry();
+                ArrowPathGeometry.Figures.Add(ArrowPathFigure);
+
+                DrawingContext.DrawGeometry(HeadArrowFill, HeadArrowStroke, ArrowPathGeometry);
+
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Paint an arrow at the tail of the edge
+
+            Point TailArrowPoint1 = HeadArrowPoint1;
+            Point TailArrowPoint2 = HeadArrowPoint1;
+
+            if (HeadArrowStyle != ArrowStyle.None)
+            {
+
+                TailArrowPoint1 = new Point(EdgeOrigin.X - (HeadWidth  * cost - HeadHeight * sint),
                                             EdgeOrigin.Y - (HeadWidth  * sint + HeadHeight * cost));
 
-            var TailArrowPoint2 = new Point(EdgeOrigin.X - (HeadWidth  * cost + HeadHeight * sint),
+                TailArrowPoint2 = new Point(EdgeOrigin.X - (HeadWidth  * cost + HeadHeight * sint),
                                             EdgeOrigin.Y + (HeadHeight * cost - HeadWidth  * sint));
 
+            }
 
-            // SimpleArrow
-            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint1, EdgeTarget);
-            //DrawingContext.DrawLine(BlackPen, HeadArrowPoint2, EdgeTarget);
+            #region SimpleArrow
 
+            if (TailArrowStyle == ArrowStyle.Simple)
+            {
 
-            // SolidArrow
-            var TailArrow_PathFigure = new PathFigure() { StartPoint = EdgeOrigin };
+                DrawingContext.DrawLine(TailArrowStroke, TailArrowPoint1, EdgeOrigin);
+                DrawingContext.DrawLine(TailArrowStroke, TailArrowPoint2, EdgeOrigin);
 
-            var TailArrow_PathSegments = new PathSegmentCollection();
-            TailArrow_PathSegments.Add(new LineSegment(TailArrowPoint1, true));
-            TailArrow_PathSegments.Add(new LineSegment(TailArrowPoint2, true));
-            TailArrow_PathSegments.Add(new LineSegment(EdgeOrigin,      true));
-
-            TailArrow_PathFigure.Segments = TailArrow_PathSegments;
-
-            var TailArrow_PathGeometry = new PathGeometry();
-            TailArrow_PathGeometry.Figures.Add(TailArrow_PathFigure);
-
-            DrawingContext.DrawGeometry(Brushes.Red, BlackPen, TailArrow_PathGeometry);
+            }
 
             #endregion
 
+            #region SolidArrow
 
+            else if (TailArrowStyle == ArrowStyle.Solid)
+            {
+
+                var ArrowPathSegments = new PathSegmentCollection();
+                ArrowPathSegments.Add(new LineSegment(TailArrowPoint1, true));
+                ArrowPathSegments.Add(new LineSegment(TailArrowPoint2, true));
+                ArrowPathSegments.Add(new LineSegment(EdgeOrigin,      true));
+
+                var ArrowPathFigure = new PathFigure() {
+                    StartPoint  = EdgeOrigin,
+                    Segments    = ArrowPathSegments
+                };
+
+                var ArrowPathGeometry = new PathGeometry();
+                ArrowPathGeometry.Figures.Add(ArrowPathFigure);
+
+                DrawingContext.DrawGeometry(HeadArrowFill, HeadArrowStroke, ArrowPathGeometry);
+
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Paint the caption of the edge
 
             if (EdgeCaption != null)
             {
                 var BaseLineCenter = EdgeLine.Center;
                 RenderCaption(DrawingContext, BaseLineCenter.X, BaseLineCenter.Y , EdgeCaption(Edge));
             }
+
+            #endregion
 
         }
 

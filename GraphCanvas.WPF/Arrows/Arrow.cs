@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2011-2012 Achim 'ahzf' Friedland <achim@graph-database.org>
+ * Copyright (c) 2011-2013 Achim 'ahzf' Friedland <achim@graph-database.org>
  * This file is part of Loki <http://www.github.com/ahzf/Loki>
  * 
  * This program is free software; you can redistribute it and/or modify
@@ -8,8 +8,8 @@
  * (at your option) any later version.
  * 
  * You may obtain a copy of the License at
- *     http://www.gnu.org/licenses/gpl.html
- *     
+ *   http://www.gnu.org/licenses/gpl.html
+ * 
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU

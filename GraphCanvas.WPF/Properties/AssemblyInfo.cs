@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
 [assembly: AssemblyProduct("Loki Graph Canvas")]
-[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2011-2012")]
+[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2011-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
