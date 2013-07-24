@@ -101,6 +101,7 @@ namespace eu.Vanaheimr.Loki
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
+
                 TKeyVertex     GraphCanvas_PropertyKey,
 
                 TKeyVertex     VertexX_PropertyKey,
