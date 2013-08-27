@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GraphCanvas.Properties {
+namespace eu.Vanaheimr.GraphCanvas.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

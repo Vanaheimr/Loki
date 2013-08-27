@@ -8,8 +8,8 @@
     <ProjectGuid>{18EC0A3B-39EF-4BE2-A881-4F9008842F77}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphCanvas</RootNamespace>
-    <AssemblyName>GraphCanvas</AssemblyName>
+    <RootNamespace>eu.Vanaheimr.GraphCanvas</RootNamespace>
+    <AssemblyName>Vanaheimr.GraphCanvas</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\GraphCanvas.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Vanaheimr.GraphCanvas.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
