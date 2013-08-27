@@ -8,9 +8,9 @@
     <ProjectGuid>{6ED5399B-54A7-4A1C-AF02-FAEBA72B0632}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>de.ahzf.Illias.SQL</RootNamespace>
-    <AssemblyName>DataGraph</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>eu.Vanaheimr.Illias.SQL</RootNamespace>
+    <AssemblyName>Vanaheimr.Illias.DataGraph.WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -26,7 +26,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\DataGraph.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Vanaheimr.Illias.DataGraph.WPF.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -94,7 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Illias\SQL\SQL.csproj">
-      <Project>{4E8C4411-9B26-4EFE-9FCC-77866F871E90}</Project>
+      <Project>{4e8c4411-9b26-4efe-9fcc-77866f871e90}</Project>
       <Name>SQL</Name>
     </ProjectReference>
   </ItemGroup>
