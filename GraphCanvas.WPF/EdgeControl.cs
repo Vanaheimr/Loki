@@ -103,7 +103,8 @@ namespace eu.Vanaheimr.Loki
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertexControl;
 
-        private readonly VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        // Can not be 'readonly' as vertex.AddInEdge_chainable(...) results in null!
+        private          VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertexControl;
@@ -167,7 +168,17 @@ namespace eu.Vanaheimr.Loki
         {
             get
             {
+
+                if (InVertexControl == null)
+                    InVertexControl = (VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>)
+                                      (Object)
+                                      Edge.InVertex[GraphCanvas.VertexControl_PropertyKey];
+
                 return InVertexControl.X;
+
             }
         }
 
@@ -427,11 +438,11 @@ namespace eu.Vanaheimr.Loki
 
             this.Stroke                 = BlackPen;
 
-            this.HeadArrowStyle         = ArrowStyle.Solid;
+            this.HeadArrowStyle         = ArrowStyle.Simple;
             this.HeadArrowStroke        = BlackPen;
             this.HeadArrowFill          = RedBrush;
 
-            this.TailArrowStyle         = ArrowStyle.Simple;
+            this.TailArrowStyle         = ArrowStyle.None;
             this.TailArrowStroke        = BlackPen;
             this.TailArrowFill          = RedBrush;
 

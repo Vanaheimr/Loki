@@ -32,6 +32,7 @@ using eu.Vanaheimr.Illias.Commons.Collections;
 using eu.Vanaheimr.Balder;
 using eu.Vanaheimr.Balder.Schema;
 using eu.Vanaheimr.Balder.InMemory;
+using System.Collections.Generic;
 
 #endregion
 
@@ -46,7 +47,7 @@ namespace eu.Vanaheimr.Loki
     public static class GraphCanvasFactory
     {
 
-        #region BuildGraphCanvas<...>(Graph, ..., PropertyKeys,...)
+         #region BuildGraphCanvas<...>(Graph, ..., PropertyKeys,...)
 
         /// <summary>
         /// Creates a new graph canvas for visualizing the given generic property graph.
@@ -214,17 +215,26 @@ namespace eu.Vanaheimr.Loki
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
-                TVertexLabel   SchemaGraphId,
-                TKeyVertex     GraphCanvas_PropertyKey,
+                TVertexLabel                SchemaGraphId,
+                TKeyVertex                  GraphCanvas_PropertyKey,
 
-                TKeyVertex     VertexX_PropertyKey,
-                TKeyVertex     VertexY_PropertyKey,
-                TKeyVertex     VertexZ_PropertyKey,
+                TKeyVertex                  VertexX_PropertyKey,
+                TKeyVertex                  VertexY_PropertyKey,
+                TKeyVertex                  VertexZ_PropertyKey,
 
-                TKeyVertex     VertexControl_PropertyKey,
-                TKeyEdge       EdgeControl_PropertyKey,
-                TKeyMultiEdge  MultiEdgeControl_PropertyKey,
-                TKeyHyperEdge  HyperEdgeControl_PropertyKey)
+                TKeyVertex                  VertexControl_PropertyKey,
+                TKeyEdge                    EdgeControl_PropertyKey,
+                TKeyMultiEdge               MultiEdgeControl_PropertyKey,
+                TKeyHyperEdge               HyperEdgeControl_PropertyKey,
+
+                String                      SchemaGraphDescription      = null,
+                Boolean                     ContinuousLearning          = true,
+                Boolean                     EnforceSchema               = false,
+
+                IEnumerable<TKeyVertex>     IgnoreVertexPropertyKeys    = null,
+                IEnumerable<TKeyEdge>       IgnoreEdgePropertyKeys      = null,
+                IEnumerable<TKeyMultiEdge>  IgnoreMultiEdgePropertyKeys = null,
+                IEnumerable<TKeyHyperEdge>  IgnoreHyperEdgePropertyKeys = null)
 
 
             where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
@@ -254,7 +264,14 @@ namespace eu.Vanaheimr.Loki
                                    TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
                                    THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>(
 
-                        Graph.StrictSchemaGraph(SchemaGraphId),
+                        Graph.StrictSchemaGraph(SchemaGraphId,
+                                                SchemaGraphDescription,
+                                                ContinuousLearning,
+                                                EnforceSchema,
+                                                IgnoreVertexPropertyKeys,
+                                                IgnoreEdgePropertyKeys,
+                                                IgnoreMultiEdgePropertyKeys,
+                                                IgnoreHyperEdgePropertyKeys),
                         GraphCanvas_PropertyKey,
 
                         VertexX_PropertyKey,
@@ -1092,13 +1109,14 @@ namespace eu.Vanaheimr.Loki
 
 
                 var OutVertexControl = Edge.OutVertex.GetProperty(this.VertexControl_PropertyKey) as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+                                                                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+
                 var InVertexControl  = Edge.InVertex. GetProperty(this.VertexControl_PropertyKey) as VertexControl<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+                                                                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
                 if (OutVertexControl != null)
                     OutVertexControl.ToolTip = DefaultVertexToolTip(Edge.OutVertex);
